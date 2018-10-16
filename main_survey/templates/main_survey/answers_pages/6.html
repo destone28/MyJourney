@@ -1,0 +1,52 @@
+{% extends 'main_survey/specific_page.html' %}
+
+{% block answer %}
+
+<form method="post" action="">{% csrf_token %}
+
+  <div class="row">
+
+    <div class="col-md-2">
+      </div>
+
+    <div class="col-md-8 text-center">
+
+      <div class="form-group">
+      <select class="form-control" id="exampleSelect1" name="durata_permesso">
+        <option value="None">Seleziona una durata per il permesso</option>
+        <option value="illimitato">Illimitato</option>
+        <option value="a scadenza">A scadenza</option>
+        <option value="no">Non ho il permesso</option>
+      </select>
+    </div>
+
+    </div>
+
+    <div class="col-md-2">
+    </div>
+
+</div>
+
+  <div class="row">
+
+
+  <div class="col-md-8">
+  </div>
+
+
+  <div class="col-md-4 text-center">
+
+  <br>
+  <br>
+
+  <button type="submit" class="btn btn-outline-secondary">Avanti</button>
+  </div>
+
+  <div class="col-md-2">
+  </div>
+
+  </div>
+
+</form>
+
+{% endblock %}

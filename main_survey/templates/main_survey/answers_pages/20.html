@@ -1,0 +1,57 @@
+{% extends 'main_survey/specific_page.html' %}
+
+{% block answer %}
+
+<form method="post" action="">{% csrf_token %}
+  <div class="row">
+
+    <div class="col-md-2">
+      </div>
+
+    <div class="col-md-2 text-center">
+
+      <div class="custom-control custom-radio">
+
+        <input id="si" name="relazione_legale" class="custom-control-input" type="radio" value="si">
+        <label class="custom-control-label" for="si">Si</label>
+
+      </div>
+
+    </div>
+
+    <div class="col-md-2 text-center">
+
+      <div class="custom-control custom-radio">
+
+        <input id="no" name="relazione_legale" class="custom-control-input" type="radio" value="no">
+        <label class="custom-control-label" for="no">No</label>
+
+      </div>
+
+    </div>
+
+</div>
+
+  <div class="row">
+
+
+  <div class="col-md-8">
+  </div>
+
+
+  <div class="col-md-4 text-center">
+
+  <br>
+  <br>
+
+  <button type="submit" class="btn btn-outline-secondary">Avanti</button>
+  </div>
+
+  <div class="col-md-2">
+  </div>
+
+  </div>
+
+</form>
+
+{% endblock %}

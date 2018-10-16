@@ -1,0 +1,97 @@
+{% extends 'main_survey/page_base.html' %}
+
+{% load staticfiles %}
+
+{% block content %}
+
+{% autoescape off %}
+
+
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-md-12">
+			<div class="row">
+				<div class="col-md-4">
+
+            <img src="{% static domanda.immagine %}" class="img-fluid">
+
+				</div>
+
+				<div class="col-md-8 text-center">
+
+					<div class="row">
+
+						<div class="col-md-8">
+						</div>
+
+						<div class="col-md-4 text-center">
+
+							<img src="{% static "img/logo.jpg" %}" class="img-fluid">
+
+						</div>
+
+					</div>
+
+					<br>
+					<br>
+
+
+          <div class="row">
+            <div class="col-md-12">
+
+            <h1>
+
+                {{ domanda.testo_domanda }}{{ parente }}
+
+            </h1>
+            </div>
+          </div>
+
+<br>
+
+
+
+          <div class="row">
+            <div class="col-md-12">
+
+                {% block answer %}
+                {% endblock %}
+
+            </div>
+          </div>
+
+					<br>
+					<br>
+
+					<div class="row">
+						<div class="col-md-12">
+
+							{{ domanda.suggerimento }}
+							<br>
+							<br>
+							{{ alert }}
+
+						</div>
+					</div>
+
+
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+  <div class="row">
+
+    <img src="{% static domanda.barra_img %}" class="img-fluid">
+
+  </div>
+
+	<form method="post">
+	</form>
+
+</div>
+
+{% endautoescape %}
+
+{% endblock %}

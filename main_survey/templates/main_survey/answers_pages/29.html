@@ -1,0 +1,33 @@
+{% extends 'main_survey/specific_page.html' %}
+
+{% block answer %}
+
+<form method="post" action="">{% csrf_token %}
+  <div class="row">
+
+    <div class="col-md-2">
+      </div>
+
+    <div class="col-md-2 text-center">
+    </div>
+
+      <div class="col-md-2 text-center">
+
+        <button type="button" name="idoneo" class="btn btn-outline-secondary" value="no" href="/">Torna alla pagina di partenza</button>
+        
+      </div>
+
+
+    <div class="col-md-2 text-center">
+    </div>
+
+</div>
+
+  <div class="row">
+
+
+  </div>
+
+</form>
+
+{% endblock %}

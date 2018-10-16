@@ -1,0 +1,80 @@
+{% extends 'main_survey/specific_page.html' %}
+
+{% block answer %}
+
+<form method="post" action="">{% csrf_token %}
+  <div class="row">
+
+    <div class="col-md-2">
+      </div>
+
+    <div class="col-md-2 text-center">
+
+      <div class="custom-control custom-radio">
+
+        <input id="it" name="lingua" class="custom-control-input" type="radio" value="it">
+        <label class="custom-control-label" for="it">Italiano</label>
+
+      </div>
+
+    </div>
+
+    <div class="col-md-2 text-center">
+
+      <div class="custom-control custom-radio">
+
+        <input id="en" name="lingua" class="custom-control-input" type="radio" value="en">
+        <label class="custom-control-label" for="en">English</label>
+
+      </div>
+
+    </div>
+
+    <div class="col-md-2 text-center">
+
+      <div class="custom-control custom-radio">
+
+        <input id="ar" name="lingua" class="custom-control-input" type="radio" value="ar">
+        <label class="custom-control-label" for="ar">العربية</label>
+
+      </div>
+
+    </div>
+
+
+    <div class="col-md-2 text-center">
+
+      <div class="custom-control custom-radio">
+
+        <input id="zh" name="lingua" class="custom-control-input" type="radio" value="zh">
+        <label class="custom-control-label" for="zh">中国</label>
+
+      </div>
+
+    </div>
+
+</div>
+
+  <div class="row">
+
+
+  <div class="col-md-8">
+  </div>
+
+
+  <div class="col-md-4 text-center">
+
+  <br>
+  <br>
+
+  <button type="submit" class="btn btn-outline-secondary">Avanti</button>
+  </div>
+
+  <div class="col-md-2">
+  </div>
+
+  </div>
+
+</form>
+
+{% endblock %}

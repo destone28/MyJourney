@@ -1,0 +1,75 @@
+<!doctype html>
+
+{% load staticfiles %}
+
+<html lang="it-IT"><head>
+		<meta charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>Benvenuto in MyJourney!</title>
+		<!-- Fogli di stile -->
+		<link href="{% static 'js/bootstrap.min.css' %}" rel="stylesheet" media="screen">
+		<link href="{% static 'css/custom.css' %}" rel="stylesheet" media="screen"/>
+		<meta content="noindex,follow" name="robots">
+	</head>
+
+	<body>
+
+
+
+			<header>
+				<h1><a href="#" title="vai al sito istituzionale del Comune di Milano">Benvenuto in MyJourney!</a></h1>
+				<p id="logo"><a href="" title="vai al sito istituzionale del Comune di Milano"><img src="{% static 'img/logo_milano.png' %}" ></a></p>
+
+				<h2 id="navinterna" class="sr-only">Menu di navigazione interna alla pagina</h2>
+				<ul class="sr-only">
+					<li><a title="vai al contenuto di questa pagina" href="#ancoracontenuto">Contenuto di pagina</a></li>
+					<li><a title="vai a ..." href="#ancora...">...</a></li>
+				</ul>
+
+				<h2 id="menusocial" class="sr-only">Menu utente</h2>
+				<ul class="social">
+					<li class="contatti"><a title="scrivi al Comune di Milano" href="#">Esci</a></li>
+				</ul>
+
+				<p class="sr-only"><a href="#navinterna" title="torna alla navigazione interna alla pagina">Torna alla navigazione interna</a></p>
+			</header>
+
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+
+	{% block content %}
+	{% endblock %}
+
+
+
+			<br>
+			<br>
+			<br>
+
+			<footer id="footer">
+				<p>Comune di Milano, Piazza della Scala, 2 - 20121 Milano Italia<br>
+				Codice fiscale/Partita IVA 01199250158</p>
+
+				<h2 class="sr-only">Menu di servizio</h2>
+				<ul>
+					<li><a href="#" title="leggi ...">Voce menu uno</a></li>
+					<li><a href="#" title="consulta ...">Voce menu due</a></li>
+				</ul>
+
+
+				<p class="sr-only"><a href="#navinterna" title="torna alla navigazione interna alla pagina">Torna alla navigazione interna</a></p>
+
+			</footer>
+
+
+
+		<script type="text/javascript" src="{% static 'js/jquery-3.2.1.min.js' %}"></script>
+		<script type="text/javascript" src="{% static 'js/bootstrap.min.js' %}"></script>
+
+
+
+</body></html>

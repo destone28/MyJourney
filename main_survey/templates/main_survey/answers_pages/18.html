@@ -1,0 +1,51 @@
+{% extends 'main_survey/specific_page.html' %}
+
+{% block answer %}
+
+<form method="post" action="">{% csrf_token %}
+
+  <div class="row">
+
+    <div class="col-md-2">
+      </div>
+
+    <div class="col-md-8 text-left">
+
+  <input type="number" name="coinq_figli_min_ug_14" step="1" min="0" value="0"> figli fino a 14 anni<br>
+  <input type="number" name="coinq_figli_15_17" step="1" min="0" value="0"> figli tra 15 e 17 anni<br>
+  <input type="number" name="coinq_figli_magg" step="1" min="0" value="0"> figli con 18 anni o più<br>
+  <input type="number" name="coinq_genitori_min_65" step="1" min="0" max="2" value="0"> genitori con meno di 65 anni<br>
+  <input type="number" name="coinq_genitori_mag_ug_65" step="1" min="0" max="2" value="0"> genitori con 65 anni o più<br>
+  <input type="number" name="coinq_partner_mag" step="1" min="0" max="1" value="0"> partner con 18 anni o più<br>
+
+
+    </div>
+
+    <div class="col-md-2">
+    </div>
+
+</div>
+
+  <div class="row">
+
+
+  <div class="col-md-8">
+  </div>
+
+
+  <div class="col-md-4 text-center">
+
+  <br>
+  <br>
+
+  <button type="submit" class="btn btn-outline-secondary">Avanti</button>
+  </div>
+
+  <div class="col-md-2">
+  </div>
+
+  </div>
+
+</form>
+
+{% endblock %}
