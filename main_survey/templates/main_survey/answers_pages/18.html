@@ -3,25 +3,31 @@
 {% block answer %}
 
 <form method="post" action="">{% csrf_token %}
-
   <div class="row">
 
     <div class="col-md-2">
       </div>
 
-    <div class="col-md-8 text-left">
+    <div class="col-md-4 text-center">
 
-  <input type="number" name="coinq_figli_min_ug_14" step="1" min="0" value="0"> figli fino a 14 anni<br>
-  <input type="number" name="coinq_figli_15_17" step="1" min="0" value="0"> figli tra 15 e 17 anni<br>
-  <input type="number" name="coinq_figli_magg" step="1" min="0" value="0"> figli con 18 anni o più<br>
-  <input type="number" name="coinq_genitori_min_65" step="1" min="0" max="2" value="0"> genitori con meno di 65 anni<br>
-  <input type="number" name="coinq_genitori_mag_ug_65" step="1" min="0" max="2" value="0"> genitori con 65 anni o più<br>
-  <input type="number" name="coinq_partner_mag" step="1" min="0" max="1" value="0"> partner con 18 anni o più<br>
+      <div class="custom-control custom-radio">
 
+        <input id="coniuge" name="tipo_partner" class="custom-control-input" type="radio" value="coniuge">
+        <label class="custom-control-label" for="coniuge">Coniuge</label>
+
+      </div>
 
     </div>
 
-    <div class="col-md-2">
+    <div class="col-md-2 text-center">
+
+      <div class="custom-control custom-radio">
+
+        <input id="partner unito civilmente" name="tipo_partner" class="custom-control-input" type="radio" value="civile">
+        <label class="custom-control-label" for="partner unito civilmente">Partner unito civilmente</label>
+
+      </div>
+
     </div>
 
 </div>

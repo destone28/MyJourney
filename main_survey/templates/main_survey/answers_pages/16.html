@@ -3,29 +3,31 @@
 {% block answer %}
 
 <form method="post" action="">{% csrf_token %}
-
   <div class="row">
 
     <div class="col-md-2">
       </div>
 
-    <div class="col-md-8 text-center">
+    <div class="col-md-4 text-center">
 
-      <div class="form-group">
-      <select class="form-control" id="exampleSelect1" name="tipologia_lavoro">
-        <option value="None">Seleziona una tipologia di lavoro</option>
-        <option value="domestico">Lavoratore domestico</option>
-        <option value="titolare_ditta">Titolare di ditta individuale</option>
-        <option value="partecipazione_società">Partecipazione in società</option>
-        <option value="socio_lavoratore">Socio lavoratore</option>
-        <option value="libero_professionista">Libero professionista</option>
-        <option value="no">Non svolgo alcun lavoro</option>
-      </select>
-    </div>
+      <div class="custom-control custom-radio">
+
+        <input id="si" name="vivi_solo" class="custom-control-input" type="radio" value="si">
+        <label class="custom-control-label" for="si">Si</label>
+
+      </div>
 
     </div>
 
-    <div class="col-md-2">
+    <div class="col-md-2 text-center">
+
+      <div class="custom-control custom-radio">
+
+        <input id="no" name="vivi_solo" class="custom-control-input" type="radio" value="no">
+        <label class="custom-control-label" for="no">No</label>
+
+      </div>
+
     </div>
 
 </div>

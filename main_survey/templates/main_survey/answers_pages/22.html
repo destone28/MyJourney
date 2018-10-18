@@ -5,26 +5,34 @@
 <form method="post" action="">{% csrf_token %}
   <div class="row">
 
-    <div class="col-md-2">
-      </div>
-
-    <div class="col-md-2 text-center">
+    <div class="col-md-4 text-center">
 
       <div class="custom-control custom-radio">
 
-        <input id="si" name="fratelli_o_sorelle_residenti_con_genitore" class="custom-control-input" type="radio" value="si">
+        <input id="si" name="fratelli_possono_mantenere_genitore" class="custom-control-input" type="radio" value="si">
         <label class="custom-control-label" for="si">Si</label>
 
       </div>
 
     </div>
 
-    <div class="col-md-2 text-center">
+    <div class="col-md-4 text-center">
 
       <div class="custom-control custom-radio">
 
-        <input id="no" name="fratelli_o_sorelle_residenti_con_genitore" class="custom-control-input" type="radio" value="no">
-        <label class="custom-control-label" for="no">No</label>
+        <input id="no salute" name="fratelli_possono_mantenere_genitore" class="custom-control-input" type="radio" value="no salute">
+        <label class="custom-control-label" for="no salute">No, per motivi di salute</label>
+
+      </div>
+
+    </div>
+
+    <div class="col-md-4 text-center">
+
+      <div class="custom-control custom-radio">
+
+        <input id="no altro" name="fratelli_possono_mantenere_genitore" class="custom-control-input" type="radio" value="no altro">
+        <label class="custom-control-label" for="no altro">No, per altri motivi</label>
 
       </div>
 

@@ -3,29 +3,29 @@
 {% block answer %}
 
 <form method="post" action="">{% csrf_token %}
+
   <div class="row">
 
     <div class="col-md-2">
       </div>
 
-    <div class="col-md-2 text-center">
+    <div class="col-md-8 text-center">
 
-      <div class="col-md-2 text-center">
-
-        <button type="button" name="casa_sufficiente" class="btn btn-outline-secondary" value="si">Maggiore di {{ casa }} mq</button>
-
-      </div>
+      <div class="form-group">
+      <select class="form-control" id="exampleSelect1" name="tipologia_lavoro">
+        <option value="None">Seleziona una tipologia di lavoro</option>
+        <option value="domestico">Lavoratore domestico</option>
+        <option value="titolare_ditta">Titolare di ditta individuale</option>
+        <option value="partecipazione_società">Partecipazione in società</option>
+        <option value="socio_lavoratore">Socio lavoratore</option>
+        <option value="libero_professionista">Libero professionista</option>
+        <option value="no">Non svolgo alcun lavoro</option>
+      </select>
+    </div>
 
     </div>
 
-    <div class="col-md-2 text-center">
-
-      <div class="custom-control custom-radio">
-
-        <button type="button" name="casa_sufficiente" class="btn btn-outline-secondary" value="no">Minore di {{ casa }} mq</button>
-
-      </div>
-
+    <div class="col-md-2">
     </div>
 
 </div>

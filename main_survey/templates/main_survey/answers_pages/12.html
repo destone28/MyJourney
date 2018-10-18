@@ -2,43 +2,76 @@
 
 {% block answer %}
 
-<form class="form-horizontal" method="post">
-<fieldset>
+<form method="post" action="">{% csrf_token %}
+  	<div class="row text-center">
+		<div class="col-md-12">
+			<div class="row">
+				<div class="col-md-12">
+					<div class="row">
+						<div class="col-md-12">
+							<div class="row">
+								<div class="col-md-12">
 
-<!-- Form Name -->
-<legend>Form Name</legend>
+                    <div class="text-center">
 
-<!-- Select Basic -->
-<div class="form-group">
+                        <select id="tipo_alloggio" name="tipo_alloggio" class="form-control">
+                          <option value="None">Seleziona la tipologia di alloggio</option>
+                          <option value="affitto">Sono in affitto</option>
+                          <option value="proprietario">Sono proprietario della casa</option>
+                          <option value="ospite">Sono ospite</option>
+                          <option value="no">No</option>
+                        </select>
+                    </div>
 
-  <div class="col-md-4">
-    <select id="selectbasic" name="tipo_alloggio" class="form-control">
-      <option value="None">Seleziona la tipologia di alloggio</option>
-      <option value="affitto">Sono in affitto</option>
-      <option value="proprietario">Sono proprietario della casa</option>
-      <option value="ospite">Sono ospite</option>
-      <option value="no">No</option>
-    </select>
-  </div>
+									<form role="form" class="form-inline">
+										<div class="form-group">
+
+											<label for="via">
+												Via
+											</label>
+											<input type="address" class="form-control" id="via" name="via" />
+										</div>
+										<div class="form-group">
+
+											<label for="città">
+												Città
+											</label>
+											<input type="address" class="form-control" id="città" name="città"/>
+										</div>
+
+									</form>
+                  <div class="row">
+
+
+                  <div class="col-md-8">
+                  </div>
+
+
+                  <div class="col-md-4 text-center">
+
+                  <br>
+                  <br>
+
+                  <button type="submit" class="btn btn-outline-secondary">Avanti</button>
+                  </div>
+
+                  <div class="col-md-2">
+                  </div>
+
+                  </div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>
-
-<!-- Text input-->
-<div class="form-group">
-  <label class="col-md-4 control-label" for="città">Inserisci l'indirizzo della casa:</label>
-  <div class="col-md-4">
-  <input id="città" name="città" placeholder="città" class="form-control input-md" required="" type="text">
-  </div>
-</div>
-
-<!-- Text input-->
-<div class="form-group">
-  <div class="col-md-4">
-  <input id="via" name="via" placeholder="via" class="form-control input-md" required="" type="text">
-  </div>
-</div>
-
-</fieldset>
 </form>
+
+
+
 
 
 {% endblock %}
