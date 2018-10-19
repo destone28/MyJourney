@@ -1,3 +1,5 @@
+pip
+geopy
 dj-database-url
 Django
 gunicorn
