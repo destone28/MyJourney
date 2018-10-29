@@ -2,6 +2,8 @@
 from datetime import datetime
 from . import geodecoder, geo_db_locator
 
+non_idoneo = 27
+idoneo = 28
 
 class Report_maker():
 
@@ -20,6 +22,8 @@ class Report_maker():
 
 
 class Family_manager():
+
+    global idoneo, non_idoneo
 
     def dati_validi(request):
         request.session['contatore_familiari'] = int(request.session.get('n_genitori_min_65'))+int(request.session.get('n_genitori_mag_ug_65'))+int(request.session.get('n_partner_mag'))+int(request.session.get('n_figli_min_ug_14'))+int(request.session.get('n_figli_15_17'))+int(request.session.get('n_figli_magg'))
@@ -114,10 +118,12 @@ class Family_manager():
             request = Family_manager.gestore_figli(request)
             if (not (str(request.session.get('parente'))=="None")):
                 print("controllo FIGLI - IL PROSSIMO PARENTE È "+str(request.session.get('parente')))
+                request.session['numero_temporaneo_figlio'] = request.session.get('numero_temporaneo_figlio')+1
                 return request
             request = Family_manager.gestore_genitori(request)
             if (not str(request.session.get('parente'))=="None"):
                 print("controllo GENITORI - IL PROSSIMO PARENTE È "+str(request.session.get('parente')))
+                request.session['numero_temporaneo_genitore'] = request.session.get('numero_temporaneo_genitore')+1
                 return request
             request = Family_manager.gestore_partner(request)
             if (not str(request.session.get('parente'))=="None"):
@@ -129,21 +135,15 @@ class Family_manager():
             print("FINE - IL PROSSIMO PARENTE È "+str(request.session.get('parente'))+", quindi NON CI SONO PIÙ PARENTI")
             return request
 
-    def coinquilini_ok(request):
-        tot_figli_coinquilini = int(request.session.get('coinq_figli_min_ug_14'))+int(request.session.get('coinq_figli_15_17'))+int(request.session.get('coinq_figli_magg'))
-        tot_genitori = int(request.session.get('n_genitori_min_65'))+int(request.session.get('n_genitori_mag_ug_65'))+int(request.session.get('coinq_genitori_min_65'))+int(request.session.get('coinq_genitori_mag_ug_65'))
-        tot_partner = int(request.session.get('n_partner_mag'))+int(request.session.get('coinq_partner_mag'))
-        if tot_genitori>2:
-            request.session['alert'] = 'Hai inserito troppi genitori, riprova!'
-        if tot_partner>1:
-            request.session['alert'] = 'Hai inserito più di un partner, riprova!'
-        if (tot_genitori<=2) and (tot_partner<=1):
-            request.session['n_tot_coinquilini'] = tot_figli_coinquilini+int(request.session.get('coinq_genitori_min_65'))+int(request.session.get('coinq_genitori_mag_ug_65'))+int(request.session.get('coinq_partner_mag'))
-            request.session['n_tot_familiari_in_casa'] = request.session.get('contatore_familiari')+request.session.get('n_tot_coinquilini')
-            request.session['metratura_casa'] = int(Survey_manager.calcola_metratura_casa(request))
-            request.session['importo_reddito'] = float(Survey_manager.calcola_importo_reddito(request))
-            return True
-        return False
+    def check_coinquilini(request):
+        request.session['n_tot_coinquilini_min_14'] = request.POST.get('n_tot_coinquilini_min_14')
+        if (request.session.get('n_tot_coinquilini_min_14')>request.session.get('n_tot_coinquilini')):
+            request.session['alert'] = 'Hai inserito dati errati. Riprova'
+        else:
+            request.session['n_coinquilini_da_contare_per_metratura'] = int(request.session.get('n_tot_coinquilini'))-int(request.session.get('n_tot_coinquilini_min_14'))
+            if (not Family_manager.ci_sono_partner_o_genitori(request)):
+                request.session['page_id'] = 24     ##se non ci sono partner o genitori si procede con la pagina per la misura della casa
+
 
     def rimuovi_parente_corrente(request):
         parente = "n_"+str(request.session.get('parente_specifico'))
@@ -151,17 +151,52 @@ class Family_manager():
         request = Family_manager.prossimo_parente(request)
         return request
 
+    def c_e_partner(request):
+        lista_familiari = request.session.get('lista_familiari')
+        familiari_temp = [item[0] for item in lista_familiari]
+        if 'partner_mag' in familiari_temp:
+            request.session['page_id'] = 18
+            return True
+        return False
+
+    def c_e_genitore(request):
+        lista_familiari = request.session.get('lista_familiari')
+        familiari_temp = [item[0] for item in lista_familiari]
+        if ('genitori_min_65' in familiari_temp) or ('genitori_mag_ug_65' in familiari_temp):
+            request.session['page_id'] = 20
+            return True
+        return False
+
+    def ci_sono_partner_o_genitori(request):
+        return (Family_manager.c_e_genitore(request) and Family_manager.c_e_partner(request))
+
+    def check_no_condizioni(request):
+        lista_familiari = request.session.get('lista_familiari')
+        familiari_temp = [item[0] for item in lista_familiari]
+        if not (('figli_15_17' or 'figli_magg') in familiari_temp):
+            request.session['page_id'] = idoneo
+
 
 
 class Survey_manager():
 
+    global idoneo, non_idoneo
+
     def calcola_metratura_casa(request):
         ### Secondo parametri indicati qui: http://mediagallery.comune.milano.it/cdm/objects/changeme:99769/datastreams/dataStream7876968358553620/content?pgpath=/SA_SiteContent/SEGUI_AMMINISTRAZIONE/GOVERNO/Municipi/municipio_8/servizi_municipio/attestazione_idoneita_abitativa
-        if int(request.session.get('n_tot_familiari_in_casa'))<=4:
-            request.session['metratura_casa'] = 14*int(request.session.get('n_tot_familiari_in_casa'))
+        lista_familiari = request.session.get('lista_familiari')
+        familiari_temp = [item[0] for item in lista_familiari]
+        fm14= familiari_temp.count('figli_min_ug_14')
+        numero_familiari_da_contare_per_metratura = len(familiari_temp)-fm14
+
+        n_coinquilini_da_contare_per_metratura = int(request.session.get('n_tot_coinquilini'))-int(request.session.get('n_tot_coinquilini_min_14'))
+
+        n_tot_persone_in_casa = numero_familiari_da_contare_per_metratura + n_coinquilini_da_contare_per_metratura
+        if n_tot_persone_in_casa<=4:
+            request.session['metratura_casa'] = 14*n_tot_persone_in_casa
             ###  minimo 14mq per i primi 4 abitanti
-        elif int(request.session.get('n_tot_familiari_in_casa'))>4:
-            request.session['metratura_casa'] = 14*4 + ((int(request.session.get('n_tot_familiari_in_casa'))-4)*10)
+        elif n_tot_persone_in_casa>4:
+            request.session['metratura_casa'] = 14*4 + ((n_tot_persone_in_casa-4)*10)
             ### dopo i primi 4 abitanti, minimo 10mq per i successivi
         return request.session['metratura_casa']
 
@@ -169,8 +204,8 @@ class Survey_manager():
     def permesso_scaduto(request):##########################################CHECK SU DATE###########################################################################
         rilascio = request.session.get('rilascio_permesso')
         scadenza = request.session.get('scadenza_permesso')
-        rilascio = datetime.strptime(rilascio, "%Y-%m-%d")
-        scadenza = datetime.strptime(scadenza, "%Y-%m-%d")
+        rilascio = datetime.strptime(rilascio, "%d/%m/%Y")
+        scadenza = datetime.strptime(scadenza, "%d/%m/%Y")
         giorni = ((scadenza - rilascio).days)
         if (giorni>365):
             return False
@@ -184,15 +219,10 @@ class Survey_manager():
 
         request.session['importo_reddito'] = float(5889) ###base al singolo
 
-        lista_temporanea_reddito = request.session.get('lista_familiari')
-        count=0
-        elementi=0
-        fm14=0
-        for inner_l in lista_temporanea_reddito:
-            elementi = elementi+1
-            for item in inner_l:
-                if item=="figli_min_ug_14":
-                    fm14 = fm14+1
+        lista_familiari = request.session.get('lista_familiari')
+        familiari_temp = [item[0] for item in lista_familiari]
+        fm14= familiari_temp.count('figli_min_ug_14')
+        elementi=len(familiari_temp)
         altri=elementi-fm14
 
         if(fm14>0):
@@ -207,8 +237,6 @@ class Survey_manager():
     def dispatcher(request):
 
         page = request.session.get('page_id')
-        non_idoneo = 27
-        idoneo = 28
 
         if page==1:
             request.session['lingua'] = request.POST.get('lingua')
@@ -217,9 +245,10 @@ class Survey_manager():
                 request.session['page_id'] = page+1
                 request.session['alert'] = ''
                 request.session['temp_parente'] = ''
+                request.session['lista_familiari'] = []
 
         elif page==2:
-
+            #request.session['page_id'] = request.POST.get('page_id')
             request.session['nazionalità_user'] = request.POST.get('nazionalità_user')
             request.session['alert'] = 'Non hai effettuato scelte valide'
             if str(request.session.get('nazionalità_user'))!='None':
@@ -250,18 +279,34 @@ class Survey_manager():
             if str(request.session.get('nazionalità_parente'))!='None':
                 request.session['page_id'] = page+1
                 request.session['alert'] = ''
-                request.session['temp_parente'] = ''
 
         elif page==5:
             request.session['residenza_parente'] = request.POST.get('residenza_parente')
             request.session['alert'] = 'Non hai effettuato scelte valide'
             if str(request.session.get('residenza_parente'))!='None':
                 request.session['alert'] = ''
-                if ('lista_familiari' not in request.session):
 
-                    request.session['lista_familiari'] = [(request.session.get('parente_specifico'), request.session.get('nazionalità_parente'), request.session.get('residenza_parente'))]
-                    request.session['page_id']= 6
+                request.session.get('lista_familiari').append((request.session.get('parente_specifico'), request.session.get('nazionalità_parente'), request.session.get('residenza_parente')))
 
+                request = Family_manager.rimuovi_parente_corrente(request)
+
+                    #request.session['page_id']= 6
+
+
+                if request.session.get('parente')=='None':
+                    print("NON CI SONO PIÙ FAMILIARI DA INSERIRE, PROCEDO . . .")
+                    request.session['page_id'] = page+1
+                    request.session['temp_parente'] = ''
+
+                else:
+                    print("C'è un altro parente, proseguo per inserire "+str(request.session.get('parente')))
+                    request.session['page_id'] = 4
+                    request.session['temp_parente'] = request.session.get('parente')
+
+
+
+
+                    '''
                 else:
                     temp_lista = request.session.get('lista_familiari')[0]
                     print("temp_lista è QUESTA QUI=================================================\n"+str(temp_lista))
@@ -277,7 +322,7 @@ class Survey_manager():
                     if request.session.get('parente')=='genitore' and (not ('hai_fratelli' in request.session)):
                         print("PRIMO GENITORE INSERITO")
                         request.session.get('lista_familiari').append((request.session.get('parente_specifico'), request.session.get('nazionalità_parente'), request.session.get('residenza_parente')))
-                        request.session['page_id'] = 20
+                        request.session['page_id'] = 4
                     elif request.session.get('parente')=='genitore' and ('hai_fratelli' in request.session):
                         print("SECONDO GENITORE INSERITO")
                         request.session.get('lista_familiari').append((request.session.get('parente_specifico'), request.session.get('nazionalità_parente'), request.session.get('residenza_parente')))
@@ -294,31 +339,21 @@ class Survey_manager():
                     if ((request.session.get('parente')=='partner_mag') and (not (int(request.session.get('page_id')))==4)):
                         print("PARTNER INSERITO SENZA AVER INSERITO GENITORI")
                         request.session.get('lista_familiari').append((request.session.get('parente_specifico'), request.session.get('nazionalità_parente'), request.session.get('residenza_parente')))
-                        request.session['page_id'] = 18
+                        request.session['page_id'] = 4
+                        '''
 
-                    if request.session.get('parente')=='None':
-                        print("NON CI SONO PIÙ FAMILIARI DA INSERIRE, VADO ALLA PAGINA PER LE DIMENSIONI DELLA CASA")
-                        if (request.session.get('tipologia_permesso')=='asilo politico'):
-                            request.session['page_id'] = idoneo
-                        else:
-                            request.session['page_id'] = 24
 
 
         elif page==6:
-
-            print("è già stato inserito il permesso di soggiorno? "+str('durata_permesso' in request.session)+", quindi la condizione per entrare nel ciclo di richiesta permesso di soggirno è "+str(not ('durata_permesso' in request.session)))
-
-            if (not ('durata_permesso' in request.session)):
-                request.session['durata_permesso'] = request.POST.get('durata_permesso')
-                print(request.session.get('durata_permesso'))
-                if str(request.session.get('durata_permesso'))=='illimitato':
-                    request.session['page_id'] = 10
-                elif str(request.session.get('durata_permesso'))=='a scadenza':
-                    request.session['page_id'] = page+1
-                elif str(request.session.get('durata_permesso'))=='no':
-                    request.session['page_id'] = non_idoneo
-                elif str(request.session.get('durata_permesso'))=='None':
-                    request.session['alert'] = 'Non hai selezionato alcuna durata per il permesso, riprova'
+            request.session['temp_parente'] = ''
+            request.session['tipologia_permesso'] = request.POST.get('tipologia_permesso')
+            if str(request.session.get('tipologia_permesso'))=='None':
+                request.session['alert'] = 'Non hai inserito una tipologia di permesso di soggiorno. Riprova'
+            elif str(request.session.get('tipologia_permesso'))=='asilo politico':
+                if (not Family_manager.ci_sono_partner_o_genitori(request)):
+                    Family_manager.check_no_condizioni(request)
+            else:
+                request.session['page_id'] = page+1
 
 
         elif page==7:
@@ -334,61 +369,55 @@ class Survey_manager():
             print(str(request.POST.get('scadenza_permesso'))) ############################################################## CHECKS TO DO
             request.session['scadenza_permesso'] = request.POST.get('scadenza_permesso')
             request.session['alert'] = 'Non hai inserito una data valida'
-            if Survey_manager.permesso_scaduto(request):
+            if not (request.session.get('scadenza_permesso')=='illimitato'):
                 request.session['alert'] = ''
-                request.session['page_id'] = page+1
-            else:
+                if Survey_manager.permesso_scaduto(request):
+                    request.session['page_id'] = page+1
+                else:
+                    request.session['page_id'] = 11
+            elif request.session.get('scadenza_permesso')=='illimitato':
                 request.session['alert'] = ''
-                request.session['page_id'] = 10
+                request.session['page_id'] = 11
 
 
         elif page==9:
             request.session['ricevuta_rinnovo_permesso'] = request.POST.get('ricevuta_rinnovo_permesso')
             if str(request.session.get('ricevuta_rinnovo_permesso'))=='si':
-                request.session['page_id'] = page+1
+                request.session['page_id'] = 11
             elif str(request.session.get('ricevuta_rinnovo_permesso'))=='no':
                 request.session['page_id'] = non_idoneo
 
+
+        ##TO-DO DA SISTEMARE PAGINA 10
         elif page==10:
-            request.session['tipologia_permesso'] = request.POST.get('tipologia_permesso')
-            if str(request.session.get('tipologia_permesso'))=='asilo politico':
-                if str(request.session.get('parente'))=='partner_mag':
-                    request.session['page_id'] = 18
-                elif str(request.session.get('parente'))=='genitore':
-                    request.session['page_id'] = 20
-                elif ((str(request.session.get('parente'))=='figli_min_ug_14') or (str(request.session.get('parente'))=='figli_15_17') or (str(request.session.get('parente'))=='figli_magg')):
-                    request=Family_manager.rimuovi_parente_corrente(request)
-                    if str(request.session.get('parente'))=='None':### GUARDA SE C'È ANCHE ALTROVE ###
-                        request.session['page_id'] = idoneo
-                    else:
-                        request.session['temp_parente'] = request.session.get('parente')
-                        request.session['page_id'] = 4
-            elif str(request.session.get('tipologia_permesso'))!='asilo politico':
-                request.session['page_id'] = page+1
+            print('nulla per ora')
+            ##TO-DO CAMBIARE "11" ALLE DOMANDE 8 E 9 E SCALARE TUTTE LE DOMANDE DI 1 DA QUI IN POI
+            ##QUINDI RICONTROLLARE LINK PRIMA D'ORA PER LE PAGINE SUCCESSIVE, QUANDO SCALATE
+
 
         elif page==11:
-            request.session['residenza_a_Milano'] = request.POST.get('residenza_a_Milano')
-            if str(request.session.get('residenza_a_Milano'))=='si':
+            request.session['quale_residenza'] = request.POST.get('quale_residenza')
+            if not (str(request.session.get('quale_residenza'))=='None'):
                 request.session['page_id'] = page+1
-            elif str(request.session.get('residenza_a_Milano'))=='no':
-                request.session['page_id'] = non_idoneo
+                request.session['alert'] = ''
 
         elif page==12:
-            request.session['tipo_alloggio'] = request.POST.get('tipo_alloggio')
-            request.session['indirizzo_alloggio'] = str(request.POST.get('città')+', '+request.POST.get('via'))
-            if str(request.session.get('tipo_alloggio'))=="no":
-                request.session['page_id'] = non_idoneo
-            if geodecoder.from_address_to_coords(str(request.session.get('indirizzo_alloggio')))=="None":
-                request.session['alert'] = 'Non hai inserito un indirizzo corretto, riprova'
-            if str(request.session.get('tipo_alloggio'))=="None":
+            request.session['posso_ospitare_in_alloggio'] = request.POST.get('posso_ospitare_in_alloggio')
+            if str(request.session.get('posso_ospitare_in_alloggio'))=="None":
                 request.session['alert'] = "Non hai selezionato nulla dall'elenco, riprova"
-            else:
-                if str(request.session.get('tipo_alloggio'))=="affitto":
+            elif str(request.session.get('posso_ospitare_in_alloggio'))=="no":
+                request.session['page_id'] = non_idoneo
+            elif (str(request.POST.get('città'))!='None' and str(request.POST.get('via'))!='None'):
+                request.session['indirizzo_alloggio'] = str(str(request.POST.get('città'))+', '+str(request.POST.get('via')))
+                if geodecoder.from_address_to_coords(str(request.session.get('indirizzo_alloggio')))=="None":
+                    request.session['alert'] = 'Non hai inserito un indirizzo corretto, riprova'
+                elif str(request.session.get('posso_ospitare_in_alloggio'))=="si":
                     request.session['page_id'] = page+1
-                if str(request.session.get('tipo_alloggio'))=="proprietario":
-                    request.session['page_id'] = 15
-                if str(request.session.get('tipo_alloggio'))=="ospite":
+                    request.session['alert'] = ''
+                elif str(request.session.get('posso_ospitare_in_alloggio'))=="ospite":
+                    request.session['alert'] = ''
                     request.session['page_id'] = 16
+                    Family_manager.ci_sono_partner_o_genitori(request)
 
         elif page==13:
             request.session['contratto_locazione'] = request.POST.get('contratto_locazione')
@@ -412,7 +441,7 @@ class Survey_manager():
                 request.session['page_id'] = non_idoneo
 
         elif page==16:
-            request.session['coinq_figli_min_ug_14'] = 0
+            '''request.session['coinq_figli_min_ug_14'] = 0
             request.session['coinq_figli_15_17'] = 0
             request.session['coinq_figli_magg'] = 0
             request.session['coinq_genitori_min_65'] = 0
@@ -423,7 +452,7 @@ class Survey_manager():
                 if (str(request.session.get('parente'))=='partner_mag'):
                     request.session['page_id'] = 18
                 elif (((str(request.session.get('parente'))=='figli_min_ug_14') or (str(request.session.get('parente'))=='figli_15_17') or (str(request.session.get('parente'))=='figli_magg'))):
-                    Family_manager.coinquilini_ok(request)
+                    Family_manager.check_coinquilini(request)
                     request = Family_manager.rimuovi_parente_corrente(request)
                     if (str(request.session.get('parente'))!="None"):
                         request.session['temp_parente'] = str(request.session.get('parente'))
@@ -431,18 +460,24 @@ class Survey_manager():
                     else:
                         request.session['page_id'] = 24
                 elif (str(request.session.get('parente'))=='genitore'):
-                    request.session['page_id'] = 20
-            elif str(request.session.get('vivi_solo'))=='no':
-                request.session['page_id'] = page+1
+                    request.session['page_id'] = 20'''
+            request.session['n_tot_coinquilini'] = request.POST.get('n_tot_coinquilini')
+            request.session['n_tot_coinquilini_min_14'] = request.POST.get('n_tot_coinquilini_min_14')
+            request.session['metratura_casa'] = Survey_manager.calcola_metratura_casa(request)
+            request.session['importo_reddito'] = Survey_manager.calcola_importo_reddito(request)
+            if int(request.session.get('n_tot_coinquilini'))==0:
+                request.session['page_id'] = 18
+            else:
+                Family_manager.check_coinquilini(request)
 
-        elif page==17:
-            request.session['coinq_figli_min_ug_14'] = request.POST.get('coinq_figli_min_ug_14')
+        elif page==17:##TO-DO FARE PULIZIA
+            '''request.session['coinq_figli_min_ug_14'] = request.POST.get('coinq_figli_min_ug_14')
             request.session['coinq_figli_15_17'] = request.POST.get('coinq_figli_15_17')
             request.session['coinq_figli_magg'] = request.POST.get('coinq_figli_magg')
             request.session['coinq_genitori_min_65'] = request.POST.get('coinq_genitori_min_65')
             request.session['coinq_genitori_mag_ug_65'] = request.POST.get('coinq_genitori_mag_ug_65')
             request.session['coinq_partner_mag'] = request.POST.get('coinq_partner_mag')
-            if Family_manager.coinquilini_ok(request):
+            if Family_manager.check_coinquilini(request):
                 request.session['alert'] = ''
 
 
@@ -466,12 +501,11 @@ class Survey_manager():
                         request.session['page_id'] = 20
                     elif ('hai_fratelli' in request.session):
                         request = Family_manager.rimuovi_parente_corrente(request)
-                        request.session['page_id'] = 24
+                        request.session['page_id'] = 24'''
 
 
 
         elif page==18:
-            Family_manager.coinquilini_ok(request)
             request.session['tipo_partner'] = request.POST.get('tipo_partner')
             request.session['page_id'] = page+1
 
@@ -480,75 +514,22 @@ class Survey_manager():
             if str(request.session.get('relazione_legale'))=='no':
                 request.session['page_id'] = non_idoneo
             elif str(request.session.get('relazione_legale'))=='si':
-                request = Family_manager.rimuovi_parente_corrente(request)
-                if str(request.session.get('parente'))=="None":
+                if (Family_manager.c_e_genitore(request)):
+                    request.session['page_id'] = page+1
+                else:
                     if (request.session.get('tipologia_permesso')=='asilo politico'):
                         request.session['page_id'] = idoneo
                     else:
                         request.session['page_id'] = 24
-                else:
-                    request.session['temp_parente'] = str(request.session.get('parente'))
-                    request.session['page_id'] = 4
 
         elif page==20:
-            Family_manager.coinquilini_ok(request)
             request.session['hai_fratelli'] = request.POST.get('hai_fratelli')
-            print("HA FRATELLI: "+str(request.session.get('hai_fratelli')))
-            if str(request.session.get('hai_fratelli'))=='no':
-                request = Family_manager.rimuovi_parente_corrente(request)
-                if str(request.session.get('parente'))=="None":
-                    if (request.session.get('tipologia_permesso')=='asilo politico'):
-                        request.session['page_id'] = idoneo
-                    else:
-                        request.session['page_id'] = 24
-                else:
-                    request.session['temp_parente'] = str(request.session.get('parente'))
-                    request.session['page_id'] = 4
-            elif str(request.session.get('hai_fratelli'))=='si':
-                request.session['page_id'] = page+1
-
-        elif page==21:
-            request.session['fratelli_o_sorelle_residenti_con_genitore'] = request.POST.get('fratelli_o_sorelle_residenti_con_genitore')
-            if str(request.session['fratelli_o_sorelle_residenti_con_genitore'])=='no':
-                request = Family_manager.rimuovi_parente_corrente(request)
-                if str(request.session.get('parente'))=="None":
-                    if (request.session.get('tipologia_permesso')=='asilo politico'):
-                        request.session['page_id'] = idoneo
-                    else:
-                        request.session['page_id'] = 24
-                else:
-                    request.session['temp_parente'] = str(request.session.get('parente'))
-                    request.session['page_id'] = 4
-            elif str(request.session.get('fratelli_o_sorelle_residenti_con_genitore'))=='si':
-                request.session['page_id'] = page+1
-
-        elif page==22:
-            request.session['fratelli_possono_mantenere_genitore'] = request.POST.get('fratelli_possono_mantenere_genitore')
-            if str(request.session.get('fratelli_possono_mantenere_genitore'))!='None':
-                if str(request.session.get('fratelli_possono_mantenere_genitore'))=='no altro' or str(request.session.get('fratelli_possono_mantenere_genitore'))=='si':
-                    request.session['page_id'] = non_idoneo
-                elif str(request.session.get('fratelli_possono_mantenere_genitore'))=='no salute':
-                    request.session['page_id'] = page+1
-            elif str(request.session.get('fratelli_possono_mantenere_genitore'))=='None':
-                request.session['alert'] = "Non hai selezionato nulla, riprova"
-
-        elif page==23:
-            request.session['certificato_fratelli'] = request.POST.get('certificato_fratelli')
-            if str(request.session.get('certificato_fratelli'))=='si':
-                request = Family_manager.rimuovi_parente_corrente(request)
-                if str(request.session.get('parente'))=="None":
-                    if (request.session.get('tipologia_permesso')=='asilo politico'):
-                        request.session['page_id'] = idoneo
-                    else:
-                        request.session['page_id'] = 24
-                else:
-                    request.session['temp_parente'] = str(request.session.get('parente'))
-                    request.session['page_id'] = 4
-            elif str(request.session.get('certificato_fratelli'))=='no':
-                request.session['page_id'] = non_idoneo
+            if (request.session.get('tipologia_permesso')=='asilo politico'):
+                request.session['page_id'] = idoneo
+            else:
+                request.session['page_id'] = 24
 
         elif page==24:
-
             request.session['casa_sufficiente'] = request.POST.get('casa_sufficiente')
             if str(request.session.get('casa_sufficiente'))=='si':
                 request.session['page_id'] = page+1
@@ -556,7 +537,6 @@ class Survey_manager():
                 request.session['page_id'] = non_idoneo
 
         elif page==25:
-            Family_manager.coinquilini_ok(request)
             request.session['alert'] = ''
             request.session['tipologia_lavoro'] = request.POST.get('tipologia_lavoro')
             if str(request.session.get('tipologia_lavoro'))=='None':
@@ -577,7 +557,8 @@ class Survey_manager():
         elif page==idoneo:
             request.session['guida'] = request.POST.get('guida')
             if request.session['guida'] == 'si':
-                Report_maker.produci_guida(request)
+                print('FINE')
+                #Report_maker.produci_guida(request)
 
         elif page==non_idoneo:
             request.session['guida'] = request.POST.get('guida')

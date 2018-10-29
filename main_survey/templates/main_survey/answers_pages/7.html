@@ -4,21 +4,15 @@
 
 <form method="post" action="">{% csrf_token %}
 
-  <div class="row">
+  <div class="row text-center">
 
-    <div class="col-md-2">
-      </div>
+    <div class="col-md-4"></div>
 
-    <div class="col-md-8 text-center">
 
-      <input type="date" name="rilascio_permesso" dayfirst="True" value="None">
+    <input type="text" class="datepicker text-center" id="datepicker" name="rilascio_permesso" value="Inserisci una data">
 
-    </div>
+  </div>
 
-    <div class="col-md-2">
-    </div>
-
-</div>
 
   <div class="row">
 
@@ -32,7 +26,7 @@
   <br>
   <br>
 
-  <button type="submit" class="btn btn-outline-secondary">Avanti</button>
+  <button type="submit" class="btn btn-primary">Avanti</button>
   </div>
 
   <div class="col-md-2">

@@ -3,37 +3,33 @@
 {% block answer %}
 
 <form method="post" action="">{% csrf_token %}
-  <div class="row">
+
+  <div class="row text-center">
 
     <div class="col-md-2">
       </div>
 
-    <div class="col-md-4 text-center">
+      <input class="col-md-2" type="number" name="n_tot_coinquilini" step="1" min="0" max="10" value="0"> persone, di cui <input class="col-md-2" type="number" name="n_tot_coinquilini_min_14" step="1" min="0" max="10" value="0"> con meno di 14 anni
 
-      <div class="custom-control custom-radio">
+      <div class="col-md-2">
+        </div>
 
-        <input id="si" name="vivi_solo" class="custom-control-input" type="radio" value="si">
-        <label class="custom-control-label" for="si">Si</label>
+  </div>
 
+  <div class="row text-center">
+
+    <div class="col-md-4">
       </div>
 
-    </div>
+    <button type="submit" class="btn btn-secondary col-md-4" name="n_tot_coinquilini" value="0">Vivo da solo</button>
 
-    <div class="col-md-2 text-center">
-
-      <div class="custom-control custom-radio">
-
-        <input id="no" name="vivi_solo" class="custom-control-input" type="radio" value="no">
-        <label class="custom-control-label" for="no">No</label>
-
+    <div class="col-md-4">
       </div>
 
-    </div>
+  </div>
 
-</div>
 
   <div class="row">
-
 
   <div class="col-md-8">
   </div>
@@ -44,7 +40,7 @@
   <br>
   <br>
 
-  <button type="submit" class="btn btn-outline-secondary">Avanti</button>
+  <button type="submit" class="btn btn-primary">Avanti</button>
   </div>
 
   <div class="col-md-2">

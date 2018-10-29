@@ -25,8 +25,7 @@ SECRET_KEY = 'f-k=$!)sp4rama8@^)&nhr^muc_90y1@h-zim9rczx2%fe2guw'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
-
+ALLOWED_HOSTS = ['80.211.139.238','myjourneymilano.tk','127.0.0.1']
 
 # Application definition
 

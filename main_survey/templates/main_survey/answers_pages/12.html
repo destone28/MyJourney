@@ -3,71 +3,68 @@
 {% block answer %}
 
 <form method="post" action="">{% csrf_token %}
-  	<div class="row text-center">
-		<div class="col-md-12">
-			<div class="row">
-				<div class="col-md-12">
-					<div class="row">
-						<div class="col-md-12">
-							<div class="row">
-								<div class="col-md-12">
+  <div class="row">
 
-                    <div class="text-center">
+    <div class="col-md-2">
+      </div>
 
-                        <select id="tipo_alloggio" name="tipo_alloggio" class="form-control">
-                          <option value="None">Seleziona la tipologia di alloggio</option>
-                          <option value="affitto">Sono in affitto</option>
-                          <option value="proprietario">Sono proprietario della casa</option>
-                          <option value="ospite">Sono ospite</option>
-                          <option value="no">No</option>
-                        </select>
-                    </div>
+    <div class="col-md-8 text-center">
 
-									<form role="form" class="form-inline">
-										<div class="form-group">
+      <select class="dropdown text-center" name="posso_ospitare_in_alloggio">
+        <option value="None">Seleziona un'opzione</option>
+        <option value="si">Si</option>
+        <option value="no">No</option>
+        <option value="ospite">Sono ospite</option>
 
-											<label for="via">
-												Via
-											</label>
-											<input type="address" class="form-control" id="via" name="via" />
-										</div>
-										<div class="form-group">
+      </select>
 
-											<label for="città">
-												Città
-											</label>
-											<input type="address" class="form-control" id="città" name="città"/>
-										</div>
+    </div>
 
-									</form>
-                  <div class="row">
+    <div class="col-md-2">
+    </div>
+
+  </div>
+
+  <div class="row">
+    <div class="col-md-4">
+    </div>
+
+    <input type="text" class="col-md-4 text-center" name="via" placeholder="Indirizzo"/>
+
+    <div class="col-md-4">
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-4">
+    </div>
+
+    <input type="text" class="col-md-4 text-center" name="città" placeholder="Città"/>
+
+    <div class="col-md-4">
+    </div>
+  </div>
+
+  <div class="row">
 
 
-                  <div class="col-md-8">
-                  </div>
+  <div class="col-md-8">
+  </div>
 
 
-                  <div class="col-md-4 text-center">
+  <div class="col-md-4 text-center">
 
-                  <br>
-                  <br>
+  <br>
+  <br>
 
-                  <button type="submit" class="btn btn-outline-secondary">Avanti</button>
-                  </div>
+  <button type="submit" class="btn btn-primary">Avanti</button>
+  </div>
 
-                  <div class="col-md-2">
-                  </div>
+  <div class="col-md-2">
+  </div>
 
-                  </div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-</div>
+  </div>
+
 </form>
 
 

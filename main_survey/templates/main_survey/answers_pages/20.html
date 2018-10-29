@@ -5,33 +5,15 @@
 <form method="post" action="">{% csrf_token %}
   <div class="row">
 
-    <div class="col-md-2">
-      </div>
-
-    <div class="col-md-4 text-center">
-
-      <div class="custom-control custom-radio">
-
-        <input id="si" name="hai_fratelli" class="custom-control-input" type="radio" value="si">
-        <label class="custom-control-label" for="si">Si</label>
-
-      </div>
-
+    <div class="col-md-3">
     </div>
 
-    <div class="col-md-4 text-center">
+        <button name="hai_fratelli" class="btn btn-primary col-md-2 text-center" type="submit" value="si">Si</button>
+        <div class="col-md-2"></div>
+        <button name="hai_fratelli" class="btn btn-primary col-md-2 text-center" type="submit" value="no">No</button>
 
-      <div class="custom-control custom-radio">
-
-        <input id="no" name="hai_fratelli" class="custom-control-input" type="radio" value="no">
-        <label class="custom-control-label" for="no">No</label>
-
-      </div>
-
+    <div class="col-md-3 text-center">
     </div>
-
-    <div class="col-md-2">
-      </div>
 
 </div>
 
@@ -39,18 +21,6 @@
 
 
   <div class="col-md-8">
-  </div>
-
-
-  <div class="col-md-4 text-center">
-
-  <br>
-  <br>
-
-  <button type="submit" class="btn btn-outline-secondary">Avanti</button>
-  </div>
-
-  <div class="col-md-2">
   </div>
 
   </div>
