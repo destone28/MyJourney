@@ -54,15 +54,15 @@ class PageView(DetailView):
             parente = ""
 
         elif str(request.session.get('temp_parente'))=="partner_mag":
-            parente = "Il partner da inserire"
+            parente = "Il partner"
 
         elif ((str(request.session.get('temp_parente'))=='figli_min_ug_14') or (str(request.session.get('temp_parente'))=='figli_15_17') or (str(request.session.get('temp_parente'))=='figli_magg')):
             numero_temporaneo_parente = request.session.get('numero_temporaneo_figlio')
-            parente = "Il "+str(numero_temporaneo_parente)+"° figlio da inserire"
+            parente = "Il "+str(numero_temporaneo_parente)+"° figlio"
 
         elif (str(request.session.get('temp_parente'))=='genitore'):
             numero_temporaneo_parente = request.session.get('numero_temporaneo_genitore')
-            parente = "Il "+str(numero_temporaneo_parente)+"° genitore da inserire"
+            parente = "Il "+str(numero_temporaneo_parente)+"° genitore"
 
         else:
             parente = request.session.get('temp_parente')

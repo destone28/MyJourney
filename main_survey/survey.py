@@ -238,11 +238,14 @@ class Survey_manager():
 
         page = request.session.get('page_id')
 
+        if page==0:
+            request.session['page_id'] = 2
+
         if page==1:
             request.session['lingua'] = request.POST.get('lingua')
             request.session['alert'] = 'Non hai effettuato scelte valide'
             if str(request.session.get('lingua'))!='None':
-                request.session['page_id'] = page+1
+                request.session['page_id'] = 0
                 request.session['alert'] = ''
                 request.session['temp_parente'] = ''
                 request.session['lista_familiari'] = []

@@ -19,18 +19,7 @@
 
 				<div class="col-md-8 text-center">
 
-					<div class="row">
-
-						<div class="col-md-8">
-						</div>
-
-						<div class="col-md-4 text-center">
-
 							<img src="{% static "img/logo.jpg" %}" class="img-fluid">
-
-						</div>
-
-					</div>
 
 					<br>
 					<br>
@@ -46,6 +35,13 @@
             </h1>
             </div>
           </div>
+					<div class="row">
+						<div class="col-md-12">
+
+							{{ domanda.suggerimento }}
+
+						</div>
+					</div>
 
 <br>
 
@@ -59,21 +55,8 @@
 
             </div>
           </div>
-
 					<br>
-					<br>
-
-					<div class="row">
-						<div class="col-md-12">
-
-							{{ domanda.suggerimento }}
-							<br>
-							<br>
-							{{ alert }}
-
-						</div>
-					</div>
-
+					{{ alert }}
 
 				</div>
 			</div>

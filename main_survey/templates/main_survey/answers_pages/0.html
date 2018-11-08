@@ -1,0 +1,11 @@
+{% extends 'main_survey/specific_page.html' %}
+
+{% block answer %}
+
+<form method="post" action="">{% csrf_token %}
+
+  <button type="submit" class="btn btn-primary" name="page_id" value="0">Avanti</button>
+
+</form>
+
+{% endblock %}
