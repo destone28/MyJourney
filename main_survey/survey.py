@@ -254,7 +254,7 @@ class Survey_manager():
         if page==1:
             lingua = request.POST.get('lingua')
             request.session['alert'] = 'Non hai effettuato scelte valide'
-            if str(request.session.get('lingua'))!='None':
+            if ((str(request.session.get('lingua'))!='None') or ('lingua' not in request.session)):
                 request.session.clear()
                 request.session['lingua'] = lingua
                 request.session['page_id'] = 0
