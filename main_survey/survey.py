@@ -118,11 +118,16 @@ class Family_manager():
             request = Family_manager.gestore_figli(request)
             if (not (str(request.session.get('parente'))=="None")):
                 print("controllo FIGLI - IL PROSSIMO PARENTE È "+str(request.session.get('parente')))
-                request.session['numero_temporaneo_figlio'] = request.session.get('numero_temporaneo_figlio')+1
+                if ('numero_temporaneo_figlio' in request.session):
+                    request.session['numero_temporaneo_figlio'] = request.session.get('numero_temporaneo_figlio')+1
+                else:
+                    request.session['numero_temporaneo_figlio'] = 1
                 return request
             request = Family_manager.gestore_genitori(request)
             if (not str(request.session.get('parente'))=="None"):
                 print("controllo GENITORI - IL PROSSIMO PARENTE È "+str(request.session.get('parente')))
+                if not ('numero_temporaneo_genitore' in request.session):
+                    request.session['numero_temporaneo_genitore'] = 0
                 request.session['numero_temporaneo_genitore'] = request.session.get('numero_temporaneo_genitore')+1
                 return request
             request = Family_manager.gestore_partner(request)
@@ -236,19 +241,27 @@ class Survey_manager():
 
     def dispatcher(request):
 
-        page = request.session.get('page_id')
+        flag_back = request.POST.get('flag_back')
+        page = int(request.session.get('page_id'))
+        page_before = page-1  #check per pagina 0
+
+
+
 
         if page==0:
             request.session['page_id'] = 2
 
         if page==1:
-            request.session['lingua'] = request.POST.get('lingua')
+            lingua = request.POST.get('lingua')
             request.session['alert'] = 'Non hai effettuato scelte valide'
             if str(request.session.get('lingua'))!='None':
+                request.session.clear()
+                request.session['lingua'] = lingua
                 request.session['page_id'] = 0
+                '''
                 request.session['alert'] = ''
                 request.session['temp_parente'] = ''
-                request.session['lista_familiari'] = []
+                request.session['lista_familiari'] = []'''
 
         elif page==2:
             #request.session['page_id'] = request.POST.get('page_id')
@@ -288,7 +301,8 @@ class Survey_manager():
             request.session['alert'] = 'Non hai effettuato scelte valide'
             if str(request.session.get('residenza_parente'))!='None':
                 request.session['alert'] = ''
-
+                if not ('lista_familiari' in request.session):
+                    request.session['lista_familiari'] = []
                 request.session.get('lista_familiari').append((request.session.get('parente_specifico'), request.session.get('nazionalità_parente'), request.session.get('residenza_parente')))
 
                 request = Family_manager.rimuovi_parente_corrente(request)
@@ -305,46 +319,6 @@ class Survey_manager():
                     print("C'è un altro parente, proseguo per inserire "+str(request.session.get('parente')))
                     request.session['page_id'] = 4
                     request.session['temp_parente'] = request.session.get('parente')
-
-
-
-
-                    '''
-                else:
-                    temp_lista = request.session.get('lista_familiari')[0]
-                    print("temp_lista è QUESTA QUI=================================================\n"+str(temp_lista))
-                    if ((str(request.session.get('parente'))=='figli_min_ug_14') or (str(request.session.get('parente'))=='figli_15_17') or (str(request.session.get('parente'))=='figli_magg')):
-                        if (('figli_min_ug_14' in temp_lista) or ('figli_15_17' in temp_lista) or ('figli_magg' in temp_lista)):
-                            print("NON È IL PRIMO FIGLIO INSERITO")
-                            request.session.get('lista_familiari').append((request.session.get('parente_specifico'), request.session.get('nazionalità_parente'), request.session.get('residenza_parente')))
-                            request = Family_manager.rimuovi_parente_corrente(request)
-                            if ((str(request.session.get('parente'))=='figli_min_ug_14') or (str(request.session.get('parente'))=='figli_15_17') or (str(request.session.get('parente'))=='figli_magg')):
-                                request.session['temp_parente'] = str(request.session.get('parente'))
-                                request.session['page_id'] = 4
-
-                    if request.session.get('parente')=='genitore' and (not ('hai_fratelli' in request.session)):
-                        print("PRIMO GENITORE INSERITO")
-                        request.session.get('lista_familiari').append((request.session.get('parente_specifico'), request.session.get('nazionalità_parente'), request.session.get('residenza_parente')))
-                        request.session['page_id'] = 4
-                    elif request.session.get('parente')=='genitore' and ('hai_fratelli' in request.session):
-                        print("SECONDO GENITORE INSERITO")
-                        request.session.get('lista_familiari').append((request.session.get('parente_specifico'), request.session.get('nazionalità_parente'), request.session.get('residenza_parente')))
-                        request = Family_manager.rimuovi_parente_corrente(request)
-                        if (request.session.get('tipologia_permesso')=='asilo politico'):
-                            request.session['page_id'] = idoneo
-                        else:
-                            request.session['page_id'] = 24
-                        if (request.session.get('parente')=='partner_mag'):
-                            print("È NELLA CONDIZIONE DEL PARTNER CON GENITORE INSERITO")
-                            request.session['temp_parente'] = str(request.session.get('parente'))
-                            request.session['page_id'] = 4
-
-                    if ((request.session.get('parente')=='partner_mag') and (not (int(request.session.get('page_id')))==4)):
-                        print("PARTNER INSERITO SENZA AVER INSERITO GENITORI")
-                        request.session.get('lista_familiari').append((request.session.get('parente_specifico'), request.session.get('nazionalità_parente'), request.session.get('residenza_parente')))
-                        request.session['page_id'] = 4
-                        '''
-
 
 
         elif page==6:
@@ -377,16 +351,16 @@ class Survey_manager():
                 if Survey_manager.permesso_scaduto(request):
                     request.session['page_id'] = page+1
                 else:
-                    request.session['page_id'] = 11
+                    request.session['page_id'] = 12
             elif request.session.get('scadenza_permesso')=='illimitato':
                 request.session['alert'] = ''
-                request.session['page_id'] = 11
+                request.session['page_id'] = 12
 
 
         elif page==9:
             request.session['ricevuta_rinnovo_permesso'] = request.POST.get('ricevuta_rinnovo_permesso')
             if str(request.session.get('ricevuta_rinnovo_permesso'))=='si':
-                request.session['page_id'] = 11
+                request.session['page_id'] = 12
             elif str(request.session.get('ricevuta_rinnovo_permesso'))=='no':
                 request.session['page_id'] = non_idoneo
 
@@ -394,15 +368,15 @@ class Survey_manager():
         ##TO-DO DA SISTEMARE PAGINA 10
         elif page==10:
             print('nulla per ora')
-            ##TO-DO CAMBIARE "11" ALLE DOMANDE 8 E 9 E SCALARE TUTTE LE DOMANDE DI 1 DA QUI IN POI
+            ##TO-DO CAMBIARE "12" ALLE DOMANDE 8 E 9 E SCALARE TUTTE LE DOMANDE DI 1 DA QUI IN POI
             ##QUINDI RICONTROLLARE LINK PRIMA D'ORA PER LE PAGINE SUCCESSIVE, QUANDO SCALATE
 
 
-        elif page==11:
+            '''elif page==12:
             request.session['quale_residenza'] = request.POST.get('quale_residenza')
             if not (str(request.session.get('quale_residenza'))=='None'):
                 request.session['page_id'] = page+1
-                request.session['alert'] = ''
+                request.session['alert'] = '''''
 
         elif page==12:
             request.session['posso_ospitare_in_alloggio'] = request.POST.get('posso_ospitare_in_alloggio')
@@ -567,5 +541,9 @@ class Survey_manager():
             request.session['guida'] = request.POST.get('guida')
             if request.session['guida'] == 'no':
                 request.session['page_id'] = 1
+
+        if (flag_back):
+            request.session['page_id'] = page_before
+            flag_back = False
 
         return request

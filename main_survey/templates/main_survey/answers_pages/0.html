@@ -3,9 +3,19 @@
 {% block answer %}
 
 <form method="post" action="">{% csrf_token %}
+  <div class="row">
+    <div class="col-md-4 text-center">
+      <button type="submit" name="flag_back" value="True" class="btn btn-secondary">Indietro</button>
+    </div>
 
-  <button type="submit" class="btn btn-primary" name="page_id" value="0">Avanti</button>
+    <div class="col-md-4">
+    </div>
 
+    <div class="col-md-4 text-center">
+      <button type="submit" class="btn btn-outline-primary">Avanti</button>
+    </div>
+
+  </div>
 </form>
 
 {% endblock %}

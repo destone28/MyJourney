@@ -111,11 +111,10 @@ header #logo a{
 	background-size: contain;
 	margin: 0 auto;
 	padding: 0;
-	height: 90px;
+	height: 50px;
 	width: 183px;
 	display: block;
 	position: relative;
-	top: 55px;
 }
 
 @media (min-width: 600px){
@@ -143,7 +142,7 @@ header .social{
 	background-color: #555;
 	color: #fff;
 	position: absolute;
-	height: 40px;
+	height: 0px;
 	margin: 0;
 	padding: 0;
 	list-style: none;
@@ -167,7 +166,7 @@ header .social li a{
 	background-repeat: no-repeat;
 	display: inline-block;
 	width: 25px;
-	height: 25px;
+	height: 0px;
 	text-indent: 100%;
 	white-space: nowrap;
 	overflow: hidden;
@@ -202,7 +201,7 @@ header .social li.contatti a{
 	text-indent: 0;
 	white-space: normal;
 	overflow: visible;
-	margin: 0 10px 0 40px;
+	margin: 0 0px 0 0px;
 	padding: 0 10px;
 	position: relative;
 	top: -6px;
@@ -226,7 +225,7 @@ header form{
 	clear: both;
 	margin: 0 auto;
 	position: relative;
-	top: 70px;
+	top: 0px;
 	width: 80%;
 	border-radius: 0 4px 4px 0;
 }
@@ -1308,7 +1307,8 @@ input[type=checkbox]:not(old):checked + label{
 	color: #fff;
 	border-top: 40px solid #d6012e;
 	padding: 25px 40px;
-	margin-top: 70px;
+	margin-top: 30px;
+  margin-bottom: 0px;
 }
 
 #footer ul {

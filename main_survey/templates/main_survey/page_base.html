@@ -15,7 +15,8 @@
 
 	<body>
 
-		<div class="container-fluid">
+<div class="container-fluid"
+		<div class="navbar-fixed-bottom">
 
 			<header>
 				<h1><a href="#" title="vai al sito istituzionale del Comune di Milano">Benvenuto in MyJourney!</a></h1>
@@ -27,46 +28,19 @@
 					<li><a title="vai a ..." href="#ancora...">...</a></li>
 				</ul>
 
-				<h2 id="menusocial" class="sr-only">Menu utente</h2>
-				<ul class="social">
-					<li class="contatti"><a title="scrivi al Comune di Milano" href="#">Esci</a></li>
-				</ul>
-
 				<p class="sr-only"><a href="#navinterna" title="torna alla navigazione interna alla pagina">Torna alla navigazione interna</a></p>
 			</header>
 
 	<br>
-	<br>
-	<br>
-	<br>
-	<br>
-
+	<div class="question">
 	{% block content %}
 	{% endblock %}
-
-
-
-			<br>
-			<br>
-			<br>
-
+</div>
 			<footer id="footer">
-				<p>Comune di Milano, Piazza della Scala, 2 - 20121 Milano Italia<br>
-				Codice fiscale/Partita IVA 01199250158</p>
-
-				<h2 class="sr-only">Menu di servizio</h2>
-				<ul>
-					<li><a href="#" title="leggi ...">Voce menu uno</a></li>
-					<li><a href="#" title="consulta ...">Voce menu due</a></li>
-				</ul>
-
-
-				<p class="sr-only"><a href="#navinterna" title="torna alla navigazione interna alla pagina">Torna alla navigazione interna</a></p>
-
 			</footer>
 
 		</div>
-
+</div>
  		<script src="jquery-3.3.1.min.js"></script>
 		<script type="text/javascript" src="{% static 'js/jquery-3.2.1.min.js' %}"></script>
 		<script type="text/javascript" src="{% static 'js/bootstrap.min.js' %}"></script>
