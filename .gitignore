@@ -4,3 +4,4 @@ ambiente_virtuale
 main_db.sqlite3
 /static
 .DS_Store
+/webapp/wsgi.py
