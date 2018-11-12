@@ -51,10 +51,26 @@
 	  <link rel="stylesheet" href="/resources/demos/style.css">
 	  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 	  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-	  <script>
+
+		<script>
 	  $( function() {
 	    $( "#datepicker" ).datepicker({ dateFormat: 'dd/mm/yy', startView: 1 });
 	  } );
 	  </script>
+
+		<script>
+		$(document).ready(function(){
+    $('#posso_ospitare_in_alloggio').on('change', function() {
+      if (( this.value == 'si') or (this.value == "ospite"))
+      {
+        $("#gruppo_form_indirizzo").show();
+      }
+      else
+      {
+        $("#gruppo_form_indirizzo").hide();
+      }
+    });
+});
+		</script>
 
 </body></html>

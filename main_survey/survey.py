@@ -181,6 +181,29 @@ class Family_manager():
         if not (('figli_15_17' or 'figli_magg') in familiari_temp):
             request.session['page_id'] = idoneo
 
+    def reset_parenti(request):
+        if ('n_figli_min_ug_14' in request.session):
+            del request.session['n_figli_min_ug_14']
+        if ('n_figli_15_17' in request.session):
+            del request.session['n_figli_15_17']
+        if ('n_figli_magg' in request.session):
+            del request.session['n_figli_magg']
+        if ('n_genitori_min_65' in request.session):
+            del request.session['n_genitori_min_65']
+        if ('n_genitori_mag_ug_65' in request.session):
+            del request.session['n_genitori_mag_ug_65']
+        if ('n_partner_mag' in request.session):
+            del request.session['n_partner_mag']
+        if ('temp_parente' in request.session):
+            del request.session['temp_parente']
+        if ('numero_temporaneo_figlio' in request.session):
+            del request.session['numero_temporaneo_figlio']
+        if ('numero_temporaneo_genitore' in request.session):
+            del request.session['numero_temporaneo_genitore']
+        if ('numero_temporaneo_parente' in request.session):
+            del request.session['numero_temporaneo_parente']
+        if ('lista_familiari' in request.session):
+            del request.session['lista_familiari']
 
 
 class Survey_manager():
@@ -244,6 +267,12 @@ class Survey_manager():
         flag_back = request.POST.get('flag_back')
         page = int(request.session.get('page_id'))
         page_before = page-1  #check per pagina 0
+        if ((page==6) or (page==5)):
+            page_before=3
+        if (page==8):
+            page_before=6
+        if (page==12):
+            page_before=10
 
 
 
@@ -337,7 +366,7 @@ class Survey_manager():
             print(str(request.POST.get('rilascio_permesso')))
             request.session['rilascio_permesso'] = request.POST.get('rilascio_permesso')
             request.session['alert'] = 'Non hai inserito una data valida'
-            if str(request.session.get('rilascio_permesso'))!='None':
+            if str(request.session.get('rilascio_permesso'))!='Inserisci una data':              #######CHECK DATE ENTRY TO-DO
                 print(str(request.session.get('rilascio_permesso')))
                 request.session['page_id'] = page+1
                 request.session['alert'] = ''
@@ -347,11 +376,12 @@ class Survey_manager():
             request.session['scadenza_permesso'] = request.POST.get('scadenza_permesso')
             request.session['alert'] = 'Non hai inserito una data valida'
             if not (request.session.get('scadenza_permesso')=='illimitato'):
-                request.session['alert'] = ''
-                if Survey_manager.permesso_scaduto(request):
-                    request.session['page_id'] = page+1
-                else:
-                    request.session['page_id'] = 12
+                if str(request.session.get('rilascio_permesso'))!='Inserisci una data':
+                    request.session['alert'] = ''
+                    if Survey_manager.permesso_scaduto(request):
+                        request.session['page_id'] = page+1
+                    else:
+                        request.session['page_id'] = 12
             elif request.session.get('scadenza_permesso')=='illimitato':
                 request.session['alert'] = ''
                 request.session['page_id'] = 12
@@ -545,5 +575,7 @@ class Survey_manager():
         if (flag_back):
             request.session['page_id'] = page_before
             flag_back = False
+            if (page_before==3):
+                Family_manager.reset_parenti(request)
 
         return request
