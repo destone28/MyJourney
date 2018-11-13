@@ -229,15 +229,25 @@ class Survey_manager():
         return request.session['metratura_casa']
 
 
-    def permesso_scaduto(request):##########################################CHECK SU DATE###########################################################################
+    def permesso_valido(request):##########################################CHECK SU DATE###########################################################################
         rilascio = request.session.get('rilascio_permesso')
         scadenza = request.session.get('scadenza_permesso')
-        rilascio = datetime.strptime(rilascio, "%d/%m/%Y")
-        scadenza = datetime.strptime(scadenza, "%d/%m/%Y")
-        giorni = ((scadenza - rilascio).days)
-        if (giorni>365):
+        try:
+            rilascio = datetime.strptime(rilascio, "%d/%m/%Y")
+            scadenza = datetime.strptime(scadenza, "%d/%m/%Y")
+        except:
+            request.session['validita_permesso'] = "date_non_valide"
             return False
+        giorni = ((scadenza - rilascio).days)
+        if (giorni<365):
+            request.session['validita_permesso'] = "meno_di_un_anno"
+            return False
+        elif (scadenza<datetime.today()):
+            request.session['validita_permesso'] = "scaduto"
+            return False
+
         return True
+
 
 
     def calcola_importo_reddito(request):
@@ -378,10 +388,16 @@ class Survey_manager():
             if not (request.session.get('scadenza_permesso')=='illimitato'):
                 if str(request.session.get('rilascio_permesso'))!='Inserisci una data':
                     request.session['alert'] = ''
-                    if Survey_manager.permesso_scaduto(request):
-                        request.session['page_id'] = page+1
-                    else:
+                    if Survey_manager.permesso_valido(request):
                         request.session['page_id'] = 12
+                    else:
+                        if (request.session.get('validita_permesso')=="scaduto"):
+                            request.session['page_id'] = 9
+                        elif (request.session.get('validita_permesso')=="meno_di_un_anno"):
+                            request.session['page_id'] = non_idoneo;
+                        elif (request.session.get('validita_permesso')=="date_non_valide"):
+                            request.session['page_id'] = 7
+                            request.session['alert'] = "Date inserite non valide, riprova"
             elif request.session.get('scadenza_permesso')=='illimitato':
                 request.session['alert'] = ''
                 request.session['page_id'] = 12
