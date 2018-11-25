@@ -168,7 +168,7 @@ class Family_manager():
         lista_familiari = request.session.get('lista_familiari')
         familiari_temp = [item[0] for item in lista_familiari]
         if ('genitori_min_65' in familiari_temp) or ('genitori_mag_ug_65' in familiari_temp):
-            request.session['page_id'] = 20
+            '''request.session['page_id'] = 20'''
             return True
         return False
 
@@ -522,23 +522,6 @@ class Survey_manager():
 
         elif page==18:
             request.session['tipo_partner'] = request.POST.get('tipo_partner')
-            request.session['page_id'] = page+1
-
-        elif page==19:
-            request.session['relazione_legale'] = request.POST.get('relazione_legale')
-            if str(request.session.get('relazione_legale'))=='no':
-                request.session['page_id'] = non_idoneo
-            elif str(request.session.get('relazione_legale'))=='si':
-                if (Family_manager.c_e_genitore(request)):
-                    request.session['page_id'] = page+1
-                else:
-                    if (request.session.get('tipologia_permesso')=='asilo politico'):
-                        request.session['page_id'] = idoneo
-                    else:
-                        request.session['page_id'] = 24
-
-        elif page==20:
-            request.session['hai_fratelli'] = request.POST.get('hai_fratelli')
             if (request.session.get('tipologia_permesso')=='asilo politico'):
                 request.session['page_id'] = idoneo
             else:
