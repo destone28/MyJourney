@@ -325,15 +325,7 @@ class Survey_manager():
                 print("PARENTI :"+str(request.session.get('n_figli_min_ug_14'))+"\n"+str(request.session.get('n_figli_15_17'))+"\n"+str(request.session.get('n_figli_magg'))+"\n"+str(request.session.get("n_genitori_min_65"))+"\n"+str(request.session.get("n_genitori_mag_ug_65"))+"\n"+str(request.session.get("n_partner_mag")))
 
                 if (Family_manager.ci_sono_altri_familiari(request)):
-                    request.session['page_id'] = page+1
-
-        elif page==4:
-            request.session['nazionalità_parente'] = request.POST.get('nazionalità_parente')
-            request.session['alert'] = 'Non hai effettuato scelte valide'
-            request.session['temp_parente'] = request.session.get('parente')
-            if str(request.session.get('nazionalità_parente'))!='None':
-                request.session['page_id'] = page+1
-                request.session['alert'] = ''
+                    request.session['page_id'] = 5
 
         elif page==5:
             request.session['residenza_parente'] = request.POST.get('residenza_parente')
@@ -342,7 +334,7 @@ class Survey_manager():
                 request.session['alert'] = ''
                 if not ('lista_familiari' in request.session):
                     request.session['lista_familiari'] = []
-                request.session.get('lista_familiari').append((request.session.get('parente_specifico'), request.session.get('nazionalità_parente'), request.session.get('residenza_parente')))
+                request.session.get('lista_familiari').append((request.session.get('parente_specifico'), request.session.get('residenza_parente')))
 
                 request = Family_manager.rimuovi_parente_corrente(request)
 
@@ -356,7 +348,7 @@ class Survey_manager():
 
                 else:
                     print("C'è un altro parente, proseguo per inserire "+str(request.session.get('parente')))
-                    request.session['page_id'] = 4
+                    request.session['page_id'] = 5
                     request.session['temp_parente'] = request.session.get('parente')
 
 
