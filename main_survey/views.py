@@ -7,6 +7,7 @@ from .models import Domande, Risposte
 from main_survey.survey import Survey_manager as questionario
 import main_survey.db_manager
 import main_survey.survey
+import main_survey.report_maker
 
 ANSWERS_TEMPLATE_PAGE_FOLDER = 'main_survey/answers_pages/'
 
@@ -107,9 +108,10 @@ class PageView(DetailView):
         if (str(request.session.get('page_id'))!="30"):
             template_name = ANSWERS_TEMPLATE_PAGE_FOLDER+str(page_id)+'.html'      #template di default per domanda generica
             response = {'domanda': domanda, 'alert': alert, 'parente': parente, 'numero_temporaneo_parente': numero_temporaneo_parente, 'casa': casa, 'reddito': reddito}   #dizionario di risposta
-        elif (str(request.session.get('page_id'))=="30"):
-            template_name = "main_survey/answers_pages/guida.html"      #template per la guida
-            response = questionario.Report_maker.produci_guida(request)
+        elif (str(request.session.get('page_id'))=="28"):
+            response = report_maker.produci_guida(request)
+            template_name = ANSWERS_TEMPLATE_PAGE_FOLDER+"guida.html"      #template per la guida
+
 
 
         return render(request, template_name, response)
