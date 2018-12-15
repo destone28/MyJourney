@@ -2,7 +2,7 @@
 from datetime import datetime
 from . import geodecoder, geo_db_locator
 
-non_idoneo = 27
+non_idoneo = 29
 idoneo = 28
 
 
@@ -419,19 +419,6 @@ class Survey_manager():
                 request.session['page_id'] = non_idoneo
 
 
-        ##TO-DO DA SISTEMARE PAGINA 10
-        elif page==10:
-            print('nulla per ora')
-            ##TO-DO CAMBIARE "12" ALLE DOMANDE 8 E 9 E SCALARE TUTTE LE DOMANDE DI 1 DA QUI IN POI
-            ##QUINDI RICONTROLLARE LINK PRIMA D'ORA PER LE PAGINE SUCCESSIVE, QUANDO SCALATE
-
-
-            '''elif page==12:
-            request.session['quale_residenza'] = request.POST.get('quale_residenza')
-            if not (str(request.session.get('quale_residenza'))=='None'):
-                request.session['page_id'] = page+1
-                request.session['alert'] = '''''
-
         elif page==12:
             request.session['posso_ospitare_in_alloggio'] = request.POST.get('posso_ospitare_in_alloggio')
             if str(request.session.get('posso_ospitare_in_alloggio'))=="None":
@@ -472,26 +459,6 @@ class Survey_manager():
                 request.session['page_id'] = non_idoneo
 
         elif page==16:
-            '''request.session['coinq_figli_min_ug_14'] = 0
-            request.session['coinq_figli_15_17'] = 0
-            request.session['coinq_figli_magg'] = 0
-            request.session['coinq_genitori_min_65'] = 0
-            request.session['coinq_genitori_mag_ug_65'] = 0
-            request.session['coinq_partner_mag'] = 0
-            request.session['vivi_solo'] = request.POST.get('vivi_solo')
-            if str(request.session.get('vivi_solo'))=='si':
-                if (str(request.session.get('parente'))=='partner_mag'):
-                    request.session['page_id'] = 18
-                elif (((str(request.session.get('parente'))=='figli_min_ug_14') or (str(request.session.get('parente'))=='figli_15_17') or (str(request.session.get('parente'))=='figli_magg'))):
-                    Family_manager.check_coinquilini(request)
-                    request = Family_manager.rimuovi_parente_corrente(request)
-                    if (str(request.session.get('parente'))!="None"):
-                        request.session['temp_parente'] = str(request.session.get('parente'))
-                        request.session['page_id'] = 4
-                    else:
-                        request.session['page_id'] = 24
-                elif (str(request.session.get('parente'))=='genitore'):
-                    request.session['page_id'] = 20'''
             request.session['n_tot_coinquilini'] = request.POST.get('n_tot_coinquilini')
             request.session['n_tot_coinquilini_min_14'] = request.POST.get('n_tot_coinquilini_min_14')
             request.session['metratura_casa'] = Survey_manager.calcola_metratura_casa(request)
@@ -504,6 +471,7 @@ class Survey_manager():
 
 
         elif page==17:##TO-DO FARE PULIZIA
+
             '''request.session['coinq_figli_min_ug_14'] = request.POST.get('coinq_figli_min_ug_14')
             request.session['coinq_figli_15_17'] = request.POST.get('coinq_figli_15_17')
             request.session['coinq_figli_magg'] = request.POST.get('coinq_figli_magg')
@@ -578,8 +546,15 @@ class Survey_manager():
         elif page==26:
             request.session['reddito_sufficiente'] = request.POST.get('reddito_sufficiente')
             if str(request.session.get('reddito_sufficiente'))=='si':
-                request.session['page_id'] = idoneo
+                request.session['page_id'] = page+1
             elif str(request.session.get('reddito_sufficiente'))=='no':
+                request.session['page_id'] = non_idoneo
+
+        elif page==27:
+            request.session['ha_documenti_lavoro'] = request.POST.get('ha_documenti_lavoro')
+            if str(request.session.get('ha_documenti_lavoro'))=="si":
+                request.session['page_id'] = idoneo
+            elif str(request.session.get('ha_documenti_lavoro'))=="no":
                 request.session['page_id'] = non_idoneo
 
         elif page==idoneo:
