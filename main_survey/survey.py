@@ -349,7 +349,7 @@ class Survey_manager():
 
                 if request.session.get('parente')=='None':
                     print("NON CI SONO PIÙ FAMILIARI DA INSERIRE, PROCEDO . . .")
-                    request.session['page_id'] = page+1
+                    request.session['page_id'] = 7
                     request.session['temp_parente'] = ''
 
                 else:
@@ -365,7 +365,7 @@ class Survey_manager():
                 if (not Family_manager.ci_sono_partner_o_genitori(request)):
                     Family_manager.check_no_condizioni(request)
             elif str(request.session.get('tipologia_permesso'))=='altro':
-                request.session['page_id'] = page+1
+                request.session['page_id'] = 12
 
 
         elif page==7:
@@ -385,7 +385,7 @@ class Survey_manager():
                 if str(request.session.get('rilascio_permesso'))!='Inserisci una data':
                     request.session['alert'] = ''
                     if Survey_manager.permesso_valido(request):
-                        request.session['page_id'] = 12
+                        request.session['page_id'] = 6
                     else:
                         if (request.session.get('validita_permesso')=="scaduto"):
                             request.session['page_id'] = 9
@@ -396,7 +396,7 @@ class Survey_manager():
                             request.session['alert'] = "Date inserite non valide, riprova"
             elif request.session.get('scadenza_permesso')=='illimitato':
                 request.session['alert'] = ''
-                request.session['page_id'] = 12
+                request.session['page_id'] = 6
 
 
         elif page==9:
