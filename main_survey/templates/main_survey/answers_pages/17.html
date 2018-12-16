@@ -4,35 +4,43 @@
 
 <form method="post" action="">{% csrf_token %}
 
-  <div class="row">
+  <div class="row text-center">
 
-    <div class="col-md-2">
+    <div class="col-md-4">
       </div>
 
-    <div class="col-md-8 text-left">
+      <!--<input class="col-md-2" type="radio" id="con_altri" name="n_tot_coinquilini">-->
+      <input type="number" name="coinquilini_a_carico" step="1" min="0" value="0" max="5"> persone
+      <!--<input class="col-md-2" type="radio" id="da_solo" name="n_tot_coinquilini" step="1" min="0" max="10" for="0" value="0"> Vivo da solo-->
 
-  <input type="number" name="coinquilini_a_carico" step="1" min="0" value="0">
+  </div>
 
+  <div class="row text-center">
+
+    <div class="col-md-4">
+      </div>
+
+    <div class="col-md-4">
+      </div>
+
+  </div>
+
+
+  <br><br><br><br><br><br><br>
+
+  <div class="row">
+    <div class="col-md-4 text-center">
+      <button type="submit" name="flag_back" value="True" class="btn btn-secondary">Indietro</button>
     </div>
 
-    <div class="col-md-2">
+    <div class="col-md-4">
     </div>
 
-</div>
+    <div class="col-md-4 text-center">
+      <button type="submit" class="btn btn-outline-primary">Avanti</button>
+    </div>
 
-<div class="row">
-  <div class="col-md-4 text-center">
-    <button type="submit" name="flag_back" value="True" class="btn btn-secondary">Indietro</button>
   </div>
-
-  <div class="col-md-4">
-  </div>
-
-  <div class="col-md-4 text-center">
-    <button type="submit" class="btn btn-outline-primary">Avanti</button>
-  </div>
-
-</div>
 
 </form>
 

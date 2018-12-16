@@ -123,8 +123,8 @@ class Family_manager():
             return request
 
     def check_coinquilini(request):
-        request.session['n_coinquilini_da_contare_per_metratura'] = int(request.session.get('n_tot_coinquilini'))-int(request.session.get('n_tot_coinquilini_min_14'))
         request.session['n_tot_coinquilini_min_14'] = request.POST.get('n_tot_coinquilini_min_14')
+        request.session['n_coinquilini_da_contare_per_metratura'] = int(request.session.get('n_tot_coinquilini'))-int(request.session.get('n_tot_coinquilini_min_14'))
         if (request.session.get('n_tot_coinquilini_min_14')>request.session.get('n_tot_coinquilini')):
             request.session['alert'] = 'Hai inserito dati errati. Riprova'
         #if (request.session.get(''))
@@ -134,10 +134,10 @@ class Family_manager():
 
     def aggiungi_coinquilini_a_carico(request):
         request.session['coinquilini_a_carico']=int(request.session.get('coinquilini_a_carico'))
-        lista_familiari = int(request.session.get('lista_familiari'))
-        familiari_temp = [item[0] for item in lista_familiari]
-        print("Familiari dalla lista: "+familiari_temp)
-        familiari = familiari_temp.count()+int(request.session.get('coinquilini_a_carico'))
+        lista_familiari = len(request.session.get('lista_familiari'))
+        #familiari_temp = [item[0] for item in lista_familiari]
+        print("Familiari dalla lista: "+lista_familiari)
+        familiari = len(lista_familiari)+int(request.session.get('coinquilini_a_carico'))
         print("Familiari in totale a carico: "+familiari)
         if (familiari>6):
             request.session['page_id'] = non_idoneo
@@ -218,8 +218,6 @@ class Survey_manager():
 
         n_coinquilini_da_contare_per_metratura = int(request.session.get('n_tot_coinquilini'))
 
-        print("Persone da contare per metratura casa: "+n_tot_persone_in_casa+"\n"+numero_familiari_da_contare_per_metratura+" familiari e "+n_coinquilini_da_contare_per_metratura+" coinquilini già in casa")
-
         #n_coinquilini_da_contare_per_metratura = int(request.session.get('n_tot_coinquilini'))-int(request.session.get('n_tot_coinquilini_min_14'))
 
         n_tot_persone_in_casa = numero_familiari_da_contare_per_metratura + n_coinquilini_da_contare_per_metratura
@@ -229,6 +227,9 @@ class Survey_manager():
         elif n_tot_persone_in_casa>4:
             request.session['metratura_casa'] = 14*4 + ((n_tot_persone_in_casa-4)*10)
             ### dopo i primi 4 abitanti, minimo 10mq per i successivi
+
+        print("Persone da contare per metratura casa: "+str(n_tot_persone_in_casa)+"\n"+str(numero_familiari_da_contare_per_metratura)+" familiari e "+str(n_coinquilini_da_contare_per_metratura)+" coinquilini già in casa")
+
         return request.session['metratura_casa']
 
 
@@ -257,23 +258,10 @@ class Survey_manager():
         ###dati di riferimento presi da qui:
         #1) http://lavocedellaquila.com/2018/02/25/ricongiungimento-familiare-italia-reddito-annuo-minimo-2018/
         #2) http://www.integrazionemigranti.gov.it/normativa/procedureitalia/Pagine/Ricongiungimento-familiare.aspx
-        '''
-        request.session['importo_reddito'] = float(5889) ###base al singolo
 
         lista_familiari = request.session.get('lista_familiari')
         familiari_temp = [item[0] for item in lista_familiari]
-        fm14= familiari_temp.count('figli_min_ug_14')
-        elementi=len(familiari_temp)
-        altri=elementi-fm14
-
-        if(fm14>0):
-            request.session['importo_reddito'] = float(request.session.get('importo_reddito'))+float(5889)+float(2944.50)*altri
-        else:
-            request.session['importo_reddito'] = float(request.session.get('importo_reddito'))+float(2944.50)*altri
-        '''
-        lista_familiari = request.session.get('lista_familiari')
-        familiari_temp = [item[0] for item in lista_familiari]
-        familiari = familiari_temp.count()+int(request.session.get('coinquilini_a_carico'))
+        familiari = len(familiari_temp)+int(request.session.get('coinquilini_a_carico'))
 
         if (familiari==1):
             request.session['importo_reddito'] = float(736.12)
@@ -418,6 +406,13 @@ class Survey_manager():
             elif str(request.session.get('ricevuta_rinnovo_permesso'))=='no':
                 request.session['page_id'] = non_idoneo
 
+        elif page==10:
+            request.session['contratto_locazione'] = request.POST.get('contratto_locazione')
+            if str(request.session.get('contratto_locazione'))=='si':
+                request.session['page_id'] = 14
+            elif str(request.session.get('contratto_locazione'))=='no':
+                request.session['page_id'] = non_idoneo
+
 
         elif page==12:
             request.session['posso_ospitare_in_alloggio'] = request.POST.get('posso_ospitare_in_alloggio')
@@ -434,7 +429,7 @@ class Survey_manager():
                     request.session['alert'] = ''
                 elif str(request.session.get('posso_ospitare_in_alloggio'))=="ospite":
                     request.session['alert'] = ''
-                    request.session['page_id'] = 16
+                    request.session['page_id'] = 10
                     Family_manager.ci_sono_partner_o_genitori(request)
 
         elif page==13:
@@ -460,7 +455,14 @@ class Survey_manager():
 
         elif page==16:
             request.session['n_tot_coinquilini'] = request.POST.get('n_tot_coinquilini')
-            request.session['n_tot_coinquilini_min_14'] = request.POST.get('n_tot_coinquilini_min_14')
+            request.session['page_id'] = 17
+
+
+        elif page==17:##TO-DO FARE PULIZIA
+
+            request.session['coinquilini_a_carico'] = request.POST.get('coinquilini_a_carico')
+            if (request.session.get("coinquilini_a_carico")=="None"):
+                request.session["coinquilini_a_carico"] = 0
             request.session['metratura_casa'] = Survey_manager.calcola_metratura_casa(request)
             request.session['importo_reddito'] = Survey_manager.calcola_importo_reddito(request)
             if int(request.session.get('n_tot_coinquilini'))==0:
@@ -468,9 +470,9 @@ class Survey_manager():
                     Family_manager.check_coinquilini(request)
             else:
                 Family_manager.c_e_partner(request) #controlla che ci sia partner e vai a pag18
+            if (not Family_manager.c_e_partner(request)):
+                request.session['page_id'] = 24
 
-
-        elif page==17:##TO-DO FARE PULIZIA
 
             '''request.session['coinq_figli_min_ug_14'] = request.POST.get('coinq_figli_min_ug_14')
             request.session['coinq_figli_15_17'] = request.POST.get('coinq_figli_15_17')
@@ -540,20 +542,20 @@ class Survey_manager():
             elif str(request.session.get('tipologia_lavoro'))=='no':
                 request.session['page_id'] = non_idoneo
             else:
-                request.session['page_id'] = page+1
+                request.session['page_id'] = 27
 
 
         elif page==26:
             request.session['reddito_sufficiente'] = request.POST.get('reddito_sufficiente')
             if str(request.session.get('reddito_sufficiente'))=='si':
-                request.session['page_id'] = page+1
+                request.session['page_id'] = idoneo
             elif str(request.session.get('reddito_sufficiente'))=='no':
                 request.session['page_id'] = non_idoneo
 
         elif page==27:
             request.session['ha_documenti_lavoro'] = request.POST.get('ha_documenti_lavoro')
             if str(request.session.get('ha_documenti_lavoro'))=="si":
-                request.session['page_id'] = idoneo
+                request.session['page_id'] = 26
             elif str(request.session.get('ha_documenti_lavoro'))=="no":
                 request.session['page_id'] = non_idoneo
 
