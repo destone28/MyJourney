@@ -1,6 +1,6 @@
 
 from datetime import datetime
-from . import geodecoder, geo_db_locator
+from . import geodecoder, geo_db_locator, report_maker
 
 non_idoneo = 29
 idoneo = 28
@@ -162,7 +162,7 @@ class Family_manager():
     def c_e_genitore(request):
         lista_familiari = request.session.get('lista_familiari')
         familiari_temp = [item[0] for item in lista_familiari]
-        if ('genitori_min_65' in familiari_temp) or ('genitori_mag_ug_65' in familiari_temp):
+        if ('genitori' in familiari_temp):
             '''request.session['page_id'] = 20'''
             return True
         return False
@@ -421,6 +421,7 @@ class Survey_manager():
             elif str(request.session.get('posso_ospitare_in_alloggio'))=="no":
                 request.session['page_id'] = non_idoneo
             elif (str(request.POST.get('città'))!='None' and str(request.POST.get('via'))!='None'):
+                request.session['città'] = str(request.POST.get('città'))
                 request.session['indirizzo_alloggio'] = str(str(request.POST.get('città'))+', '+str(request.POST.get('via')))
                 if geodecoder.from_address_to_coords(str(request.session.get('indirizzo_alloggio')))=="None":
                     request.session['alert'] = 'Non hai inserito un indirizzo corretto, riprova'
@@ -563,12 +564,16 @@ class Survey_manager():
             request.session['guida'] = request.POST.get('guida')
             if request.session['guida'] == 'si':
                 print('FINE')
-                #Report_maker.produci_guida(request)
+                request.session['page_id'] = 30
+                #report_maker.produci_guida(request)
 
         elif page==non_idoneo:
             request.session['guida'] = request.POST.get('guida')
             if request.session['guida'] == 'no':
                 request.session['page_id'] = 1
+
+        elif page==30:
+            print("\n\n\nOK\n\n\n")
 
         if (flag_back):
             request.session['page_id'] = page_before

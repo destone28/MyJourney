@@ -1,10 +1,14 @@
 import sqlite3
 from . import geodecoder
 import time
+import os.path
+
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+db_path = os.path.join(BASE_DIR, "dati.sqlite")
 
 def anagrafe_milano_piu_vicina(address):
 
-    db_connection = sqlite3.connect('dati.sqlite')
+    db_connection = sqlite3.connect(db_path)
     lista = db_connection.execute("SELECT titolo, lat, long, indirizzo, tel FROM anagrafe_milano")
 
     distanza_min = None
@@ -14,7 +18,8 @@ def anagrafe_milano_piu_vicina(address):
     else:
         for anagrafe in lista:
             anag_corrente = (anagrafe[1], anagrafe[2])
-            distanza = geodecoder.meters_from_two_addresses(address, anag_corrente)
+            coord_indirizzo = geodecoder.from_address_to_coords(address)
+            distanza = geodecoder.meters_from_two_addresses(coord_indirizzo, anag_corrente)
             if (distanza_min is None):
                 distanza_min = distanza
             if (distanza<distanza_min):
@@ -35,7 +40,7 @@ def anagrafe_milano_piu_vicina(address):
 
 def valori_bollati_milano_piu_vicini(address):
 
-    db_connection = sqlite3.connect('dati.sqlite')
+    db_connection = sqlite3.connect(db_path)
     lista = db_connection.execute("SELECT nome, lat, long, via, civico, telefono FROM valoribollati_milano")
 
     distanza_min = None
@@ -66,9 +71,13 @@ def valori_bollati_milano_piu_vicini(address):
 
 def idoneita_abitativa_vicina_milano(address):
 
-    db_connection = sqlite3.connect('dati.sqlite')
+    db_connection = sqlite3.connect(db_path)
     lista = db_connection.execute("SELECT municipio, indirizzo, servizio, giorni_e_ore, tel FROM idoneitaabitativa_milano")
-
+    servizio_ufficio = ""
+    num_ufficio = ""
+    indirizzo_ufficio = ""
+    aperture_ufficio = ""
+    tel_ufficio = ""
     distanza_min = None
 
     if (lista is None):
@@ -77,8 +86,9 @@ def idoneita_abitativa_vicina_milano(address):
         for ufficio in lista:
             temp_addr = ufficio[1]
             stringa_ind_ufficio = "milano, {}".format(temp_addr)
+            coord_indirizzo = geodecoder.from_address_to_coords(address)
             coord_ufficio = geodecoder.from_address_to_coords(stringa_ind_ufficio)
-            distanza = geodecoder.meters_from_two_addresses((address),( coord_ufficio))
+            distanza = geodecoder.meters_from_two_addresses((coord_indirizzo),( coord_ufficio))
             if distanza_min is None:
                 distanza_min = distanza
             if (distanza<distanza_min):
@@ -99,7 +109,7 @@ def idoneita_abitativa_vicina_milano(address):
 
 
 def info_ambasciata(paese):
-    db_connection = sqlite3.connect('dati.sqlite')
+    db_connection = sqlite3.connect(db_path)
     info = db_connection.execute("SELECT sede, indirizzo, telefonisedi, faxsedi, sitoweb, email FROM ambasciate WHERE paese = ?",(paese.upper(),))
     output = list(info.fetchone())
     for elem in info:
@@ -110,7 +120,7 @@ def info_ambasciata(paese):
 
 
 def info_consolato(paese):
-    db_connection = sqlite3.connect('dati.sqlite')
+    db_connection = sqlite3.connect(db_path)
     info = db_connection.execute("SELECT sede, indirizzo, telefonisedi, faxsedi, sitoweb, email FROM consolati WHERE paese = ?",(paese.upper(),))
     output = list(info.fetchone())
     for elem in info:
@@ -121,7 +131,7 @@ def info_consolato(paese):
 
 def sindacati_e_patronati(address):
 
-    db_connection = sqlite3.connect('dati.sqlite')
+    db_connection = sqlite3.connect(db_path)
     lista = db_connection.execute("SELECT ufficio, indirizzo, telefono FROM sindacatipatronati WHERE citta=?",("MILANO",))
 
     distanza_min = None
@@ -133,8 +143,9 @@ def sindacati_e_patronati(address):
             temp_addr = sindacato_temp[1]
             stringa_ind_ufficio = "milano, {}".format(temp_addr)
             coord_sindacato = geodecoder.from_address_to_coords(stringa_ind_ufficio)
+            coord_indirizzo = geodecoder.from_address_to_coords(address)
             try:
-                distanza = geodecoder.meters_from_two_addresses((address),( coord_sindacato))
+                distanza = geodecoder.meters_from_two_addresses((coord_indirizzo),(coord_sindacato))
                 if distanza_min is None:
                     distanza_min = distanza
                 if (distanza<distanza_min):
@@ -171,7 +182,7 @@ def main():
 
 def test():
 
-    db_connection = sqlite3.connect('dati.sqlite')
+    db_connection = sqlite3.connect(db_path)
     data = db_connection.execute("SELECT ufficio, indirizzo, telefono FROM sindacatipatronati WHERE citta==?", ("LEGNANO",))
 
     if (data is None):
