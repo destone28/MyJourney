@@ -155,7 +155,7 @@ class Family_manager():
         lista_familiari = request.session.get('lista_familiari')
         familiari_temp = [item[0] for item in lista_familiari]
         if 'partner_mag' in familiari_temp:
-            request.session['page_id'] = 18
+            '''request.session['page_id'] = 18'''
             return True
         return False
 
@@ -220,7 +220,7 @@ class Survey_manager():
 
         #n_coinquilini_da_contare_per_metratura = int(request.session.get('n_tot_coinquilini'))-int(request.session.get('n_tot_coinquilini_min_14'))
 
-        n_tot_persone_in_casa = numero_familiari_da_contare_per_metratura + n_coinquilini_da_contare_per_metratura
+        n_tot_persone_in_casa = numero_familiari_da_contare_per_metratura + n_coinquilini_da_contare_per_metratura +1 #+1 è l'utente!
         if n_tot_persone_in_casa<=4:
             request.session['metratura_casa'] = 14*n_tot_persone_in_casa
             ###  minimo 14mq per i primi 4 abitanti
@@ -364,6 +364,10 @@ class Survey_manager():
             if str(request.session.get('tipologia_permesso'))=='asilo politico':
                 if (not Family_manager.ci_sono_partner_o_genitori(request)):
                     Family_manager.check_no_condizioni(request)
+                elif (Family_manager.c_e_genitore(request)):
+                    request.session['page_id'] = 20
+                elif (Family_manager.c_e_partner(request)):
+                    request.session['page_id'] = 18
             elif str(request.session.get('tipologia_permesso'))=='altro':
                 request.session['page_id'] = 12
 
@@ -416,11 +420,13 @@ class Survey_manager():
 
         elif page==12:
             request.session['posso_ospitare_in_alloggio'] = request.POST.get('posso_ospitare_in_alloggio')
+            if (request.session.get('tipologia_permesso')=='asilo politico'):
+                request.session['page_id'] = idoneo
             if str(request.session.get('posso_ospitare_in_alloggio'))=="None":
                 request.session['alert'] = "Non hai selezionato nulla dall'elenco, riprova"
-            elif str(request.session.get('posso_ospitare_in_alloggio'))=="no":
+            elif ((str(request.session.get('posso_ospitare_in_alloggio'))=="no") and not (request.session.get('tipologia_permesso')=='asilo politico')):
                 request.session['page_id'] = non_idoneo
-            elif (str(request.POST.get('città'))!='None' and str(request.POST.get('via'))!='None'):
+            elif (str(request.POST.get('città'))!='None' and str(request.POST.get('via'))!='None' and not (request.session.get('tipologia_permesso')=='asilo politico')):
                 request.session['città'] = str(request.POST.get('città'))
                 request.session['indirizzo_alloggio'] = str(str(request.POST.get('città'))+', '+str(request.POST.get('via')))
                 if geodecoder.from_address_to_coords(str(request.session.get('indirizzo_alloggio')))=="None":
@@ -470,8 +476,11 @@ class Survey_manager():
                 if (not Family_manager.c_e_partner(request)):   #se non c'è partner controlla coinquilini, e vai a pag24, altrimenti
                     Family_manager.check_coinquilini(request)
             else:
-                Family_manager.c_e_partner(request) #controlla che ci sia partner e vai a pag18
-            if (not Family_manager.c_e_partner(request)):
+                if (Family_manager.c_e_genitore(request)): #controlla che ci siano genitori e vai a pag20, se c'è partner, vai prima a pag18
+                    request.session['page_id'] = 20
+                if (Family_manager.c_e_partner(request)): #controlla che ci sia partner e vai a pag18
+                    request.session['page_id'] = 18
+            if not (Family_manager.ci_sono_partner_o_genitori(request)):
                 request.session['page_id'] = 24
 
 
@@ -515,7 +524,7 @@ class Survey_manager():
                 if (Family_manager.c_e_genitore(request)):
                     request.session['page_id'] = 20
                 else:
-                    request.session['page_id'] = idoneo
+                    request.session['page_id'] = 12
             else:
                 request.session['page_id'] = 24
 
@@ -523,7 +532,7 @@ class Survey_manager():
         elif page==20:
             request.session['hai_fratelli'] = request.POST.get('hai_fratelli')
             if (request.session.get('tipologia_permesso')=='asilo politico'):
-                request.session['page_id'] = idoneo
+                request.session['page_id'] = 12
             else:
                 request.session['page_id'] = 24
 
