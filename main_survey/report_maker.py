@@ -40,7 +40,7 @@ def produci_guida(request):
         if ('genitori' in familiari_temp):
             parente = parente+" genitore"
             ##Se ci sono genitori_mag_ug_65
-            guida['b7'] = "Dichiarazione di impegno a sottoscrivere una polizza assicurativa sanitaria o altro titolo idoneo a garantire la copertura di tutti i rischi nel territorio nazionale, in favore dei genitori ultrasessantacinquenni."
+            guida['b7'] = "Dichiarazione di impegno a sottoscrivere una polizza assicurativa sanitaria o altro titolo idoneo a garantire la copertura di tutti i rischi nel territorio nazionale, in favore dei genitori ultrasessantacinquenni.\nI tuoi genitori potranno ricevere il visto per entrare in Italia solo se hanno più di 65 anni e se i tuoi fratelli hanno gravi problemi di salute."
 
         guida['b5'] = "Fotocopie delle pagine con dati anagrafici e numero di Passaporto per "+ parente
 

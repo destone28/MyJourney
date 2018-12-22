@@ -5,11 +5,12 @@ from geopy.distance import geodesic, great_circle
 geolocator = Nominatim(user_agent="webapp")
 
 def from_address_to_coords(address):
-    location = geolocator.geocode(address)
-    if (location):
-        a = (location.latitude, location.longitude)
-        return a
-    else:
+    try:
+        location = geolocator.geocode(address)
+        if (location):
+            a = (location.latitude, location.longitude)
+            return a
+    except:
         return ("None")
 
 def from_coords_to_address(lat, long):

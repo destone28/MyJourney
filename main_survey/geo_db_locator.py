@@ -166,38 +166,8 @@ def sindacati_e_patronati(address):
 
 
 
-def main():
-
-    indirizzo_inserito = input("Inserisci l'indirizzo:\n")
-    a = geodecoder.from_address_to_coords(indirizzo_inserito)
-    anagrafe_milano_piu_vicina(a)
-    valori_bollati_milano_piu_vicini(a)
-    idoneita_abitativa_vicina_milano(a)
-    #info_ambasciata('cuba')
-    #info_consolato('germania')
-    sindacati_e_patronati(a)
 
 
-
-
-def test():
-
-    db_connection = sqlite3.connect(db_path)
-    data = db_connection.execute("SELECT ufficio, indirizzo, telefono FROM sindacatipatronati WHERE citta==?", ("LEGNANO",))
-
-    if (data is None):
-        print("Errore database")
-    else:
-        for element in data:
-            print("Ufficio = "+ element[0])
-            print("Indirizzo = ", element[1])
-            print("Telefono = ", element[2], "\n")
-
-    print("Ecco fatto!")
-
-    db_connection.close()
-
-    print("Connessione al database terminata!")
 
 if __name__ == '__main__':
     main()

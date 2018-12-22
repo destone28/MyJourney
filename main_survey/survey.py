@@ -170,16 +170,6 @@ class Family_manager():
     def ci_sono_partner_o_genitori(request):
         return (Family_manager.c_e_genitore(request) and Family_manager.c_e_partner(request))
 
-    def check_no_condizioni(request):
-        lista_familiari = request.session.get('lista_familiari')
-        familiari_temp = [item[0] for item in lista_familiari]
-        if (Family_manager.c_e_partner(request)):
-            request.session['page_id'] = 18
-        elif (Family_manager.c_e_genitore(request)):
-            request.session['page_id'] = 20
-        else:
-            request.session['page_id'] = idoneo
-
     def reset_parenti(request):
         if ('n_figli_min_ug_14' in request.session):
             del request.session['n_figli_min_ug_14']
@@ -362,11 +352,9 @@ class Survey_manager():
             request.session['temp_parente'] = ''
             request.session['tipologia_permesso'] = request.POST.get('tipologia_permesso')
             if str(request.session.get('tipologia_permesso'))=='asilo politico':
-                if (not Family_manager.ci_sono_partner_o_genitori(request)):
-                    Family_manager.check_no_condizioni(request)
-                elif (Family_manager.c_e_genitore(request)):
-                    request.session['page_id'] = 20
-                elif (Family_manager.c_e_partner(request)):
+                if not (Family_manager.c_e_partner(request)):
+                    request.session['page_id'] = 11
+                else:
                     request.session['page_id'] = 18
             elif str(request.session.get('tipologia_permesso'))=='altro':
                 request.session['page_id'] = 12
@@ -416,6 +404,15 @@ class Survey_manager():
                 request.session['page_id'] = 14
             elif str(request.session.get('contratto_locazione'))=='no':
                 request.session['page_id'] = non_idoneo
+
+        elif page==11:
+            if (str(request.POST.get('città'))!='None' and str(request.POST.get('via'))!='None' and (request.session.get('tipologia_permesso')=='asilo politico')):
+                request.session['città'] = str(request.POST.get('città'))
+                request.session['indirizzo_alloggio'] = str(str(request.POST.get('città'))+', '+str(request.POST.get('via')))
+                if geodecoder.from_address_to_coords(str(request.session.get('indirizzo_alloggio')))=="None":
+                    request.session['alert'] = 'Non hai inserito un indirizzo corretto, riprova'
+                else:
+                    request.session['page_id'] = idoneo
 
 
         elif page==12:
@@ -476,8 +473,6 @@ class Survey_manager():
                 if (not Family_manager.c_e_partner(request)):   #se non c'è partner controlla coinquilini, e vai a pag24, altrimenti
                     Family_manager.check_coinquilini(request)
             else:
-                if (Family_manager.c_e_genitore(request)): #controlla che ci siano genitori e vai a pag20, se c'è partner, vai prima a pag18
-                    request.session['page_id'] = 20
                 if (Family_manager.c_e_partner(request)): #controlla che ci sia partner e vai a pag18
                     request.session['page_id'] = 18
             if not (Family_manager.ci_sono_partner_o_genitori(request)):
@@ -521,10 +516,7 @@ class Survey_manager():
         elif page==18:
             request.session['tipo_partner'] = request.POST.get('tipo_partner')
             if (request.session.get('tipologia_permesso')=='asilo politico'):
-                if (Family_manager.c_e_genitore(request)):
-                    request.session['page_id'] = 20
-                else:
-                    request.session['page_id'] = 12
+                request.session['page_id'] = 11
             else:
                 request.session['page_id'] = 24
 
