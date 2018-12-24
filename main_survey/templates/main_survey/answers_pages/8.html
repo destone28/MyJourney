@@ -3,40 +3,24 @@
 {% block answer %}
 
 <form method="post" action="">{% csrf_token %}
+  <div class="form-group">
+    <div>
+      <input type="text" class="form-control datepicker w-auto m-auto text-center" id="datepicker" name="scadenza_permesso" value="Inserisci una data">
+    </div>
+  </div>
+  <div class="form-group text-center">
+    <button type="submit" class="btn btn-secondary" name="scadenza_permesso" value="illimitato">Illimitato</button>
+  </div>
 
-  <div class="row">
-
-    <div class="col-md-2">
-      </div>
-
-    <div class="col-md-8 text-center">
-
-      <input type="text" class="datepicker text-center col-md-4" id="datepicker" name="scadenza_permesso" value="Inserisci una data"><br>
-      <button type="submit" class="btn btn-secondary col-md-4" name="scadenza_permesso" value="illimitato">Illimitato</button>
-
+  <div class="row mt-5">
+    <div class="col-md-4 text-center">
+      <button type="submit" name="flag_back" value="True" class="btn btn-secondary">Indietro</button>
     </div>
 
-    <div class="col-md-2">
+    <div class="col-md-4 offset-md-4 text-center">
+      <button type="submit" class="btn btn-outline-primary">Avanti</button>
     </div>
-
-</div>
-
-<br><br><br><br><br><br><br>
-
-<div class="row">
-  <div class="col-md-4 text-center">
-    <button type="submit" name="flag_back" value="True" class="btn btn-secondary">Indietro</button>
   </div>
-
-  <div class="col-md-4">
-  </div>
-
-  <div class="col-md-4 text-center">
-    <button type="submit" class="btn btn-outline-primary">Avanti</button>
-  </div>
-
-</div>
-
 </form>
 
 {% endblock %}
