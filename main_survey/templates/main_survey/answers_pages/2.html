@@ -4,14 +4,9 @@
 
 <form method="post" action="">{% csrf_token %}
 
-  <div class="row">
-
-    <div class="col-md-2">
-    </div>
-
-    <div class="col-md-8 text-center">
-
-      <select id="nazionalità_user" name="nazionalità_user" class="dropdown text-center">
+  <div class="form-group">
+    <div>
+      <select id="nazionalità_user" name="nazionalità_user" class="form-control w-auto m-auto">
         <option value="None">Seleziona un Paese</option>
         <option value="AF">Afghanistan</option>
         <option value="AL">Albania</option>
@@ -225,28 +220,17 @@
         <option value="ZM">Zambia</option>
         <option value="ZW">Zimbabwe</option>
       </select>
-
     </div>
-
-    <div class="col-md-2">
-    </div>
-
   </div>
 
-    <br><br><br><br><br><br><br>
-  <div class="row">
-
+  <div class="row mt-5">
     <div class="col-md-4 text-center">
       <button type="submit" name="flag_back" value="True" class="btn btn-secondary">Indietro</button>
     </div>
 
-    <div class="col-md-4">
-    </div>
-
-    <div class="col-md-4 text-center">
+    <div class="col-md-4 offset-md-4 text-center">
       <button type="submit" class="btn btn-outline-primary">Avanti</button>
     </div>
-
   </div>
 </form>
 
