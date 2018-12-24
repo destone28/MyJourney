@@ -3,43 +3,54 @@
 {% block answer %}
 
 <form method="post" action="">{% csrf_token %}
-
   <div class="row">
-
-    <div class="col-md-2">
+    <div class="col-md-8 offset-md-2 text-left">
+      <div class="form-group form-row">
+        <div class="col-md-2">
+          <input class="form-control" type="number" id="n_partner_mag" name="n_partner_mag" step="1" min="0" max="1" value="0">
+        </div>
+        <label class="col-md-8" for="n_partner_mag">partner con 18 anni o più</label>
       </div>
 
-    <div class="col-md-8 text-left">
+      <div class="form-group form-row">
+        <div class="col-md-2">
+          <input class="form-control" type="number" id="n_figli_min_ug_14" name="n_figli_min_ug_14" step="1" min="0" max="5" value="0">
+        </div>
+        <label class="col-md-8" for="n_figli_min_ug_14">figli fino a 14 anni</label>
+      </div>
 
+      <div class="form-group form-row">
+        <div class="col-md-2">
+          <input class="form-control" type="number" id="n_figli_15_17" name="n_figli_15_17" step="1" min="0" max="5" value="0">
+        </div>
+        <label class="col-md-8" for="n_figli_15_17">figli tra 15 e 17 anni</label>
+      </div>
 
-  <input class="col-md-2" type="number" name="n_partner_mag" step="1" min="0" max="1" value="0"> partner con 18 anni o più<br>
-  <input class="col-md-2" type="number" name="n_figli_min_ug_14" step="1" min="0" max="5" value="0"> figli fino a 14 anni<br>
-  <input class="col-md-2" type="number" name="n_figli_15_17" step="1" min="0" max="5" value="0"> figli tra 15 e 17 anni<br>
-  <input class="col-md-2" type="number" name="n_figli_magg" step="1" min="0" max="5" value="0"> figli con 18 anni o più<br>
-  <input class="col-md-2" type="number" name="n_genitori" step="1" min="0" max="2" value="0"> genitori<br>
+      <div class="form-group form-row">
+        <div class="col-md-2">
+          <input class="form-control" type="number" id="n_figli_magg" name="n_figli_magg" step="1" min="0" max="5" value="0">
+        </div>
+        <label class="col-md-8" for="n_figli_magg">figli con 18 anni o più</label>
+      </div>
 
-
+      <div class="form-group form-row">
+        <div class="col-md-2">
+          <input class="form-control" type="number" id="n_genitori" name="n_genitori" step="1" min="0" max="2" value="0">
+        </div>
+        <label class="col-md-8" for="n_genitori">genitori</label>
+      </div>
     </div>
-
-    <div class="col-md-2">
-    </div>
-
-</div>
-
+  </div>
 
   <div class="row">
     <div class="col-md-4 text-center">
       <button type="submit" name="flag_back" value="True" class="btn btn-secondary">Indietro</button>
     </div>
 
-    <div class="col-md-4">
-    </div>
-
-    <div class="col-md-4 text-center">
+    <div class="col-md-4 offset-md-4 text-center">
       <button type="submit" class="btn btn-outline-primary">Avanti</button>
     </div>
-
   </div>
-  </form>
+</form>
 
 {% endblock %}
