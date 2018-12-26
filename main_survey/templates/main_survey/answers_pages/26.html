@@ -12,13 +12,7 @@
         <button type="submit" name="reddito_sufficiente" class="btn btn-primary" value="no">Minore di {{ reddito }} €</button>
     </div>
   </div>
-
-  <div class="row mt-5">
-    <div class="col-md-4 text-center">
-      <button type="submit" name="flag_back" value="True" class="btn btn-secondary">Indietro</button>
-    </div>
-  </div>
-
+  {% include '../answers_blocks/nav_block.html' with noNext=True %}
 </form>
 
 {% endblock %}

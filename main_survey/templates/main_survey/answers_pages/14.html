@@ -12,12 +12,7 @@
       <button id="no" name="contratto_locazione_registrato" class="btn btn-block btn-primary" type="submit" value="no">No</button>
     </div>
   </div>
-
-  <div class="row mt-5">
-    <div class="col-md-4 text-center">
-      <button type="submit" name="flag_back" value="True" class="btn btn-secondary">Indietro</button>
-    </div>
-  </div>
+  {% include '../answers_blocks/nav_block.html' with noNext=True %}
 </form>
 
 {% endblock %}
