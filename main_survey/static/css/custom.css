@@ -81,12 +81,6 @@ html, body{
 	font-size: 1em;
 }
 
-body > .container-fluid{
-	max-width: 1300px;
-	min-width: 320px;
-	padding: 0 0 0 0;
-}
-
 header{
 	background-color: #d6012e;
 	color: #fff;
