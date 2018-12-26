@@ -3,15 +3,7 @@
 {% block answer %}
 
 <form method="post" action="">{% csrf_token %}
-  <div class="row">
-    <div class="col-md-2 offset-md-3">
-      <button id="si" name="atto_compravendita" class="btn btn-block btn-primary" type="submit" value="si">Si</button>
-    </div>
-
-    <div class="col-md-2 offset-md-2">
-      <button id="no" name="atto_compravendita" class="btn btn-block btn-primary" type="submit" value="no">No</button>
-    </div>
-  </div>
+  {% include '../answers_blocks/submit_buttons.html' with btnName='atto_compravendita' %}
   {% include '../answers_blocks/nav_block.html' with noNext=True %}
 </form>
 
