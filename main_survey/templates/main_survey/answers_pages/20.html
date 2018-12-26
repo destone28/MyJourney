@@ -4,33 +4,20 @@
 
 <form method="post" action="">{% csrf_token %}
   <div class="row">
-
-    <div class="col-md-3">
+    <div class="col-md-2 offset-md-3">
+      <button name="hai_fratelli" class="btn btn-block btn-primary" type="submit" value="si">Si</button>
     </div>
 
-        <button name="hai_fratelli" class="btn btn-primary col-md-2 text-center" type="submit" value="si">Si</button>
-        <div class="col-md-2"></div>
-        <button name="hai_fratelli" class="btn btn-primary col-md-2 text-center" type="submit" value="no">No</button>
-
-    <div class="col-md-3 text-center">
+    <div class="col-md-2 offset-md-2">
+      <button name="hai_fratelli" class="btn btn-block btn-primary" type="submit" value="no">No</button>
     </div>
-
-</div>
-
-<br><br><br><br><br><br><br>
-
-<div class="row">
-  <div class="col-md-4 text-center">
-    <button type="submit" name="flag_back" value="True" class="btn btn-secondary">Indietro</button>
   </div>
 
-  <div class="col-md-4">
+  <div class="row mt-5">
+    <div class="col-md-4 text-center">
+      <button type="submit" name="flag_back" value="True" class="btn btn-secondary">Indietro</button>
+    </div>
   </div>
-
-  <div class="col-md-4 text-center">
-  </div>
-
-</div>
 
 </form>
 
