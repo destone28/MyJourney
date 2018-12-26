@@ -4,14 +4,9 @@
 
 <form method="post" action="">{% csrf_token %}
 
-  <div class="row">
-
-    <div class="col-md-2">
-      </div>
-
-    <div class="col-md-8 text-center">
-
-      <select class="dropdown" name="tipologia_lavoro">
+  <div class="form-group">
+    <div>
+      <select class="form-control w-auto m-auto" name="tipologia_lavoro">
         <option value="None">Seleziona una tipologia di lavoro</option>
         <option value="dipendente">Lavoratore dipendente</option>
         <option value="domestico">Lavoratore domestico</option>
@@ -21,30 +16,18 @@
         <option value="libero_professionista">Libero professionista</option>
         <option value="no">Non svolgo alcun lavoro</option>
       </select>
+    </div>
+  </div>
 
+  <div class="row mt-5">
+    <div class="col-md-4 text-center">
+      <button type="submit" name="flag_back" value="True" class="btn btn-secondary">Indietro</button>
     </div>
 
-    <div class="col-md-2">
+    <div class="col-md-4 offset-md-4 text-center">
+      <button type="submit" class="btn btn-outline-primary">Avanti</button>
     </div>
-
-</div>
-
-<br><br><br><br><br><br><br>
-
-<div class="row">
-  <div class="col-md-4 text-center">
-    <button type="submit" name="flag_back" value="True" class="btn btn-secondary">Indietro</button>
   </div>
-
-  <div class="col-md-4">
-  </div>
-
-  <div class="col-md-4 text-center">
-    <button type="submit" class="btn btn-outline-primary">Avanti</button>
-  </div>
-
-</div>
-
 </form>
 
 {% endblock %}
