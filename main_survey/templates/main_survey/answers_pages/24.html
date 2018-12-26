@@ -4,46 +4,20 @@
 
 <form method="post" action="">{% csrf_token %}
   <div class="row">
-
-    <div class="col-md-2">
-      </div>
-
-    <div class="col-md-4 text-center">
-
-      <div class="col-md-2 text-center">
-
-        <button type="submit" name="casa_sufficiente" class="btn btn-primary" value="si">Maggiore di {{ casa }} mq</button>
-
-      </div>
-
+    <div class="col-md-4 offset-md-2 text-center">
+      <button type="submit" name="casa_sufficiente" class="btn btn-primary" value="si">Maggiore di {{ casa }} mq</button>
     </div>
 
     <div class="col-md-4 text-center">
-
-      <div class="col-md-2 text-center">
-
-        <button type="submit" name="casa_sufficiente" class="btn btn-primary" value="no">Minore di {{ casa }} mq</button>
-
-      </div>
-
+      <button type="submit" name="casa_sufficiente" class="btn btn-primary" value="no">Minore di {{ casa }} mq</button>
     </div>
+  </div>
 
-</div>
-    <br><br><br><br><br><br><br>
-
-    <div class="row">
-      <div class="col-md-4 text-center">
-        <button type="submit" name="flag_back" value="True" class="btn btn-secondary">Indietro</button>
-      </div>
-
-      <div class="col-md-4">
-      </div>
-
-      <div class="col-md-4 text-center">
-      </div>
-
+  <div class="row mt-5">
+    <div class="col-md-4 text-center">
+      <button type="submit" name="flag_back" value="True" class="btn btn-secondary">Indietro</button>
     </div>
-
+  </div>
 
 </form>
 
