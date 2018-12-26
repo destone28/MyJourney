@@ -1,24 +1,16 @@
-{% extends 'main_survey/specific_page.html' %}
+{% extends 'main_survey/answers_blocks/layout_select.html' %}
 
-{% block answer %}
+{% block select %}
 
-<form method="post" action="">{% csrf_token %}
-
-  <div class="form-group">
-    <div>
-      <select class="form-control w-auto m-auto" name="tipologia_lavoro">
-        <option value="None">Seleziona una tipologia di lavoro</option>
-        <option value="dipendente">Lavoratore dipendente</option>
-        <option value="domestico">Lavoratore domestico</option>
-        <option value="titolare_ditta">Lavoratore autonomo</option>
-        <option value="partecipazione_società">Partecipazione in società</option>
-        <option value="socio_lavoratore">Socio lavoratore</option>
-        <option value="libero_professionista">Libero professionista</option>
-        <option value="no">Non svolgo alcun lavoro</option>
-      </select>
-    </div>
-  </div>
-  {% include '../answers_blocks/nav_block.html' %}
-</form>
+<select class="form-control w-auto m-auto" name="tipologia_lavoro">
+  <option value="None">Seleziona una tipologia di lavoro</option>
+  <option value="dipendente">Lavoratore dipendente</option>
+  <option value="domestico">Lavoratore domestico</option>
+  <option value="titolare_ditta">Lavoratore autonomo</option>
+  <option value="partecipazione_società">Partecipazione in società</option>
+  <option value="socio_lavoratore">Socio lavoratore</option>
+  <option value="libero_professionista">Libero professionista</option>
+  <option value="no">Non svolgo alcun lavoro</option>
+</select>
 
 {% endblock %}

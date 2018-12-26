@@ -1,0 +1,15 @@
+{% extends '../specific_page.html' %}
+
+{% block answer %}
+
+<form method="post" action="">{% csrf_token %}
+  <div class="form-group">
+    <div>
+      {% block select %}
+      {% endblock %}
+    </div>
+  </div>
+  {% include '../answers_blocks/nav_block.html' %}
+</form>
+
+{% endblock %}
