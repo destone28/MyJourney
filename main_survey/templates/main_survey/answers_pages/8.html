@@ -2,16 +2,38 @@
 
 {% block answer %}
 
-<form method="post" action="">{% csrf_token %}
-  <div class="form-group">
-    <div>
-      <input type="text" class="form-control datepicker w-auto mw-100 m-auto text-center" id="datepicker" name="scadenza_permesso" value="Inserisci una data">
+<form method="post" action="" id="dateForm">{% csrf_token %}
+  <div class="row">
+    <div class="col-md-4 offset-md-2 text-center form-group">
+      <div class="custom-control custom-radio custom-control-inline">
+        <input id="si" name="scadenza_permesso" class="custom-control-input" type="radio" value="illimitato" required v-model="type">
+        <label class="custom-control-label" for="si">Illimitato</label>
+      </div>
+    </div>
+
+    <div class="col-md-4 text-center form-group">
+      <div class="custom-control custom-radio custom-control-inline">
+        <input id="no" name="scadenza_permesso" class="custom-control-input" type="radio" value="" required v-model="type">
+        <label class="custom-control-label" for="no">A scadenza</label>
+      </div>
     </div>
   </div>
-  <div class="form-group text-center">
-    <button type="submit" class="btn btn-secondary" name="scadenza_permesso" value="illimitato">Illimitato</button>
+
+  <div class="form-group" v-bind:class="{ 'd-none': type !== '' }">
+    <input type="text" class="form-control datepicker w-auto mw-100 m-auto text-center" id="datepicker" v-bind:name="type === '' ? 'scadenza_permesso' : undefined" value="Inserisci una data">
   </div>
   {% include '../answers_blocks/nav_block.html' %}
 </form>
+
+<script type="text/javascript">
+  var maxPeople = 5;
+  var people = Array.apply(null, { length: maxPeople }).map(Function.call, Number);
+  new Vue({
+    el: '#dateForm',
+    data: {
+      type: null
+    }
+  })
+</script>
 
 {% endblock %}
