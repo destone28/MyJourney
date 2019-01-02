@@ -2,40 +2,58 @@
 
 {% block answer %}
 
-<form method="post" action="">{% csrf_token %}
+<form method="post" action="" id="peopleForm">{% csrf_token %}
   <div class="row">
     <div class="col-md-8 offset-md-2 text-left">
-      <div class="form-group form-row">
+      <div class="form-group form-inline" v-for="i in people" v-if="i < 1 || categories[i - 1] !== ''">
+        <select class="form-control mr-2" v-bind:required="categories[i] !== ''" v-model="categories[i]">
+          <option hidden disabled selected value="">Aggiungi...</option>
+          <option v-bind:disabled="count('parent') >= 2" value="parent">Genitore</option>
+          <option value="partner">Partner</option>
+          <option value="child">Figlio</option>
+        </select>
+
+        <label v-if="categories[i] === 'partner'">con 18 anni o più</label>
+
+        <select class="form-control" required v-if="categories[i] === 'child'" v-model="ages[i]">
+          <option hidden disabled selected value="">Seleziona età...</option>
+          <option value="14">fino a 14 anni</option>
+          <option value="15">tra 15 e 17 anni</option>
+          <option value="18">con 18 anni o più</option>
+        </select>
+      </div>
+
+      <div class="form-group form-row d-none">
         <div class="col-md-2">
-          <input class="form-control" type="number" id="n_partner_mag" name="n_partner_mag" step="1" min="0" max="1" value="0">
+          <input class="form-control" type="number" id="n_partner_mag" name="n_partner_mag" step="1" min="0" max="1" value="0" v-model="toInput('n_partner_mag')">
         </div>
         <label class="col-md-8" for="n_partner_mag">partner con 18 anni o più</label>
       </div>
 
-      <div class="form-group form-row">
+      <div class="form-group form-row d-none">
         <div class="col-md-2">
-          <input class="form-control" type="number" id="n_figli_min_ug_14" name="n_figli_min_ug_14" step="1" min="0" max="5" value="0">
+          <input class="form-control" type="number" id="n_figli_min_ug_14" name="n_figli_min_ug_14" step="1" min="0" max="5" value="0" v-model="toInput('n_figli_min_ug_14')">
         </div>
         <label class="col-md-8" for="n_figli_min_ug_14">figli fino a 14 anni</label>
       </div>
 
-      <div class="form-group form-row">
+      <div class="form-group form-row d-none">
         <div class="col-md-2">
-          <input class="form-control" type="number" id="n_figli_15_17" name="n_figli_15_17" step="1" min="0" max="5" value="0">
+          <input class="form-control" type="number" id="n_figli_15_17" name="n_figli_15_17" step="1" min="0" max="5" value="0" v-model="toInput('n_figli_15_17')">
         </div>
         <label class="col-md-8" for="n_figli_15_17">figli tra 15 e 17 anni</label>
       </div>
 
-      <div class="form-group form-row">
+      <div class="form-group form-row d-none">
         <div class="col-md-2">
-          <input class="form-control" type="number" id="n_figli_magg" name="n_figli_magg" step="1" min="0" max="5" value="0">
+          <input class="form-control" type="number" id="n_figli_magg" name="n_figli_magg" step="1" min="0" max="5" value="0" v-model="toInput('n_figli_magg')">
         </div>
         <label class="col-md-8" for="n_figli_magg">figli con 18 anni o più</label>
       </div>
 
-      <div class="form-group form-row">
+      <div class="form-group form-row d-none">
         <div class="col-md-2">
-          <input class="form-control" type="number" id="n_genitori" name="n_genitori" step="1" min="0" max="2" value="0">
+          <input class="form-control" type="number" id="n_genitori" name="n_genitori" step="1" min="0" max="2" value="0" v-model="toInput('n_genitori')">
         </div>
         <label class="col-md-8" for="n_genitori">genitori</label>
       </div>
@@ -43,5 +61,38 @@
   </div>
   {% include '../answers_blocks/nav_block.html' %}
 </form>
+<script type="text/javascript">
+  var maxPeople = 5;
+  var people = Array.apply(null, { length: maxPeople }).map(Function.call, Number);
+  new Vue({
+    el: '#peopleForm',
+    data: {
+      people: people,
+      categories: people.map(function() { return '' }),
+      ages: people.map(function() { return '' })
+    },
+    methods: {
+      count: function(value) {
+        var count = this.categories.reduce(function (r, c) { return c === value ? ++r : r }, 0);
+        return count
+      },
+      countAges: function (value, category) {
+        var cats = this.categories;
+        var count = this.ages.reduce(function (r, c, i) { return c === value && cats[i] === category ? ++r : r }, 0);
+        return count
+      },
+      toInput: function (name) {
+        var inputs = {
+          n_genitori: this.count('parent'),
+          n_partner_mag: this.count('partner'),
+          n_figli_min_ug_14: this.countAges('14', 'child'),
+          n_figli_15_17: this.countAges('15', 'child'),
+          n_figli_magg: this.countAges('18', 'child')
+        }
+        return inputs[name];
+      }
+    }
+  })
+</script>
 
 {% endblock %}
