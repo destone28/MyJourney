@@ -19,19 +19,24 @@
     </div>
   </div>
 
-  <div class="form-group" v-bind:class="{ 'd-none': type !== '' }">
-    <input type="text" class="form-control datepicker w-auto mw-100 m-auto text-center" id="datepicker" v-bind:name="type === '' ? 'scadenza_permesso' : undefined" value="Inserisci una data">
+  <div class="row" v-if="type === ''">
+    <div class="col-md-4 offset-md-4">
+      <div class="form-group">
+        <vuejs-datepicker input-class="form-control text-center bg-white" calendar-class="w-auto" format="dd/MM/yyyy" name="scadenza_permesso" placeholder="Inserisci una data"></vuejs-datepicker>
+      </div>
+    </div>
   </div>
   {% include '../answers_blocks/nav_block.html' %}
 </form>
 
 <script type="text/javascript">
-  var maxPeople = 5;
-  var people = Array.apply(null, { length: maxPeople }).map(Function.call, Number);
   new Vue({
     el: '#dateForm',
     data: {
       type: null
+    },
+    components: {
+      vuejsDatepicker
     }
   })
 </script>
