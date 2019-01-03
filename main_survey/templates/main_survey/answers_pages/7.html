@@ -2,13 +2,24 @@
 
 {% block answer %}
 
-<form method="post" action="">{% csrf_token %}
-  <div class="form-group">
-    <div>
-      <input type="text" class="form-control datepicker w-auto mw-100 m-auto text-center" id="datepicker" name="rilascio_permesso" value="Inserisci una data">
+<form method="post" action="" id="dateForm">{% csrf_token %}
+  <div class="row">
+    <div class="col-md-4 offset-md-4">
+      <div class="form-group">
+        <vuejs-datepicker input-class="form-control text-center bg-white" calendar-class="w-auto" format="dd/MM/yyyy" name="rilascio_permesso" placeholder="Inserisci una data"></vuejs-datepicker>
+      </div>
     </div>
   </div>
   {% include '../answers_blocks/nav_block.html' %}
 </form>
+
+<script>
+  new Vue({
+    el: '#dateForm',
+    components: {
+      vuejsDatepicker
+    }
+  })
+</script>
 
 {% endblock %}
