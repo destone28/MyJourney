@@ -31,6 +31,14 @@ class PageView(DetailView):
 
     def get(request):
 
+        trackSteps = {
+            'img/track_family.png': 'Famiglia',
+            'img/track_documents.png': 'Permesso di Soggiorno',
+            'img/track_house.png': 'Casa',
+            'img/track_work.png': 'Reddito',
+            'img/fine.png': '&#9873;'
+        }
+
         if request.method=='GET':
 
             for key in request.session.keys():
@@ -107,7 +115,7 @@ class PageView(DetailView):
         domanda = Domande.objects.filter(id=page_id)[0]     #la domanda proposta è trovata nel db principale, filtrata per page_id
         if (str(request.session.get('page_id'))!="30"):
             template_name = ANSWERS_TEMPLATE_PAGE_FOLDER+str(page_id)+'.html'      #template di default per domanda generica
-            response = {'domanda': domanda, 'alert': alert, 'parente': parente, 'numero_temporaneo_parente': numero_temporaneo_parente, 'casa': casa, 'reddito': reddito}   #dizionario di risposta
+            response = {'domanda': domanda, 'alert': alert, 'parente': parente, 'numero_temporaneo_parente': numero_temporaneo_parente, 'casa': casa, 'reddito': reddito, 'trackSteps': trackSteps}   #dizionario di risposta
         elif (str(request.session.get('page_id'))=="30"):
             response = report_maker.produci_guida(request)
             template_name = ANSWERS_TEMPLATE_PAGE_FOLDER+"guida.html"
