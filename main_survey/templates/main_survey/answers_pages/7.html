@@ -1,25 +1,18 @@
-{% extends 'main_survey/specific_page.html' %}
+{% extends 'main_survey/answers_blocks/layout_column.html' %}
 
-{% block answer %}
+{% block column %}
+<div class="form-group">
+  <vuejs-datepicker input-class="form-control text-center bg-white" calendar-class="w-auto" format="dd/MM/yyyy" name="rilascio_permesso" placeholder="Inserisci una data"></vuejs-datepicker>
+</div>
+{% endblock %}
 
-<form method="post" action="" id="dateForm">{% csrf_token %}
-  <div class="row">
-    <div class="col-md-4 offset-md-4">
-      <div class="form-group">
-        <vuejs-datepicker input-class="form-control text-center bg-white" calendar-class="w-auto" format="dd/MM/yyyy" name="rilascio_permesso" placeholder="Inserisci una data"></vuejs-datepicker>
-      </div>
-    </div>
-  </div>
-  {% include '../answers_blocks/nav_block.html' %}
-</form>
-
+{% block out %}
 <script>
   new Vue({
-    el: '#dateForm',
+    el: '#form',
     components: {
       vuejsDatepicker
     }
   })
 </script>
-
 {% endblock %}
