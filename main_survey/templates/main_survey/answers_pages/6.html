@@ -1,18 +1,11 @@
-{% extends 'main_survey/specific_page.html' %}
+{% extends 'main_survey/answers_blocks/layout_center.html' %}
 
-{% block answer %}
+{% block center %}
+<div class="col-md-2">
+  <button name="tipologia_permesso" class="btn btn-block btn-primary" type="submit" value="asilo politico">Si</button>
+</div>
 
-<form method="post" action="">{% csrf_token %}
-  <div class="row">
-    <div class="col-md-2 offset-md-3">
-      <button name="tipologia_permesso" class="btn btn-block btn-primary" type="submit" value="asilo politico">Si</button>
-    </div>
-
-    <div class="col-md-2 offset-md-2">
-      <button name="tipologia_permesso" class="btn btn-block btn-primary" type="submit" value="altro">No</button>
-    </div>
-  </div>
-  {% include '../answers_blocks/nav_block.html' with noNext=True %}
-</form>
-
+<div class="col-md-2">
+  <button name="tipologia_permesso" class="btn btn-block btn-primary" type="submit" value="altro">No</button>
+</div>
 {% endblock %}

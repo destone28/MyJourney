@@ -1,18 +1,11 @@
-{% extends 'main_survey/specific_page.html' %}
+{% extends 'main_survey/answers_blocks/layout_center.html' %}
 
-{% block answer %}
+{% block center %}
+<div class="col-md-4 text-center">
+  <button type="submit" name="casa_sufficiente" class="btn btn-primary" value="si">Maggiore di {{ casa }} mq</button>
+</div>
 
-<form method="post" action="">{% csrf_token %}
-  <div class="row">
-    <div class="col-md-4 offset-md-2 text-center">
-      <button type="submit" name="casa_sufficiente" class="btn btn-primary" value="si">Maggiore di {{ casa }} mq</button>
-    </div>
-
-    <div class="col-md-4 text-center">
-      <button type="submit" name="casa_sufficiente" class="btn btn-primary" value="no">Minore di {{ casa }} mq</button>
-    </div>
-  </div>
-  {% include '../answers_blocks/nav_block.html' with noNext=True %}
-</form>
-
+<div class="col-md-4 text-center">
+  <button type="submit" name="casa_sufficiente" class="btn btn-primary" value="no">Minore di {{ casa }} mq</button>
+</div>
 {% endblock %}

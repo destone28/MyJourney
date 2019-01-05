@@ -1,24 +1,17 @@
-{% extends 'main_survey/specific_page.html' %}
+{% extends 'main_survey/answers_blocks/layout_center.html' %}
 
-{% block answer %}
-
-<form method="post" action="">{% csrf_token %}
-  <div class="row">
-    <div class="col-md-4 offset-md-2 text-center">
-      <div class="custom-control custom-radio custom-control-inline">
-        <input id="si" name="fratelli_o_sorelle_residenti_con_genitore" class="custom-control-input" type="radio" value="si">
-        <label class="custom-control-label" for="si">Si</label>
-      </div>
-    </div>
-
-    <div class="col-md-4 text-center">
-      <div class="custom-control custom-radio custom-control-inline">
-        <input id="no" name="fratelli_o_sorelle_residenti_con_genitore" class="custom-control-input" type="radio" value="no">
-        <label class="custom-control-label" for="no">No</label>
-      </div>
-    </div>
+{% block center %}
+<div class="col-md-4 text-center">
+  <div class="custom-control custom-radio custom-control-inline">
+    <input id="si" name="fratelli_o_sorelle_residenti_con_genitore" class="custom-control-input" type="radio" value="si">
+    <label class="custom-control-label" for="si">Si</label>
   </div>
-  {% include '../answers_blocks/nav_block.html' %}
-</form>
+</div>
 
+<div class="col-md-4 text-center">
+  <div class="custom-control custom-radio custom-control-inline">
+    <input id="no" name="fratelli_o_sorelle_residenti_con_genitore" class="custom-control-input" type="radio" value="no">
+    <label class="custom-control-label" for="no">No</label>
+  </div>
+</div>
 {% endblock %}

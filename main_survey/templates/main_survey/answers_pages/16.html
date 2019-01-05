@@ -1,25 +1,17 @@
-{% extends 'main_survey/specific_page.html' %}
+{% extends 'main_survey/answers_blocks/layout_center.html' %}
 
-{% block answer %}
-<form method="post" action="">{% csrf_token %}
-  <div class="row">
-    <div class="col-md-8 offset-md-2 justify-content-center form-inline">
-      <div class="form-group">
-        <div class="mx-2">
-          <input class="form-control" type="number" id="n_tot_coinquilini" name="n_tot_coinquilini" step="1" min="0" value="0" max="10">
-        </div>
-        <label for="n_tot_coinquilini">persone, delle quali</label>
-      </div>
-
-      <div class="form-group">
-        <div class="mx-2">
-          <input class="form-control" type="number" id="n_tot_coinquilini_min_14" name="n_tot_coinquilini_min_14" step="1" min="0" max="5" for="0" value="0">
-        </div>
-        <label for="n_tot_coinquilini_min_14">con meno di 14 anni</label>
-      </div>
-    </div>
+{% block center %}
+<div class="form-group">
+  <div class="mx-2">
+    <input class="form-control" type="number" id="n_tot_coinquilini" name="n_tot_coinquilini" step="1" min="0" value="0" max="10">
   </div>
-  {% include '../answers_blocks/nav_block.html' %}
-</form>
+  <label for="n_tot_coinquilini">persone, delle quali</label>
+</div>
 
+<div class="form-group">
+  <div class="mx-2">
+    <input class="form-control" type="number" id="n_tot_coinquilini_min_14" name="n_tot_coinquilini_min_14" step="1" min="0" max="5" for="0" value="0">
+  </div>
+  <label for="n_tot_coinquilini_min_14">con meno di 14 anni</label>
+</div>
 {% endblock %}
