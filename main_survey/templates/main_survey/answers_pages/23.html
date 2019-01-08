@@ -1,17 +1,10 @@
-{% extends 'main_survey/answers_blocks/layout_center.html' %}
+{% extends 'main_survey/specific_page.html' %}
 
-{% block center %}
-<div class="col-md-4 text-center">
-  <div class="custom-control custom-radio custom-control-inline">
-    <input id="si" name="certificato_fratelli" class="custom-control-input" type="radio" value="si">
-    <label class="custom-control-label" for="si">Si</label>
-  </div>
-</div>
+{% block answer %}
 
-<div class="col-md-4 text-center">
-  <div class="custom-control custom-radio custom-control-inline">
-    <input id="no salute" name="certificato_fratelli" class="custom-control-input" type="radio" value="no salute">
-    <label class="custom-control-label" for="no">No</label>
-  </div>
-</div>
+<form method="post" action="">{% csrf_token %}
+  {% include '../answers_blocks/submit_buttons.html' with btnName='certificato_fratelli' %}
+  {% include '../answers_blocks/nav_block.html' with noNext=True %}
+</form>
+
 {% endblock %}
