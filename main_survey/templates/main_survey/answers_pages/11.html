@@ -1,5 +1,27 @@
-{% extends 'main_survey/answers_blocks/layout_column.html' %}
+{% extends 'main_survey/specific_page.html' %}
 
-{% block column %}
+{% block answer %}
+<form method="post" action="" id="form">{% csrf_token %}
   {% include '../answers_blocks/address_input.html' %}
+  {% include '../answers_blocks/nav_block.html' %}
+</form>
+
+<script>
+  new Vue({
+    el: '#address',
+    data: {
+      query: '',
+      address: ''
+    },
+    methods: {
+      search: function () {
+        var that = this;
+        axios.get('https://nominatim.openstreetmap.org/?format=json&dedupe=1&q=' + this.query)
+          .then(function (response) {
+            that.address = response.data && response.data[0] && response.data[0].display_name;
+          })
+      }
+    }
+  })
+</script>
 {% endblock %}

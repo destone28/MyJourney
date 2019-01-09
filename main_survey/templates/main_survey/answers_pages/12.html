@@ -37,7 +37,18 @@
   new Vue({
     el: '#form',
     data: {
-      canHost: null
+      canHost: null,
+      query: '',
+      address: ''
+    },
+    methods: {
+      search: function () {
+        var that = this;
+        axios.get('https://nominatim.openstreetmap.org/?format=json&dedupe=1&q=' + this.query)
+          .then(function (response) {
+            that.address = response.data && response.data[0] && response.data[0].display_name;
+          })
+      }
     }
   })
 </script>

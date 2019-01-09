@@ -1,6 +1,19 @@
-<div class="form-group">
-  <input type="text" class="form-control text-center" name="via" placeholder="Indirizzo">
-</div>
-<div class="form-group">
-  <input type="text" class="form-control text-center" name="città" placeholder="Città">
+<div id="address">
+  <div class="form-group" v-if="address == ''">
+    <div class="input-group mb-3">
+      <input type="text" class="form-control" placeholder="Cerca indirizzo" required v-model="query">
+      <div class="input-group-append">
+        <button class="btn btn-outline-secondary" type="button" v-bind:disabled="query == ''" v-on:click="search">Cerca</button>
+      </div>
+    </div>
+  </div>
+
+  <div v-bind:class="{ 'd-none': address == '' }">
+    <div class="form-group">
+      <input type="text" class="form-control-plaintext" name="via" required v-bind:readonly="address != ''" v-model="address">
+    </div>
+    <div class="text-right">
+      <button class="btn btn-outline-secondary" type="button" v-on:click="address = ''">Cerca ancora</button>
+    </div>
+  </div>
 </div>
