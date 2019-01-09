@@ -1,26 +1,43 @@
-{% extends 'main_survey/answers_blocks/layout_column.html' %}
+{% extends 'main_survey/specific_page.html' %}
 
-{% block column %}
-<div class="form-group">
-  <select class="form-control text-center" name="posso_ospitare_in_alloggio" id="posso_ospitare_in_alloggio" required v-model="canHost">
-    <option hidden disabled selected value="">Seleziona un'opzione...</option>
-    <option value="si">Si</option>
-    <option value="no">No</option>
-    <option value="ospite">Sono ospite</option>
-  </select>
-</div>
+{% block answer %}
 
-<div v-if="canHost === 'si'">
-  {% include '../answers_blocks/address_input.html' %}
-</div>
-{% endblock %}
+<form method="post" action="" id="form">{% csrf_token %}
+  <div class="row justify-content-center">
+    <div class="col-md-4 text-center form-group">
+      <div class="custom-control custom-radio custom-control-inline">
+        <input id="si" name="posso_ospitare_in_alloggio" class="custom-control-input" type="radio" value="si" required v-model="canHost">
+        <label class="custom-control-label" for="si">Si</label>
+      </div>
+    </div>
 
-{% block out %}
+    <div class="col-md-4 text-center form-group">
+      <div class="custom-control custom-radio custom-control-inline">
+        <input id="no" name="posso_ospitare_in_alloggio" class="custom-control-input" type="radio" value="no" required v-model="canHost">
+        <label class="custom-control-label" for="no">No</label>
+      </div>
+    </div>
+
+    <div class="col-md-4 text-center form-group">
+      <div class="custom-control custom-radio custom-control-inline">
+        <input id="ospite" name="posso_ospitare_in_alloggio" class="custom-control-input" type="radio" value="ospite" required v-model="canHost">
+        <label class="custom-control-label" for="ospite">Sono ospite</label>
+      </div>
+    </div>
+  </div>
+
+  <div v-if="canHost === 'si'">
+    {% include '../answers_blocks/address_input.html' %}
+  </div>
+
+  {% include '../answers_blocks/nav_block.html' %}
+</form>
+
 <script type="text/javascript">
   new Vue({
     el: '#form',
     data: {
-      canHost: ''
+      canHost: null
     }
   })
 </script>
