@@ -1,0 +1,13 @@
+{% extends '../specific_page.html' %}
+
+{% block answer %}
+
+<form method="post" action="">{% csrf_token %}
+  <div class="d-block d-sm-flex justify-content-center">
+    {% block center %}
+    {% endblock %}
+  </div>
+  {% include '../answers_blocks/nav_block.html' with noNext=True %}
+</form>
+
+{% endblock %}

@@ -1,15 +1,15 @@
-{% extends 'main_survey/answers_blocks/layout_center.html' %}
+{% extends 'main_survey/answers_blocks/layout_inline_center.html' %}
 
 {% block center %}
-<div class="form-group">
-  <div class="mx-2">
+<div class="form-group form-inline justify-content-center">
+  <div class="mr-2">
     <input class="form-control" type="number" id="n_tot_coinquilini" name="n_tot_coinquilini" step="1" min="0" placeholder="-" max="10" required>
   </div>
   <label for="n_tot_coinquilini">persone, delle quali</label>
 </div>
 
-<div class="form-group">
-  <div class="mx-2">
+<div class="form-group form-inline justify-content-center ml-sm-2">
+  <div class="mr-2">
     <input class="form-control" type="number" id="n_tot_coinquilini_min_14" name="n_tot_coinquilini_min_14" step="1" min="0" max="5" for="0" placeholder="-" required>
   </div>
   <label for="n_tot_coinquilini_min_14">con meno di 14 anni</label>
