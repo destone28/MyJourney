@@ -3,70 +3,98 @@
 {% load staticfiles %}
 
 {% block content %}
+<link href="{% static 'css/guida.css' %}" rel="stylesheet" media="all" />
 
 {% autoescape off %}
+
+<div class="text-center">
+  <img class="img-fluid" src="{% static 'img/logo.jpg' %}">
+</div>
 
 <div>
 {{ a }}
 </div>
 
-<div>
-{{ b }}
+<div class="row my-5 align-items-center">
+  <div class="col-3">
+    <img class="img-fluid px-lg-5" src="{% static 'img/famiglia_bn.jpg' %}">
+  </div>
+  <div class="col-9">
+    <div>
+      {{ b }}
+    </div>
+
+    <ul>
+      {{ b1 }}
+      {{ b2 }}
+      {{ b3_1 }}
+      {{ b3_2 }}
+      {{ b4 }}
+      {{ b5 }}
+      {{ b6 }}
+      {{ b7 }}
+    </ul>
+  </div>
 </div>
 
-<ul>
-{{ b1 }}
-{{ b2 }}
-{{ b3_1 }}
-{{ b3_2 }}
-{{ b4 }}
-{{ b5 }}
-{{ b6 }}
-{{ b7 }}
-</ul>
+<div class="row my-5 align-items-center">
+  <div class="col-3">
+    <img class="img-fluid px-lg-5" src="{% static 'img/casa_bn.jpg' %}">
+  </div>
+  <div class="col-9">
+    <div>
+    {{ c }}
+    </div>
 
-<div>
-{{ c }}
+    <ul>
+    {{ c1 }}
+    {{ c2_1 }}
+    {{ c2_2 }}
+    {{ c2_3 }}
+    {{ c3 }}
+    </ul>
+  </div>
 </div>
 
-<ul>
-{{ c1 }}
-{{ c2_1 }}
-{{ c2_2 }}
-{{ c2_3 }}
-{{ c3 }}
-</ul>
+<div class="row my-5 align-items-center">
+  <div class="col-3">
+    <img class="img-fluid px-lg-5" src="{% static 'img/workers.png' %}">
+  </div>
+  <div class="col-9">
+    <div>
+    {{ d }}
+    </div>
 
-<div>
-{{ d }}
+    <ul>
+    {{ d1 }}
+    {{ d2 }}
+    {{ d3_1 }}
+    {{ d3_2 }}
+    {{ d3_3 }}
+    {{ d3_4 }}
+    </ul>
+  </div>
 </div>
-
-<ul>
-{{ d1 }}
-{{ d2 }}
-{{ d3_1 }}
-{{ d3_2 }}
-{{ d3_3 }}
-{{ d3_4 }}
-</ul>
 
 <div>
 {{ e }}
 </div>
 
-<p>
-{{ f }}
-</p>
+<div class="row">
+  <p class="col-4">
+  {{ f }}
+  </p>
 
-<p>
-{{ g }}
-</p>
+  <p class="col-4">
+  {{ g }}
+  </p>
 
-<p>
-{{ h }}
-</p>
+  <p class="col-4">
+  {{ h }}
+  </p>
+</div>
 
-<p>
+<p class="small">
 {{ i }}
 </p>
 
