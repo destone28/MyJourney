@@ -1,11 +1,11 @@
 {% extends 'main_survey/answers_blocks/layout_center.html' %}
 
 {% block center %}
-<div class="col-md-4 text-center">
-    <button type="submit" name="reddito_sufficiente" class="btn btn-primary" value="si">Maggiore di {{ reddito }} €</button>
+<div class="col-sm-6 col-lg-4">
+  <button type="submit" name="reddito_sufficiente" class="btn btn-block btn-primary" value="si">Maggiore di {{ reddito }} €</button>
 </div>
 
-<div class="col-md-4 text-center">
-    <button type="submit" name="reddito_sufficiente" class="btn btn-primary" value="no">Minore di {{ reddito }} €</button>
+<div class="col-sm-6 col-lg-4 mt-2 mt-sm-0">
+  <button type="submit" name="reddito_sufficiente" class="btn btn-block btn-primary" value="no">Minore di {{ reddito }} €</button>
 </div>
 {% endblock %}
