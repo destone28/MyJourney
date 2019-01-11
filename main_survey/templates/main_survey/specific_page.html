@@ -36,7 +36,7 @@
   {% if domanda.barra_img != 'img/null.jpg' %}
     <div class="progress h-auto mt-5 progress-bar-striped">
       {% for img, label in trackSteps.items %}
-      <div class="progress-bar {% if forloop.counter0 == trackSteps.keys|get_index:domanda.barra_img %}h5 m-0 py-1 text-white font-weight-bold{% elif forloop.counter0 < trackSteps.keys|get_index:domanda.barra_img %}text-white progress-bar-striped{% else %}text-dark bg-transparent{% endif %} {% if forloop.last %}px-2{% else %}w-25 px-1{% endif %}">
+      <div class="progress-bar {% if forloop.counter0 == trackSteps.keys|get_index:domanda.barra_img %} m-0 text-white bg-secondary font-weight-bold{% elif forloop.counter0 < trackSteps.keys|get_index:domanda.barra_img %}text-white bg-secondary progress-bar-striped{% else %}text-dark bg-transparent{% endif %} {% if forloop.last %}px-2{% else %}w-25 px-1{% endif %}">
         <span class="text-truncate">{{ label }}</span>
       </div>
       {% endfor %}
