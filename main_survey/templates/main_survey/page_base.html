@@ -22,18 +22,12 @@
 </head>
 
 <body>
-
-  <header>
-    <h1><a href="#" title="vai al sito istituzionale del Comune di Milano">Benvenuto in MyJourney!</a></h1>
-    <p id="logo"><a href="" title="vai al sito istituzionale del Comune di Milano"><img src="{% static 'img/logo_milano.png' %}"></a></p>
-
-    <h2 id="navinterna" class="sr-only">Menu di navigazione interna alla pagina</h2>
-    <ul class="sr-only">
-      <li><a title="vai al contenuto di questa pagina" href="#ancoracontenuto">Contenuto di pagina</a></li>
-      <li><a title="vai a ..." href="#ancora...">...</a></li>
-    </ul>
-
-    <p class="sr-only"><a href="#navinterna" title="torna alla navigazione interna alla pagina">Torna alla navigazione interna</a></p>
+  <header class="bg-primary py-3">
+    <div class="ml-4">
+      <a class="ml-3" href="" title="vai al sito istituzionale del Comune di Milano">
+        <img src="{% static 'img/logo_milano.png' %}">
+      </a>
+    </div>
   </header>
 
   <main class="container-fluid mt-4">
@@ -41,8 +35,9 @@
     {% endblock %}
   </main>
 
-  <footer id="footer"></footer>
-
+  <footer class="bg-dark mt-4 pb-5">
+    <div class="bg-primary pt-4 pb-3"></div>
+  </footer>
 </body>
 
 </html>
