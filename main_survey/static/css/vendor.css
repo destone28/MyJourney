@@ -1,0 +1,7 @@
+.vdp-datepicker__calendar .cell.selected {
+  color: #fff;
+  background: #d6012e !important;
+}
+.vdp-datepicker__calendar .cell:not(.blank):not(.disabled).day:hover, .vdp-datepicker__calendar .cell:not(.blank):not(.disabled).month:hover, .vdp-datepicker__calendar .cell:not(.blank):not(.disabled).year:hover {
+  border-color: #d6012e !important;
+}
