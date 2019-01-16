@@ -1,4 +1,10 @@
 <div id="address">
+  <div class="alert alert-danger d-none" v-bind:class="{ 'd-block': alertText }">
+    {% verbatim %}
+    {{ alertText }}
+    {% endverbatim %}
+  </div>
+
   <div v-if="address == ''">
     <div class="form-group">
       <input type="text" class="form-control" placeholder="Cerca indirizzo" required v-model="queryAddress">

@@ -14,20 +14,26 @@
       queryCity: '',
       address: '',
       city: '',
-      src: null
+      src: null,
+      alertText: null
     },
     methods: {
       search: function () {
         var that = this;
         var cityReplace = this.queryCity.toLowerCase().replace('milano', 'milan'); // Nominatim search best in english
+        this.alertText = null;
         axios.get('https://nominatim.openstreetmap.org/?format=json&dedupe=1&addressdetails=1&city=' + cityReplace + '&street=' + this.queryAddress)
           .then(function (response) {
-            var found = response.data && response.data[0] || { address: {} }
-            var bbox = [found.boundingbox[2], found.boundingbox[0], found.boundingbox[3], found.boundingbox[1]];
-            that.address = found.address.road;
-            that.city = found.display_name.replace(found.address.road + ', ', '');
-            that.src = 'https://www.openstreetmap.org/export/embed.html?bbox=' + encodeURIComponent(bbox) + '&layer=mapnik&marker=' + encodeURIComponent([found.lat, found.lon]);
-          })
+            var found = response.data && response.data[0];
+            if (found != null) {
+              var bbox = [found.boundingbox[2], found.boundingbox[0], found.boundingbox[3], found.boundingbox[1]];
+              that.address = found.address.road;
+              that.city = found.display_name.replace(found.address.road + ', ', '');
+              that.src = 'https://www.openstreetmap.org/export/embed.html?bbox=' + encodeURIComponent(bbox) + '&layer=mapnik&marker=' + encodeURIComponent([found.lat, found.lon]);
+            } else {
+              that.alertText = 'Nessun indirizzo trovato. Cerca ancora';
+            }
+          }).catch(function (error) { that.alertText = 'Problema di rete. Cerca ancora' });
       }
     }
   })
