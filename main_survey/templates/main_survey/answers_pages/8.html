@@ -19,10 +19,11 @@
     </div>
   </div>
 
-  <div class="row" v-if="type === ''">
+  <div class="row no-gutters" v-if="type === ''">
     <div class="col-md-4 offset-md-4">
-      <div class="form-group">
-        <vuejs-datepicker input-class="form-control text-center bg-white" calendar-class="w-auto" format="dd/MM/yyyy" name="scadenza_permesso" placeholder="Inserisci una data" required></vuejs-datepicker>
+      <div class="form-group mb-0">
+        <input type="text" class="form-control position-absolute w-100 h-100" type="text" tabIndex="-1" required v-model="date">
+        <vuejs-datepicker input-class="form-control text-center bg-white" calendar-class="w-auto" format="dd/MM/yyyy" name="scadenza_permesso" placeholder="Inserisci una data" required inline v-model="date"></vuejs-datepicker>
       </div>
     </div>
   </div>
@@ -33,7 +34,8 @@
   new Vue({
     el: '#dateForm',
     data: {
-      type: null
+      type: null,
+      date: ''
     },
     components: {
       vuejsDatepicker
