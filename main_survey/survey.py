@@ -303,7 +303,7 @@ class Survey_manager():
             #request.session['page_id'] = request.POST.get('page_id')
             request.session['nazionalità_user'] = request.POST.get('nazionalità_user')
             request.session['alert'] = 'Non hai effettuato scelte valide'
-            if str(request.session.get('nazionalità_user'))!='None':
+            if str(request.session.get('nazionalità_user'))!='':
                 request.session['page_id'] = page+1
                 request.session['alert'] = ''
 
@@ -326,7 +326,7 @@ class Survey_manager():
         elif page==5:
             request.session['residenza_parente'] = request.POST.get('residenza_parente')
             request.session['alert'] = 'Non hai effettuato scelte valide'
-            if str(request.session.get('residenza_parente'))!='None':
+            if str(request.session.get('residenza_parente'))!='':
                 request.session['alert'] = ''
                 if not ('lista_familiari' in request.session):
                     request.session['lista_familiari'] = []
@@ -406,7 +406,7 @@ class Survey_manager():
                 request.session['page_id'] = non_idoneo
 
         elif page==11:
-            if (str(request.POST.get('città'))!='None' and str(request.POST.get('via'))!='None' and (request.session.get('tipologia_permesso')=='asilo politico')):
+            if (str(request.POST.get('città'))!='' and str(request.POST.get('via'))!='' and (request.session.get('tipologia_permesso')=='asilo politico')):
                 request.session['città'] = str(request.POST.get('città'))
                 request.session['indirizzo_alloggio'] = str(str(request.POST.get('città'))+', '+str(request.POST.get('via')))
                 if geodecoder.from_address_to_coords(str(request.session.get('indirizzo_alloggio')))=="None":
@@ -423,7 +423,7 @@ class Survey_manager():
                 request.session['alert'] = "Non hai selezionato nulla dall'elenco, riprova"
             elif ((str(request.session.get('posso_ospitare_in_alloggio'))=="no") and not (request.session.get('tipologia_permesso')=='asilo politico')):
                 request.session['page_id'] = non_idoneo
-            elif (str(request.POST.get('città'))!='None' and str(request.POST.get('via'))!='None' and not (request.session.get('tipologia_permesso')=='asilo politico')):
+            elif (str(request.POST.get('città'))!='' and str(request.POST.get('via'))!='' and not (request.session.get('tipologia_permesso')=='asilo politico')):
                 request.session['città'] = str(request.POST.get('città'))
                 request.session['indirizzo_alloggio'] = str(str(request.POST.get('città'))+', '+str(request.POST.get('via')))
                 if geodecoder.from_address_to_coords(str(request.session.get('indirizzo_alloggio')))=="None":
@@ -539,7 +539,7 @@ class Survey_manager():
         elif page==25:
             request.session['alert'] = ''
             request.session['tipologia_lavoro'] = request.POST.get('tipologia_lavoro')
-            if str(request.session.get('tipologia_lavoro'))=='None':
+            if str(request.session.get('tipologia_lavoro'))=='':
                 request.session['alert'] = 'Non hai inserito una tipologia per il lavoro, riprova'
             elif str(request.session.get('tipologia_lavoro'))=='no':
                 request.session['page_id'] = non_idoneo
