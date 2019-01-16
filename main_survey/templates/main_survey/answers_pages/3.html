@@ -9,7 +9,7 @@
         <select class="form-control mt-3 mt-sm-0 mr-sm-2" v-bind:required="categories[i] !== ''" v-model="categories[i]">
           <option hidden disabled selected value="">Aggiungi...</option>
           <option v-bind:disabled="count('parent') >= 2" value="parent">Genitore</option>
-          <option value="partner">Partner</option>
+          <option v-bind:disabled="count('partner') >= 1" value="partner">Partner</option>
           <option value="child">Figlio</option>
         </select>
 
