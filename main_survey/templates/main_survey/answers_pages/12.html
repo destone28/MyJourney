@@ -26,7 +26,7 @@
     </div>
   </div>
 
-  <div v-if="canHost === 'si'">
+  <div v-if="canHost === 'si' || canHost === 'ospite'">
     {% include '../answers_blocks/address_input.html' %}
   </div>
 
