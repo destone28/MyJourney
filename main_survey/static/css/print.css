@@ -1,0 +1,10 @@
+* {
+  font-family: 'Titillium Web', sans-serif !important;
+}
+header,
+footer {
+  -webkit-print-color-adjust: exact;
+}
+button {
+  display: none !important;
+}
