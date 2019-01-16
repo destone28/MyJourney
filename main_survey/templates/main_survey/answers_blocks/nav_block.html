@@ -1,11 +1,11 @@
 <div class="row mt-5">
-  <div class="col-6 col-md-4 text-center">
-    <button type="submit" name="flag_back" value="True" formnovalidate class="btn btn-outline-dark">Indietro</button>
-  </div>
-
   {% if noNext is not True %}
-    <div class="col-6 col-md-4 offset-md-4 text-center">
+    <div class="col-6 col-md-4 offset-md-4 order-2 text-center">
       <button type="submit" class="btn btn-primary">Avanti</button>
     </div>
   {% endif %}
+
+  <div class="col-6 col-md-4 order-1 text-center">
+    <button type="submit" name="flag_back" value="True" formnovalidate class="btn btn-outline-dark">Indietro</button>
+  </div>
 </div>
