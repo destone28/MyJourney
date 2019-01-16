@@ -2,12 +2,15 @@
 
 {% block answer %}
 
-<form method="post" action="">{% csrf_token %}
+<form method="post" action="" id="form">{% csrf_token %}
   <div class="d-block d-sm-flex justify-content-center">
     {% block center %}
     {% endblock %}
   </div>
   {% include '../answers_blocks/nav_block.html' with noNext=True %}
 </form>
+
+{% block out %}
+{% endblock %}
 
 {% endblock %}
