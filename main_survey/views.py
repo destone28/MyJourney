@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.views.generic import DetailView
+from collections import OrderedDict
 
 import time
 
@@ -31,13 +32,14 @@ class PageView(DetailView):
 
     def get(request):
 
-        trackSteps = {
-            'img/track_family.png': 'Famiglia',
-            'img/track_documents.png': 'Permesso di Soggiorno',
-            'img/track_house.png': 'Casa',
-            'img/track_work.png': 'Reddito',
-            'img/fine.png': '&#9873;'
-        }
+        # https://www.tutorialspoint.com/What-are-Ordered-dictionaries-in-Python
+        trackSteps = OrderedDict([
+            ('img/track_family.png', 'Famiglia'),
+            ('img/track_documents.png', 'Permesso di Soggiorno'),
+            ('img/track_house.png', 'Casa'),
+            ('img/track_work.png', 'Reddito'),
+            ('img/fine.png', '&#9873;')
+        ])
 
         if request.method=='GET':
 
