@@ -5,22 +5,24 @@
 <form method="post" action="" id="peopleForm">{% csrf_token %}
   <div class="row">
     <div class="col-md-8 offset-md-2 text-left">
-      <div class="form-group form-inline" v-for="i in people" v-if="i < 1 || categories[i - 1] !== ''">
-        <select class="form-control mt-3 mt-sm-0 mr-sm-2" v-bind:required="categories[i] !== ''" v-model="categories[i]">
+      <div class="form-group form-inline d-block d-sm-flex" v-for="(d, i) in people" v-if="i < 1 || categories[i - 1] !== ''">
+        <select class="form-control mt-4 mt-sm-0 mr-sm-2" v-bind:required="categories[i] !== ''" v-model="categories[i]">
           <option hidden disabled selected value="">Aggiungi...</option>
           <option v-bind:disabled="count('parent') >= 2" value="parent">Genitore</option>
           <option v-bind:disabled="count('partner') >= 1" value="partner">Partner</option>
           <option value="child">Figlio</option>
         </select>
 
-        <label v-if="categories[i] === 'partner'">con 18 anni o più</label>
+        <label class="d-block d-sm-inline-block mb-0 mt-2 mt-sm-0 mr-sm-2" v-if="categories[i] === 'partner'">con 18 anni o più</label>
 
-        <select class="form-control mt-2 mt-sm-0" required v-if="categories[i] === 'child'" v-model="ages[i]">
+        <select class="form-control mt-2 mt-sm-0 mr-sm-2" required v-if="categories[i] === 'child'" v-model="ages[i]">
           <option hidden disabled selected value="">Seleziona età...</option>
           <option value="14">fino a 14 anni</option>
           <option value="15">tra 15 e 17 anni</option>
           <option value="18">con 18 anni o più</option>
         </select>
+
+        <button class="btn btn-outline-danger mt-2 mt-sm-0 text-capitalize" type="button" title="Rimuovi" v-if="categories[i] !== ''" v-on:click="deletePerson(i)">×</button>
       </div>
 
       <div class="form-group form-row d-none">
@@ -63,7 +65,11 @@
 </form>
 <script type="text/javascript">
   var maxPeople = 5;
-  var people = Array.apply(null, { length: maxPeople }).map(Function.call, Number);
+  var people = Array.apply(null, { length: maxPeople }).map(function() { return null });
+  function fillAtIndex(array, index, fillValue) {
+    array.splice(index, 1);
+    array.push(fillValue);
+  }
   new Vue({
     el: '#peopleForm',
     data: {
@@ -80,6 +86,11 @@
         var cats = this.categories;
         var count = this.ages.reduce(function (r, c, i) { return c === value && cats[i] === category ? ++r : r }, 0);
         return count
+      },
+      deletePerson(index) {
+        fillAtIndex(this.people, index, null);
+        fillAtIndex(this.categories, index, '');
+        fillAtIndex(this.ages, index, '');
       },
       toInput: function (name) {
         var inputs = {
