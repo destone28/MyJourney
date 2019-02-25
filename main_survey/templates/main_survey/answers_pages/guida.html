@@ -3,6 +3,7 @@
 {% load staticfiles %}
 
 {% block content %}
+<script type="text/javascript" src="https://printjs-4de6.kxcdn.com/print.min.js"></script>
 <link href="{% static 'css/guida.css' %}" rel="stylesheet" media="all" />
 
 {% autoescape off %}
@@ -11,15 +12,20 @@
   <img class="img-fluid" src="{% static 'img/logo.jpg' %}">
 </div>
 
-<div>
-{{ a }}
+<div class="d-md-flex justify-content-between">
+  <div>
+    {{ a }}
+  </div>
+  <button class="btn btn-dark" type="button" onclick="printJS({printable: 'body', type: 'html', css: ['static/css/bootstrap-build-custom.min.css', 'static/css/static-fonts.css', 'static/css/global.css', 'static/css/print.css'], maxWidth: Infinity, scanStyles: false})">
+    Scarica la tua guida
+  </button>
 </div>
 
 <div class="row my-5 align-items-center">
-  <div class="col-3">
+  <div class="d-none d-lg-block col-lg-3">
     <img class="img-fluid px-lg-5" src="{% static 'img/famiglia_bn.jpg' %}">
   </div>
-  <div class="col-9">
+  <div class="col-lg-9">
     <div>
       {{ b }}
     </div>
@@ -38,10 +44,10 @@
 </div>
 
 <div class="row my-5 align-items-center">
-  <div class="col-3">
+  <div class="d-none d-lg-block col-lg-3">
     <img class="img-fluid px-lg-5" src="{% static 'img/casa_bn.jpg' %}">
   </div>
-  <div class="col-9">
+  <div class="col-lg-9">
     <div>
     {{ c }}
     </div>
@@ -57,10 +63,10 @@
 </div>
 
 <div class="row my-5 align-items-center">
-  <div class="col-3">
+  <div class="d-none d-lg-block col-lg-3">
     <img class="img-fluid px-lg-5" src="{% static 'img/workers.png' %}">
   </div>
-  <div class="col-9">
+  <div class="col-lg-9">
     <div>
     {{ d }}
     </div>
@@ -81,15 +87,15 @@
 </div>
 
 <div class="row">
-  <p class="col-4">
+  <p class="col-lg-4">
   {{ f }}
   </p>
 
-  <p class="col-4">
+  <p class="col-lg-4">
   {{ g }}
   </p>
 
-  <p class="col-4">
+  <p class="col-lg-4">
   {{ h }}
   </p>
 </div>

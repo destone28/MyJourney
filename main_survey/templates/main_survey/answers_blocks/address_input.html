@@ -1,17 +1,34 @@
 <div id="address">
-  <div class="form-group" v-if="address == ''">
-    <div class="input-group mb-3">
-      <input type="text" class="form-control" placeholder="Cerca indirizzo" required v-model="query">
-      <div class="input-group-append">
-        <button class="btn btn-primary" type="button" v-bind:disabled="query == ''" v-on:click="search">Cerca</button>
-      </div>
+  <div class="alert alert-danger d-none" v-bind:class="{ 'd-block': alertText }">
+    {% verbatim %}
+    {{ alertText }}
+    {% endverbatim %}
+  </div>
+
+  <div v-if="address == ''">
+    <div class="form-group">
+      <input type="text" class="form-control" placeholder="Cerca indirizzo" required v-model="queryAddress">
     </div>
+    <div class="form-group">
+      <input type="text" class="form-control" placeholder="Cerca città" required v-model="queryCity">
+    </div>
+    <button class="btn btn-block btn-primary" v-bind:type="queryAddress == '' || queryCity == '' ? 'button': 'submit'" v-bind:disabled="queryAddress == '' || queryCity == ''" v-on:click="search">Cerca</button>
   </div>
 
   <div v-bind:class="{ 'd-none': address == '' }">
-    <div class="form-group">
-      <input type="text" class="form-control-plaintext" name="via" required v-bind:readonly="address != ''" v-model="address">
+    <div class="form-group form-row">
+      <label class="col-form-label col-sm-2 py-0 text-sm-left">Indirizzo:</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control-plaintext py-0 text-center text-sm-left" name="via" required v-bind:readonly="address != ''" v-model="address">
+      </div>
     </div>
+    <div class="form-group form-row">
+      <label class="col-form-label col-sm-2 py-0 text-sm-left">Città:</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control-plaintext py-0 text-center text-sm-left" name="città" required v-bind:readonly="address != ''" v-model="city">
+      </div>
+    </div>
+    <iframe class="mb-3" width="100%" height="200px" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" v-bind:src="src" style="pointer-events: none; filter: grayscale(1)"></iframe>
     <div class="text-right">
       <button class="btn btn-outline-dark" type="button" v-on:click="address = ''">Cerca ancora</button>
     </div>

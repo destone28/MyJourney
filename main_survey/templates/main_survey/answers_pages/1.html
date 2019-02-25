@@ -4,59 +4,71 @@
 
 <form method="post" action="">{% csrf_token %}
   <div class="row mb-4 align-items-center">
-    <div class="col-md-5 offset-2 text-right">
+    <div class="col-md-5 mb-1 mb-md-0 offset-md-2 text-md-right">
       <h3 class="mb-1">
         Benvenuto in MyJourney!
       </h3>
     </div>
-    <div class="col-md-4">
+    <div class="col-md-4 text-md-left">
       <button type="submit" class="btn btn-primary" name="lingua" value="it">Inizia</button>
     </div>
   </div>
 
   <div class="row mb-4 align-items-center">
-    <div class="col-md-5 offset-2 text-right">
+    <div class="col-md-5 mb-1 mb-md-0 offset-md-2 text-md-right">
       <h3 class="mb-1">
         Welcome to MyJourney!
       </h3>
     </div>
-    <div class="col-md-4">
+    <div class="col-md-4 text-md-left">
       <button type="submit" class="btn btn-primary" name="lingua" value="en">Start</button>
     </div>
   </div>
 
+  <div class="row align-items-center">
+    <div class="col-md-5 mb-1 mb-md-0 offset-md-2 text-md-right">
+      <h3 class="mb-1">
+        Bienvenue à MyJourney!
+      </h3>
+    </div>
+    <div class="col-md-4 text-md-left">
+      <button type="submit" class="btn btn-primary" name="lingua" value="fr">Commencez</button>
+    </div>
+  </div>
+<br>
   <div class="row mb-4 align-items-center">
-    <div class="col-md-5 offset-2 text-right">
+    <div class="col-md-5 mb-1 mb-md-0 offset-md-2 text-md-right">
       <h3 class="mb-1">
         Bienvenido a MyJourney!
       </h3>
     </div>
-    <div class="col-md-4">
-      <button type="submit" class="btn btn-primary" name="lingua" value="es">Comienzo</button>
+    <div class="col-md-4 text-md-left">
+      <button type="submit" class="btn btn-primary" name="lingua" value="es">Inicia</button>
     </div>
   </div>
 
   <div class="row mb-4 align-items-center">
-    <div class="col-md-5 offset-2 text-right">
+    <div class="col-md-5 mb-1 mb-md-0 offset-md-2 text-md-right">
       <h3 class="mb-1">
         مرحبًا بك في MyJourney!
       </h3>
     </div>
-    <div class="col-md-4">
-      <button type="submit" class="btn btn-primary" name="lingua" value="ar">بداية</button>
+    <div class="col-md-4 text-md-left">
+      <button type="submit" class="btn btn-primary" name="lingua" value="ar">إبدأ</button>
     </div>
   </div>
 
   <div class="row align-items-center">
-    <div class="col-md-5 offset-2 text-right">
+    <div class="col-md-5 mb-1 mb-md-0 offset-md-2 text-md-right">
       <h3 class="mb-1">
-        欢迎来到MyJourney！
+        欢迎来到MyJourney!
       </h3>
     </div>
-    <div class="col-md-4">
-      <button type="submit" class="btn btn-primary" name="lingua" value="zh">开始</button>
+    <div class="col-md-4 text-md-left">
+      <button type="submit" class="btn btn-primary" name="lingua" value="zh"> 开始</button>
     </div>
   </div>
+
 </form>
 
 {% endblock %}

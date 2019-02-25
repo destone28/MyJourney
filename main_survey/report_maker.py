@@ -8,7 +8,7 @@ def produci_guida(request):
 
 
 
-        guida['a'] = "<h1><u>Ciao! Ecco la tua guida</u></h1>"
+        guida['a'] = "<h1><u>Ecco la tua guida</u></h1>"
 
 
 
@@ -26,7 +26,7 @@ def produci_guida(request):
             guida['b3_2'] = "<li>Il tuo permesso scaduto, accompagnato da ricevuta di presentazione dell'istanza di rinnovo</li>"
 
         città = str(request.session.get('città'))
-        guida['b4'] = "<li>Certificato dello stato di famiglia rilasciato dal Comune di "+ città +" con la dicitura 'uso immigrazione'</li>"
+        guida['b4'] = "<li>Certificato dello stato di famiglia rilasciato dal Comune di Milano con la dicitura 'uso immigrazione'</li>"
 
         ##Per ogni parente presente
 
@@ -67,7 +67,7 @@ def produci_guida(request):
                     guida['c1'] = "<li>Contratto di "+ alloggio +" per l'alloggio, di durata non inferiore a sei mesi a decorrere dalla data di presentazione della domanda</li>"
 
 
-        guida['c3'] = "<li>Certificato di idoneità abitativa e igienico-sanitaria, rilasciata dal Comune di "+ città +" per finalità di ricongiungimento familiare</li>"
+        guida['c3'] = "<li>Certificato di idoneità abitativa e igienico-sanitaria, rilasciata dal Comune di Milano per finalità di ricongiungimento familiare</li>"
 
         guida['d'] = "<h2><u>Per certificare le informazioni sul lavoro dovrai invece fornire i seguenti documenti:</u></h2>"
 
@@ -122,9 +122,9 @@ def produci_guida(request):
             guida['d3_1'] = "<li>Se l’attività è stata avviata da meno di 1 anno, bilancino, relativo all’anno in corso, che dovrà essere timbrato e sottoscritto dal professionista con allegata copia del documento di identità dello stesso, del tesserino d’iscrizione all’ordine o della visura camerale aggiornata inerente l’attività svolta</li>"
 
         guida['e'] = "<h2><u>Infine, eccoti qualche informazione aggiuntiva:</u></h2>"
-        guida['f'] = "Puoi richiedere aiuto presso:<br>"+str(geo_db_locator.sindacati_e_patronati(str(request.session.get('indirizzo_alloggio'))))
-        guida['g'] = "Il municipio di riferimento per i servizi anagrafici è:<br>"+str(geo_db_locator.anagrafe_milano_piu_vicina(str(request.session.get('indirizzo_alloggio'))))
-        guida['h'] = "Per l'idoneità abitativa della tua casa:<br>"+str(geo_db_locator.idoneita_abitativa_vicina_milano(str(request.session.get('indirizzo_alloggio'))))
+        guida['f'] = "Puoi richiedere aiuto presso:<br>"+str(geo_db_locator.sindacati_e_patronati(request.session.get('indirizzo_alloggio')+","+str(request.session.get('città'))))
+        guida['g'] = "Il municipio di riferimento per i servizi anagrafici è:<br>"+str(geo_db_locator.anagrafe_milano_piu_vicina(request.session.get('indirizzo_alloggio')+","+str(request.session.get('città'))))
+        guida['h'] = "Per l'idoneità abitativa della tua casa:<br>"+str(geo_db_locator.idoneita_abitativa_vicina_milano(request.session.get('indirizzo_alloggio')+","+str(request.session.get('città'))))
         guida['i'] = "Ti occorrerà una marca da bollo per te, più una marca da bollo per ogni familiare che vuoi ricongiungere. Ogni marca da bollo ha il costo di 16€."
 
 
