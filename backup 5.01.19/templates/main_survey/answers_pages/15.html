@@ -1,0 +1,37 @@
+{% extends 'main_survey/specific_page.html' %}
+
+{% block answer %}
+
+<form method="post" action="">{% csrf_token %}
+  <div class="row">
+
+    <div class="col-md-3">
+    </div>
+
+        <button id="si" name="atto_compravendita" class="btn btn-primary col-md-2 text-center" type="submit" value="si">Si</button>
+        <div class="col-md-2"></div>
+        <button id="no" name="atto_compravendita" class="btn btn-primary col-md-2 text-center" type="submit" value="no">No</button>
+
+    <div class="col-md-3 text-center">
+    </div>
+
+</div>
+
+<br><br><br><br><br><br><br>
+
+<div class="row">
+  <div class="col-md-4 text-center">
+    <button type="submit" name="flag_back" value="True" class="btn btn-secondary">Indietro</button>
+  </div>
+
+  <div class="col-md-4">
+  </div>
+
+  <div class="col-md-4 text-center">
+  </div>
+
+</div>
+
+</form>
+
+{% endblock %}

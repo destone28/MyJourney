@@ -1,0 +1,70 @@
+{% extends 'main_survey/specific_page.html' %}
+
+{% block answer %}
+
+<form method="post" action="">{% csrf_token %}
+  <div class="row">
+
+    <div class="col-md-2">
+      </div>
+
+    <div class="col-md-8 text-center">
+
+      <select class="dropdown text-center" name="posso_ospitare_in_alloggio" id="posso_ospitare_in_alloggio">
+        <option value="None">Seleziona un'opzione</option>
+        <option value="si">Si</option>
+        <option value="no">No</option>
+        <option value="ospite">Sono ospite</option>
+
+      </select>
+
+    </div>
+
+    <div class="col-md-2">
+    </div>
+
+  </div>
+
+  <div class="row" id="gruppo_form_indirizzo">
+    <div class="col-md-4">
+    </div>
+
+    <input type="text" class="col-md-4 text-center" name="via" placeholder="Indirizzo"/>
+
+    <div class="col-md-4">
+    </div>
+  </div>
+
+  <div class="row" id="gruppo_form_indirizzo">
+    <div class="col-md-4">
+    </div>
+
+    <input type="text" class="col-md-4 text-center" name="città" placeholder="Città"/>
+
+    <div class="col-md-4">
+    </div>
+  </div>
+
+  <br><br><br><br><br><br><br>
+
+  <div class="row">
+    <div class="col-md-4 text-center">
+      <button type="submit" name="flag_back" value="True" class="btn btn-secondary">Indietro</button>
+    </div>
+
+    <div class="col-md-4">
+    </div>
+
+    <div class="col-md-4 text-center">
+      <button type="submit" class="btn btn-outline-primary">Avanti</button>
+    </div>
+
+  </div>
+
+</form>
+
+
+
+
+
+{% endblock %}

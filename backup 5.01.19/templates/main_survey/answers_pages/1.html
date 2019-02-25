@@ -1,0 +1,79 @@
+{% extends 'main_survey/specific_page.html' %}
+
+{% block answer %}
+
+<form method="post" action="">{% csrf_token %}
+  <div class="row">
+              <div class="col-md-2">
+              </div>
+  						<div class="col-md-5 text-center">
+  							<h3>
+  								Benvenuto in MyJourney!
+  							</h3>
+  						</div>
+  						<div class="col-md-1 text-center">
+                <button type="submit" class="btn btn-primary" name="lingua" value="it">Inizia</button>
+  						</div>
+              <div class="col-md-2">
+              </div>
+  					</div><br>
+            <div class="row">
+                        <div class="col-md-2">
+                        </div>
+            						<div class="col-md-5 text-center">
+            							<h3>
+            								Welcome to MyJourney!
+            							</h3>
+            						</div>
+            						<div class="col-md-1 text-center">
+                          <button type="submit" class="btn btn-primary" name="lingua" value="en">Start</button>
+            						</div>
+                        <div class="col-md-2">
+                        </div>
+            					</div><br>
+                      <div class="row">
+                        <div class="col-md-2">
+                        </div>
+            						<div class="col-md-5 text-center">
+            							<h3>
+            								Bienvenido a MyJourney!
+            							</h3>
+            						</div>
+            						<div class="col-md-1 text-center">
+                          <button type="submit" class="btn btn-primary" name="lingua" value="es">Comienzo</button>
+            						</div>
+                        <div class="col-md-2">
+                        </div>
+            					</div><br>
+                      <div class="row">
+                        <div class="col-md-2">
+                        </div>
+            						<div class="col-md-5 text-center">
+            							<h3>
+            									مرحبًا بك في MyJourney!
+            							</h3>
+            						</div>
+            						<div class="col-md-1 text-center">
+                          <button type="submit" class="btn btn-primary" name="lingua" value="ar">بداية</button>
+            						</div>
+                        <div class="col-md-2">
+                        </div>
+            					</div><br>
+                      <div class="row">
+                        <div class="col-md-2">
+                        </div>
+            						<div class="col-md-5 text-center">
+            							<h3>
+                            欢迎来到MyJourney！
+            							</h3>
+            						</div>
+            						<div class="col-md-1 text-center">
+                          <button type="submit" class="btn btn-primary" name="lingua" value="zh">开始</button>
+            						</div>
+                        <div class="col-md-2">
+                        </div>
+            					</div>
+
+</form>
+
+{% endblock %}

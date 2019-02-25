@@ -1,0 +1,22 @@
+{% extends 'main_survey/specific_page.html' %}
+
+{% block answer %}
+
+<form method="post" action="">{% csrf_token %}
+    <br><br><br><br><br><br>
+  <div class="row">
+
+    <div class="col-md-4 text-center">
+    </div>
+
+    <div class="col-md-4">
+    </div>
+
+    <div class="col-md-4 text-center">
+      <button type="submit" class="btn btn-outline-primary">Avanti</button>
+    </div>
+
+  </div>
+</form>
+
+{% endblock %}

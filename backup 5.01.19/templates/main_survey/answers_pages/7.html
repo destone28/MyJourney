@@ -1,0 +1,34 @@
+{% extends 'main_survey/specific_page.html' %}
+
+{% block answer %}
+
+<form method="post" action="">{% csrf_token %}
+
+  <div class="row text-center">
+
+    <div class="col-md-4"></div>
+
+
+    <input type="text" class="datepicker text-center" id="datepicker" name="rilascio_permesso" value="Inserisci una data">
+
+  </div>
+
+  <br><br><br><br><br><br><br>
+
+  <div class="row">
+    <div class="col-md-4 text-center">
+      <button type="submit" name="flag_back" value="True" class="btn btn-secondary">Indietro</button>
+    </div>
+
+    <div class="col-md-4">
+    </div>
+
+    <div class="col-md-4 text-center">
+      <button type="submit" class="btn btn-outline-primary">Avanti</button>
+    </div>
+
+  </div>
+
+</form>
+
+{% endblock %}
