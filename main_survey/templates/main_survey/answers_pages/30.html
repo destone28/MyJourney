@@ -1,0 +1,11 @@
+{% extends 'main_survey/specific_page.html' %}
+
+{% block answer %}
+
+<form method="post" action="">{% csrf_token %}
+  <div class="text-center">
+    <button type="submit" name="guida" class="btn btn-primary" value="si">Ottieni la tua guida!</button>
+  </div>
+</form>
+
+{% endblock %}

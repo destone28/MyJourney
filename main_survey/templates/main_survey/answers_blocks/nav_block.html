@@ -1,11 +1,25 @@
 <div class="row mt-5">
   {% if noNext is not True %}
     <div class="col-6 col-md-4 offset-md-4 order-2 text-center">
-      <button type="submit" class="btn btn-primary">Avanti</button>
+      <button type="submit" class="btn btn-primary">
+        {% if lingua == "it" %}Avanti{% endif %}
+        {% if lingua == "en" %}Next{% endif %}
+        {% if lingua == "es" %}Adelante{% endif %}
+        {% if lingua == "ar" %}الى الأمام{% endif %}
+        {% if lingua == "zh" %}下一步{% endif %}
+        {% if lingua == "fr" %}Suivant{% endif %}
+      </button>
     </div>
   {% endif %}
 
   <div class="col-6 col-md-4 order-1 text-center">
-    <button type="submit" name="flag_back" value="True" formnovalidate class="btn btn-outline-dark">Indietro</button>
+    <button type="submit" name="flag_back" value="True" formnovalidate class="btn btn-outline-dark">
+      {% if lingua == "it" %}Indietro{% endif %}
+      {% if lingua == "en" %}Back{% endif %}
+      {% if lingua == "es" %}Atrás{% endif %}
+      {% if lingua == "ar" %}الى الخلف{% endif %}
+      {% if lingua == "zh" %}退后{% endif %}
+      {% if lingua == "fr" %}Précédent{% endif %}
+    </button>
   </div>
 </div>
