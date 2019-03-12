@@ -8,7 +8,7 @@ def produci_guida(request):
 
 
 
-        guida['a'] = "<h1><u>Ciao! Ecco la tua guida</u></h1>"
+        guida['a'] = "<h1><u>Ecco la tua guida</u></h1>"
 
 
 
@@ -25,32 +25,33 @@ def produci_guida(request):
         if (str(request.session.get('ricevuta_rinnovo_permesso'))=='si'):
             guida['b3_2'] = "<li>Il tuo permesso scaduto, accompagnato da ricevuta di presentazione dell'istanza di rinnovo</li>"
 
-        città = str(request.session.get('città'))
-        guida['b4'] = "<li>Certificato dello stato di famiglia rilasciato dal Comune di "+ città +" con la dicitura 'uso immigrazione'</li>"
+        #città = str(request.session.get('città'))
+        guida['b4'] = "<li>Certificato dello stato di famiglia rilasciato dal Comune di Milano con la dicitura 'uso immigrazione'</li>"
 
         ##Per ogni parente presente
+        if ('lista_familiari' in request.session):
+            lista_familiari = request.session.get('lista_familiari')
+            familiari_temp = [item[0] for item in lista_familiari]
+            parente = ""
+            if ('partner_mag' in familiari_temp):
+                parente = parente+" partner"
+            if ('figli_min_ug_14' or 'figli_15_17' or 'figli_magg' in familiari_temp):
+                parente = parente+" figlio"
+            if ('genitori' in familiari_temp):
+                parente = parente+" genitore"
+                ##Se ci sono genitori_mag_ug_65
+                guida['b7'] = "<li>Dichiarazione di impegno a sottoscrivere una polizza assicurativa sanitaria o altro titolo idoneo a garantire la copertura di tutti i rischi nel territorio nazionale, in favore dei genitori ultrasessantacinquenni.<br>I tuoi genitori potranno ricevere il visto per entrare in Italia solo se hanno più di 65 anni e se i tuoi fratelli hanno gravi problemi di salute.</li>"
 
-        lista_familiari = request.session.get('lista_familiari')
-        familiari_temp = [item[0] for item in lista_familiari]
-        parente = ""
-        if ('partner_mag' in familiari_temp):
-            parente = parente+" partner"
-        if ('figli_min_ug_14' or 'figli_15_17' or 'figli_magg' in familiari_temp):
-            parente = parente+" figlio"
-        if ('genitori' in familiari_temp):
-            parente = parente+" genitore"
-            ##Se ci sono genitori_mag_ug_65
-            guida['b7'] = "<li>Dichiarazione di impegno a sottoscrivere una polizza assicurativa sanitaria o altro titolo idoneo a garantire la copertura di tutti i rischi nel territorio nazionale, in favore dei genitori ultrasessantacinquenni.<br>I tuoi genitori potranno ricevere il visto per entrare in Italia solo se hanno più di 65 anni e se i tuoi fratelli hanno gravi problemi di salute.</li>"
-
-        guida['b5'] = "<li>Fotocopie delle pagine con dati anagrafici e numero di Passaporto per "+ parente + "</li>"
+            guida['b5'] = "<li>Fotocopie delle pagine con dati anagrafici e numero di Passaporto per "+ parente + "</li>"
 
         ##Per ogni coinquilino
-        if (str(request.session.get('n_tot_coinquilini'))=="None"):
-            request.session['n_tot_coinquilini'] = 0
-        if (int(request.session.get('n_tot_coinquilini'))!=0):
-            guida['b6'] = "<li>Certificato dello stato di famiglia delle persone che abitano nel tuo alloggio, rilasciato dal loro Comune di residenza con la dicitura 'uso immigrazione'</li>"
+        if ('n_tot_coinquilini' in request.session):
+            if (str(request.session.get('n_tot_coinquilini'))=="None"):
+                request.session['n_tot_coinquilini'] = 0
+            if (int(request.session.get('n_tot_coinquilini'))!=0):
+                guida['b6'] = "<li>Certificato dello stato di famiglia delle persone che abitano nel tuo alloggio, rilasciato dal loro Comune di residenza con la dicitura 'uso immigrazione'</li>"
 
-        guida['c'] = "<h2><u>Le informazioni e la documentazione da procurarti per l'alloggio sono le seguenti:</u></h2>"
+            guida['c'] = "<h2><u>Le informazioni e la documentazione da procurarti per l'alloggio sono le seguenti:</u></h2>"
 
         #Se contratto di locazione
         if (('contratto_locazione_registrato' in request.session) or ('atto_compravendita' in request.session) or (request.session.get('posso_ospitare_in_alloggio')=='ospite')):
@@ -67,7 +68,7 @@ def produci_guida(request):
                     guida['c1'] = "<li>Contratto di "+ alloggio +" per l'alloggio, di durata non inferiore a sei mesi a decorrere dalla data di presentazione della domanda</li>"
 
 
-        guida['c3'] = "<li>Certificato di idoneità abitativa e igienico-sanitaria, rilasciata dal Comune di "+ città +" per finalità di ricongiungimento familiare</li>"
+        guida['c3'] = "<li>Certificato di idoneità abitativa e igienico-sanitaria, rilasciata dal Comune di Milano per finalità di ricongiungimento familiare</li>"
 
         guida['d'] = "<h2><u>Per certificare le informazioni sul lavoro dovrai invece fornire i seguenti documenti:</u></h2>"
 
@@ -121,11 +122,13 @@ def produci_guida(request):
             guida['d2'] = "<li>Se l’attività è stata avviata da più di 1 anno, dichiarazione dei redditi (modello UNICO) con allegata ricevuta di presentazione telematica e bilancino, relativo all’anno in corso, che dovrà essere timbrato e sottoscritto dal professionista con allegata copia del documento di identità dello stesso, del tesserino d’iscrizione all’ordine o della visura camerale aggiornata inerente l’attività svolta</li>"
             guida['d3_1'] = "<li>Se l’attività è stata avviata da meno di 1 anno, bilancino, relativo all’anno in corso, che dovrà essere timbrato e sottoscritto dal professionista con allegata copia del documento di identità dello stesso, del tesserino d’iscrizione all’ordine o della visura camerale aggiornata inerente l’attività svolta</li>"
 
-        guida['e'] = "<h2><u>Infine, eccoti qualche informazione aggiuntiva:</u></h2>"
-        guida['f'] = "Puoi richiedere aiuto presso:<br>"+str(geo_db_locator.sindacati_e_patronati(str(request.session.get('indirizzo_alloggio'))))
-        guida['g'] = "Il municipio di riferimento per i servizi anagrafici è:<br>"+str(geo_db_locator.anagrafe_milano_piu_vicina(str(request.session.get('indirizzo_alloggio'))))
-        guida['h'] = "Per l'idoneità abitativa della tua casa:<br>"+str(geo_db_locator.idoneita_abitativa_vicina_milano(str(request.session.get('indirizzo_alloggio'))))
-        guida['i'] = "Ti occorrerà una marca da bollo per te, più una marca da bollo per ogni familiare che vuoi ricongiungere. Ogni marca da bollo ha il costo di 16€."
+
+        if ('indirizzo_alloggio' in request.session):
+            guida['e'] = "<h2><u>Infine, eccoti qualche informazione aggiuntiva:</u></h2>"
+            guida['f'] = "Puoi richiedere aiuto presso:<br>"+str(geo_db_locator.sindacati_e_patronati(request.session.get('indirizzo_alloggio')))
+            guida['g'] = "Il municipio di riferimento per i servizi anagrafici è:<br>"+str(geo_db_locator.anagrafe_milano_piu_vicina(request.session.get('indirizzo_alloggio')))
+            guida['h'] = "Per l'idoneità abitativa della tua casa:<br>"+str(geo_db_locator.idoneita_abitativa_vicina_milano(request.session.get('indirizzo_alloggio')))
+            guida['i'] = "Ti occorrerà una marca da bollo per te, più una marca da bollo per ogni familiare che vuoi ricongiungere. Ogni marca da bollo ha il costo di 16€."
 
 
         return guida

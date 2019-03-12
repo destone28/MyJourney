@@ -4,9 +4,19 @@
 
 <form method="post" action="">{% csrf_token %}
   <div class="text-center">
-    <button type="submit" name="guida" class="btn btn-primary" value="no">Torna alla pagina di partenza</button>
+    <button type="submit" name="guida" class="btn btn-primary" value="no">Termina questionario</button>
   </div>
-  {% include '../answers_blocks/nav_block.html' %}
+  <div class="row mt-5">
+    {% if noNext is not True %}
+      <div class="col-6 col-md-4 offset-md-4 order-2 text-center">
+        <button type="submit" name="flag_back" value="True" formnovalidate class="btn btn-outline-dark">Domanda precedente</button>
+      </div>
+    {% endif %}
+
+    <div class="col-6 col-md-4 order-1 text-center">
+      <button type="submit" name="flag_continua_comunque" value="True" formnovalidate class="btn btn-primary">Continua ugualmente</button>
+    </div>
+  </div>
 </form>
 
 {% endblock %}

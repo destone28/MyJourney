@@ -46,18 +46,33 @@ class PageView(DetailView):
             for key in request.session.keys():
                 if key!='page_id':         #svuota le variabili, se già presenti, con la GET della prima pagina
                     request.session[key]=''
+                    lingua = 'it'
 
             current_timestamp_session = time.time()     #inizializza un timestamp per identificare la sessione
             request.session['session_id'] = current_timestamp_session
+            request.session['page_list'] = 0
             page_id = 1
+            pagina_template = page_id
             request.session['page_id'] = page_id
+
             request.session['numero_temporaneo_figlio'] = 0
             request.session['numero_temporaneo_genitore'] = 0
 
         elif request.method=="POST":
             request = questionario.dispatcher(request)
             page_id = request.session.get('page_id')
-
+            pagina_template = page_id
+            lingua = request.session.get('lingua')
+            if (lingua == "en"):
+                page_id = request.session.get('page_id')+31
+            if (lingua == "es"):
+                page_id = request.session.get('page_id')+62
+            if (lingua == "ar"):
+                page_id = request.session.get('page_id')+93
+            if (lingua == "zh"):
+                page_id = request.session.get('page_id')+124
+            if (lingua == "fr"):
+                page_id = request.session.get('page_id')+155
 
         #A seguire, conversioni per stampa a video dei valori ricavati dalle variabili raccolte dinamicamente:
 
@@ -115,10 +130,12 @@ class PageView(DetailView):
 
 
         domanda = Domande.objects.filter(id=page_id)[0]     #la domanda proposta è trovata nel db principale, filtrata per page_id
-        if (str(request.session.get('page_id'))!="30"):
-            template_name = ANSWERS_TEMPLATE_PAGE_FOLDER+str(page_id)+'.html'      #template di default per domanda generica
-            response = {'domanda': domanda, 'alert': alert, 'parente': parente, 'numero_temporaneo_parente': numero_temporaneo_parente, 'casa': casa, 'reddito': reddito, 'trackSteps': trackSteps}   #dizionario di risposta
-        elif (str(request.session.get('page_id'))=="30"):
+        if (pagina_template!=30):
+            template_name = ANSWERS_TEMPLATE_PAGE_FOLDER+str(pagina_template)+'.html'      #template di default per domanda generica
+            response = {'domanda': domanda, 'alert': alert, 'casa': casa, 'reddito': reddito, 'trackSteps': trackSteps, 'lingua': lingua}   #dizionario di risposta
+            if (pagina_template==5):
+                response = {'domanda': domanda, 'alert': alert, 'parente': parente, 'numero_temporaneo_parente': numero_temporaneo_parente, 'casa': casa, 'reddito': reddito, 'trackSteps': trackSteps, 'lingua': lingua}
+        elif (pagina_template==30):
             response = report_maker.produci_guida(request)
             template_name = ANSWERS_TEMPLATE_PAGE_FOLDER+"guida.html"
 

@@ -17,20 +17,41 @@
 
   <div v-bind:class="{ 'd-none': address == '' }">
     <div class="form-group form-row">
-      <label class="col-form-label col-sm-2 py-0 text-sm-left">Indirizzo:</label>
+      <label class="col-form-label col-sm-2 py-0 text-sm-left">
+        {% if lingua == "it" %}Indirizzo{% endif %}
+        {% if lingua == "en" %}Address{% endif %}
+        {% if lingua == "es" %}Dirección{% endif %}
+        {% if lingua == "ar" %}العنوان{% endif %}
+        {% if lingua == "zh" %}地址{% endif %}
+        {% if lingua == "fr" %}Adresse{% endif %}
+      </label>
       <div class="col-sm-10">
         <input type="text" class="form-control-plaintext py-0 text-center text-sm-left" name="via" required v-bind:readonly="address != ''" v-model="address">
       </div>
     </div>
     <div class="form-group form-row">
-      <label class="col-form-label col-sm-2 py-0 text-sm-left">Città:</label>
+      <label class="col-form-label col-sm-2 py-0 text-sm-left">
+        {% if lingua == "it" %}Città{% endif %}
+        {% if lingua == "en" %}City{% endif %}
+        {% if lingua == "es" %}Ciudad{% endif %}
+        {% if lingua == "ar" %}المدينة{% endif %}
+        {% if lingua == "zh" %}城市{% endif %}
+        {% if lingua == "fr" %}Ville{% endif %}
+      </label>
       <div class="col-sm-10">
         <input type="text" class="form-control-plaintext py-0 text-center text-sm-left" name="città" required v-bind:readonly="address != ''" v-model="city">
       </div>
     </div>
     <iframe class="mb-3" width="100%" height="200px" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" v-bind:src="src" style="pointer-events: none; filter: grayscale(1)"></iframe>
     <div class="text-right">
-      <button class="btn btn-outline-dark" type="button" v-on:click="address = ''">Cerca ancora</button>
+      <button class="btn btn-outline-dark" type="button" v-on:click="address = ''">
+        {% if lingua == "it" %}Cerca ancora{% endif %}
+        {% if lingua == "en" %}Search again{% endif %}
+        {% if lingua == "es" %}Buscar de nuevo{% endif %}
+        {% if lingua == "ar" %}البحث مرة أخرى{% endif %}
+        {% if lingua == "zh" %}再次搜索{% endif %}
+        {% if lingua == "fr" %}Chercher à nouveau{% endif %}
+      </button>
     </div>
   </div>
 </div>

@@ -1,9 +1,23 @@
 <div class="row justify-content-center">
   <div class="col-5 col-sm-3 col-lg-2">
-    <button id="si" name="{{ btnName }}" class="btn btn-block btn-primary" type="submit" value="si">Si</button>
+    <button id="si" name="{{ btnName }}" class="btn btn-block btn-primary" type="submit" value="si">
+      {% if lingua == "it" %}Si{% endif %}
+      {% if lingua == "en" %}Yes{% endif %}
+      {% if lingua == "es" %}Sí{% endif %}
+      {% if lingua == "ar" %}نعم{% endif %}
+      {% if lingua == "zh" %}是{% endif %}
+      {% if lingua == "fr" %}Oui{% endif %}
+    </button>
   </div>
 
   <div class="col-5 col-sm-3 col-lg-2">
-    <button id="no" name="{{ btnName }}" class="btn btn-block btn-primary" type="submit" value="no">No</button>
+    <button id="no" name="{{ btnName }}" class="btn btn-block btn-primary" type="submit" value="no">
+      {% if lingua == "it" %}No{% endif %}
+      {% if lingua == "en" %}No{% endif %}
+      {% if lingua == "es" %}No{% endif %}
+      {% if lingua == "ar" %}لا{% endif %}
+      {% if lingua == "zh" %}否{% endif %}
+      {% if lingua == "fr" %}Non{% endif %}
+    </button>
   </div>
 </div>
