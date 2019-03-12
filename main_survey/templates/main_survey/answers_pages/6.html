@@ -2,10 +2,14 @@
 
 {% block center %}
 <div class="col-5 col-sm-3 col-lg-2">
-  <button name="tipologia_permesso" class="btn btn-block btn-primary" type="submit" value="asilo politico">Si</button>
+  <button name="tipologia_permesso" class="btn btn-block btn-primary" type="submit" value="asilo politico">
+    {% include '../answers_blocks/si.html' %}
+  </button>
 </div>
 
 <div class="col-5 col-sm-3 col-lg-2">
-  <button name="tipologia_permesso" class="btn btn-block btn-primary" type="submit" value="altro">No</button>
+  <button name="tipologia_permesso" class="btn btn-block btn-primary" type="submit" value="altro">
+    {% include '../answers_blocks/no.html' %}
+  </button>
 </div>
 {% endblock %}
