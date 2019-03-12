@@ -4,7 +4,14 @@
 
 <form method="post" action="">{% csrf_token %}
   <div class="text-center">
-    <button type="submit" name="guida" class="btn btn-primary" value="si">Ottieni la tua guida!</button>
+    <button type="submit" name="guida" class="btn btn-primary" value="si">
+      {% if lingua == "it" %}Ottieni la tua guida{% endif %}
+      {% if lingua == "en" %}Get your guide{% endif %}
+      {% if lingua == "ar" %}الحصول على الدليل الخاص بك{% endif %}
+      {% if lingua == "es" %}Obtén tu guía{% endif %}
+      {% if lingua == "zh" %}获得你的引导{% endif %}
+      {% if lingua == "fr" %}Procurez-vous votre guide{% endif %}
+    </button>
   </div>
 </form>
 
