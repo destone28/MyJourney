@@ -3,14 +3,63 @@
 {% block select %}
 
 <select class="form-control w-auto mw-100 m-auto" name="tipologia_lavoro" required>
-  <option hidden disabled selected value="">Seleziona una tipologia di lavoro...</option>
-  <option value="dipendente">Lavoratore dipendente</option>
-  <option value="domestico">Lavoratore domestico</option>
-  <option value="titolare_ditta">Lavoratore autonomo</option>
+  <option hidden disabled selected value="">
+    {% if lingua == "it" %}Seleziona una tipologia di lavoro{% endif %}
+    {% if lingua == "en" %}Select a type of work{% endif %}
+    {% if lingua == "ar" %}إختر نوع العمل{% endif %}
+    {% if lingua == "es" %}Selecciona un tipo de trabajo{% endif %}
+    {% if lingua == "zh" %}选择一类工作{% endif %}
+    {% if lingua == "fr" %}Sélectionnez un type d’emploi{% endif %}
+  </option>
+  <option value="dipendente">
+    {% if lingua == "it" %}Lavoratore dipendente{% endif %}
+    {% if lingua == "en" %}Employee{% endif %}
+    {% if lingua == "ar" %}عامل تحت الأجر{% endif %}
+    {% if lingua == "es" %}Trabajador subordinado{% endif %}
+    {% if lingua == "zh" %}劳工{% endif %}
+    {% if lingua == "fr" %}Travailleur(euse) salarié(e){% endif %}
+  </option>
+  <option value="domestico">
+    {% if lingua == "it" %}Lavoratore domestico{% endif %}
+    {% if lingua == "en" %}Domestic worker{% endif %}
+    {% if lingua == "ar" %}عامل منزلي{% endif %}
+    {% if lingua == "es" %}Trabajador del hogar{% endif %}
+    {% if lingua == "zh" %}家庭工{% endif %}
+    {% if lingua == "fr" %}Personnel de maison{% endif %}
+  </option>
+  <option value="titolare_ditta">
+    {% if lingua == "it" %}Lavoratore autonomo{% endif %}
+    {% if lingua == "en" %}Self-employed{% endif %}
+    {% if lingua == "ar" %}عامل مستقل{% endif %}
+    {% if lingua == "es" %}Trabajador autónomo{% endif %}
+    {% if lingua == "zh" %}独立工作者{% endif %}
+    {% if lingua == "fr" %}Travailleur(euse) non salarié(e){% endif %}
+  </option>
   <option value="partecipazione_società">Partecipazione in società</option>
-  <option value="socio_lavoratore">Socio lavoratore</option>
-  <option value="libero_professionista">Libero professionista</option>
-  <option value="no">Non svolgo alcun lavoro</option>
+  <option value="socio_lavoratore">
+    {% if lingua == "it" %}Socio lavoratore{% endif %}
+    {% if lingua == "en" %}A partner in a cooperative{% endif %}
+    {% if lingua == "ar" %}عامل شريك{% endif %}
+    {% if lingua == "es" %}Socio trabajador{% endif %}
+    {% if lingua == "zh" %}合伙人员工{% endif %}
+    {% if lingua == "fr" %}Associé(e) exploitant(e){% endif %}
+  </option>
+  <option value="libero_professionista">
+    {% if lingua == "it" %}Libero professionista{% endif %}
+    {% if lingua == "en" %}Freelance professional{% endif %}
+    {% if lingua == "ar" %}أعمال حرة{% endif %}
+    {% if lingua == "es" %}Profesionales independientes{% endif %}
+    {% if lingua == "zh" %}自由工作者{% endif %}
+    {% if lingua == "fr" %}Professionnels indépendants{% endif %}
+  </option>
+  <option value="no">
+    {% if lingua == "it" %}Non svolgo alcun lavoro{% endif %}
+    {% if lingua == "en" %}I don't work{% endif %}
+    {% if lingua == "ar" %}ليس لدي أي عمل{% endif %}
+    {% if lingua == "es" %}No tengo ningún trabajo{% endif %}
+    {% if lingua == "zh" %}我没有任何工作{% endif %}
+    {% if lingua == "fr" %}Je n’occupe actuellement aucun emploi{% endif %}
+  </option>
 </select>
 
 {% endblock %}
