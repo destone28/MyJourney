@@ -7,21 +7,32 @@
     <div class="col-md-4 text-center form-group">
       <div class="custom-control custom-radio custom-control-inline">
         <input id="si" name="posso_ospitare_in_alloggio" class="custom-control-input" type="radio" value="si" required v-model="canHost">
-        <label class="custom-control-label" for="si">Si</label>
+        <label class="custom-control-label" for="si">
+          {% include '../answers_blocks/si.html' %}
+        </label>
       </div>
     </div>
 
     <div class="col-md-4 text-center form-group">
       <div class="custom-control custom-radio custom-control-inline">
         <input id="no" name="posso_ospitare_in_alloggio" class="custom-control-input" type="radio" value="no" required v-model="canHost">
-        <label class="custom-control-label" for="no">No</label>
+        <label class="custom-control-label" for="no">
+          {% include '../answers_blocks/no.html' %}
+        </label>
       </div>
     </div>
 
     <div class="col-md-4 text-center form-group">
       <div class="custom-control custom-radio custom-control-inline">
         <input id="ospite" name="posso_ospitare_in_alloggio" class="custom-control-input" type="radio" value="ospite" required v-model="canHost">
-        <label class="custom-control-label" for="ospite">Sono ospite</label>
+        <label class="custom-control-label" for="ospite">
+          {% if lingua == "it" %}Sono ospite{% endif %}
+          {% if lingua == "en" %}I am a guest{% endif %}
+          {% if lingua == "ar" %}أنا ضيف{% endif %}
+          {% if lingua == "es" %}Soy huésped{% endif %}
+          {% if lingua == "zh" %}我是一个房客{% endif %}
+          {% if lingua == "fr" %}Je suis invité(e){% endif %}
+        </label>
       </div>
     </div>
   </div>
