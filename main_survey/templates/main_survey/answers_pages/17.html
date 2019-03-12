@@ -1,10 +1,17 @@
 {% extends 'main_survey/answers_blocks/layout_inline_center.html' %}
 
 {% block center %}
-<div class="form-group form-inline justify-content-center">
+<div class="form-group form-inline justify-content-center" {% if lingua == "ar" %}style="direction: rtl"{% endif %}>
   <div class="mr-2">
     <input class="form-control" type="number" id="coinquilini_a_carico" name="coinquilini_a_carico" step="1" min="0" placeholder="0" max="5" required>
   </div>
-  <label for="coinquilini_a_carico">persone</label>
+  <label for="coinquilini_a_carico">
+    {% if lingua == "it" %}persone{% endif %}
+    {% if lingua == "en" %}people{% endif %}
+    {% if lingua == "ar" %}الناس{% endif %}
+    {% if lingua == "es" %}personas{% endif %}
+    {% if lingua == "zh" %}人{% endif %}
+    {% if lingua == "fr" %}personnes{% endif %}
+  </label>
 </div>
 {% endblock %}
