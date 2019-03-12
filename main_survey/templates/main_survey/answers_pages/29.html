@@ -4,17 +4,38 @@
 
 <form method="post" action="">{% csrf_token %}
   <div class="text-center">
-    <button type="submit" name="guida" class="btn btn-primary" value="no">Termina questionario</button>
+    <button type="submit" name="guida" class="btn btn-primary" value="no">
+      {% if lingua == "it" %}Termina il questionario{% endif %}
+      {% if lingua == "en" %}End the questionnaire{% endif %}
+      {% if lingua == "ar" %}الإنتهاء من الإستبيان{% endif %}
+      {% if lingua == "es" %}Termina el cuestionario{% endif %}
+      {% if lingua == "zh" %} 结束问答{% endif %}
+      {% if lingua == "fr" %}Complétez le questionnaire{% endif %}
+    </button>
   </div>
   <div class="row mt-5">
     {% if noNext is not True %}
       <div class="col-6 col-md-4 offset-md-4 order-2 text-center">
-        <button type="submit" name="flag_back" value="True" formnovalidate class="btn btn-outline-dark">Domanda precedente</button>
+        <button type="submit" name="flag_back" value="True" formnovalidate class="btn btn-outline-dark">
+          {% if lingua == "it" %}Domanda precedente{% endif %}
+          {% if lingua == "en" %}Back to previous question{% endif %}
+          {% if lingua == "ar" %}عد إلى السؤال السابق{% endif %}
+          {% if lingua == "es" %}Vuelve a la pregunta anterior{% endif %}
+          {% if lingua == "zh" %} 回到上一个问题{% endif %}
+          {% if lingua == "fr" %}Retournez à la question précédente{% endif %}
+        </button>
       </div>
     {% endif %}
 
     <div class="col-6 col-md-4 order-1 text-center">
-      <button type="submit" name="flag_continua_comunque" value="True" formnovalidate class="btn btn-primary">Continua ugualmente</button>
+      <button type="submit" name="flag_continua_comunque" value="True" formnovalidate class="btn btn-primary">
+        {% if lingua == "it" %}Continua ugualmente{% endif %}
+        {% if lingua == "en" %}Continue anyway{% endif %}
+        {% if lingua == "ar" %}إستمر على أي حال{% endif %}
+        {% if lingua == "es" %}Sigue en cualquier caso{% endif %}
+        {% if lingua == "zh" %} 无论如何还是继续{% endif %}
+        {% if lingua == "fr" %}Continuez quand même{% endif %}
+      </button>
     </div>
   </div>
 </form>
