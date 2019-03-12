@@ -2,7 +2,9 @@
 
 {% block center %}
 <div class="col-sm-8 col-md-2 text-center">
-  <button class="btn btn-primary btn-block" name="fratelli_possono_mantenere_genitore" type="submit" value="si">Si</button>
+  <button class="btn btn-primary btn-block" name="fratelli_possono_mantenere_genitore" type="submit" value="si">
+    {% include '../answers_blocks/si.html' %}
+  </button>
 </div>
 <div class="col-sm-8 col-md-5 mt-2 mt-md-0 text-center">
   <button class="btn btn-primary btn-block" name="fratelli_possono_mantenere_genitore" type="submit" value="no salute">No, per motivi di salute</button>
