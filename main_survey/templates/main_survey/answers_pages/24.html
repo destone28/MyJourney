@@ -2,10 +2,26 @@
 
 {% block center %}
 <div class="col-sm-6 col-lg-4">
-  <button type="submit" name="casa_sufficiente" class="btn btn-block btn-primary" value="si">Maggiore di {{ casa }} mq</button>
+  <button type="submit" name="casa_sufficiente" class="btn btn-block btn-primary" value="si">
+    {% if lingua == "it" %}Maggiore di{% endif %}
+    {% if lingua == "en" %}More than{% endif %}
+    {% if lingua == "ar" %}أكبر من{% endif %}
+    {% if lingua == "es" %}De más de{% endif %}
+    {% if lingua == "zh" %} 大于{% endif %}
+    {% if lingua == "fr" %}Supérieure à{% endif %}
+    {{ casa }} mq
+  </button>
 </div>
 
 <div class="col-sm-6 col-lg-4 mt-2 mt-sm-0">
-  <button type="submit" name="casa_sufficiente" class="btn btn-block btn-primary" value="no">Minore di {{ casa }} mq</button>
+  <button type="submit" name="casa_sufficiente" class="btn btn-block btn-primary" value="no">
+    {% if lingua == "it" %}Minore di{% endif %}
+    {% if lingua == "en" %}Less than{% endif %}
+    {% if lingua == "ar" %}أصغر من{% endif %}
+    {% if lingua == "es" %}De menos de{% endif %}
+    {% if lingua == "zh" %} 小于{% endif %}
+    {% if lingua == "fr" %}Inférieure à{% endif %}
+    {{ casa }} mq
+  </button>
 </div>
 {% endblock %}
