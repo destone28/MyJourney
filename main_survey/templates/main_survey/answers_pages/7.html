@@ -3,7 +3,11 @@
 {% block column %}
 <div class="form-group mb-0">
   <input type="text" class="form-control position-absolute w-100 h-100" type="text" tabIndex="-1" required v-model="date">
-  <vuejs-datepicker input-class="form-control text-center bg-white" calendar-class="w-auto" format="dd/MM/yyyy" name="rilascio_permesso" placeholder="Inserisci una data" inline required v-model="date"></vuejs-datepicker>
+  <vuejs-datepicker
+    input-class="form-control text-center bg-white" calendar-class="w-auto" format="dd/MM/yyyy" name="rilascio_permesso"
+    placeholder='{% if lingua == "it" %}Inserisci una data{% endif %}{% if lingua == "en" %}Enter a date{% endif %}{% if lingua == "ar" %}أدخِل التاريخ{% endif %}{% if lingua == "es" %}Introduce una fecha{% endif %}{% if lingua == "zh" %} 输入一个日期{% endif %}{% if lingua == "fr" %}Saisissez une date{% endif %}'
+    inline required v-model="date"
+  ></vuejs-datepicker>
 </div>
 {% endblock %}
 
