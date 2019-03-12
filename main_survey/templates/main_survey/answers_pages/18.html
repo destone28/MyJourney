@@ -2,10 +2,24 @@
 
 {% block center %}
 <div class="col-sm-6 col-xl-4">
-  <button name="tipo_partner" class="btn btn-block btn-primary" type="submit" value="coniuge">Coniuge</button>
+  <button name="tipo_partner" class="btn btn-block btn-primary" type="submit" value="coniuge">
+    {% if lingua == "it" %}Coniuge{% endif %}
+    {% if lingua == "en" %}Spouse{% endif %}
+    {% if lingua == "ar" %}الزوج{% endif %}
+    {% if lingua == "es" %}Cónyuge{% endif %}
+    {% if lingua == "zh" %}配偶{% endif %}
+    {% if lingua == "fr" %}Conjoint{% endif %}
+  </button>
 </div>
 
 <div class="col-sm-6 col-xl-4 mt-2 mt-sm-0">
-  <button name="tipo_partner" class="btn btn-block btn-primary" type="submit" value="partner_unito_civilmente">Partner unito civilmente</button>
+  <button name="tipo_partner" class="btn btn-block btn-primary" type="submit" value="partner_unito_civilmente">
+    {% if lingua == "it" %}Partner unito civilmente{% endif %}
+    {% if lingua == "en" %}Civil Partner{% endif %}
+    {% if lingua == "ar" %}الزوج بعقد قران مدني{% endif %}
+    {% if lingua == "es" %}Pareja con unión civil{% endif %}
+    {% if lingua == "zh" %} 民事结合的伴侣{% endif %}
+    {% if lingua == "fr" %}Partenaire civil{% endif %}
+  </button>
 </div>
 {% endblock %}
