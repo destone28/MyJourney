@@ -3,7 +3,7 @@
 {% block answer %}
 
 <form method="post" action="" id="form">{% csrf_token %}
-  <div class="d-block d-sm-flex justify-content-center">
+  <div class="d-block d-sm-flex justify-content-center" {% if lingua == "ar" %}style="direction: rtl"{% endif %}>
     {% block center %}
     {% endblock %}
   </div>
