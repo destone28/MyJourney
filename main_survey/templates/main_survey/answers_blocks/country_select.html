@@ -1,5 +1,12 @@
 <select id="{{ selectId }}" name="{{ selectId }}" class="form-control w-auto mw-100 m-auto" required>
-  <option hidden disabled selected value="">Seleziona un Paese...</option>
+  <option hidden disabled selected value="">
+    {% if lingua == "it" %}Seleziona il Paese{% endif %}
+    {% if lingua == "en" %}Select Country{% endif %}
+    {% if lingua == "es" %}Selecciona el país{% endif %}
+    {% if lingua == "ar" %}اختار البلد{% endif %}
+    {% if lingua == "zh" %}选择国家{% endif %}
+    {% if lingua == "fr" %}Sélectionnez le pays{% endif %}
+  </option>
   <option value="AF">Afghanistan</option>
   <option value="AL">Albania</option>
   <option value="DZ">Algeria</option>
