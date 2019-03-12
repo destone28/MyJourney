@@ -4,22 +4,71 @@
 
 <form method="post" action="" id="peopleForm">{% csrf_token %}
   <div class="row">
-    <div class="col-md-8 offset-md-2 text-left">
+    <div class="col-md-8 offset-md-2 text-left" {% if lingua == "ar" %}style="direction: rtl"{% endif %}>
       <div class="form-group form-inline d-block d-sm-flex" v-for="(d, i) in people" v-if="i < 1 || categories[i - 1] !== ''">
         <select class="form-control mt-4 mt-sm-0 mr-sm-2" v-bind:required="categories[i] !== ''" v-model="categories[i]">
           <option hidden disabled selected value="">Aggiungi...</option>
-          <option v-bind:disabled="count('parent') >= 2" value="parent">Genitore</option>
-          <option v-bind:disabled="count('partner') >= 1" value="partner">Partner</option>
-          <option value="child">Figlio</option>
+          <option v-bind:disabled="count('parent') >= 2" value="parent">
+            {% if lingua == "it" %}Genitore{% endif %}
+            {% if lingua == "en" %}Parent{% endif %}
+            {% if lingua == "ar" %}الوالدين{% endif %}
+            {% if lingua == "es" %}padre{% endif %}
+            {% if lingua == "zh" %}亲{% endif %}
+            {% if lingua == "fr" %}Parent{% endif %}
+          </option>
+          <option v-bind:disabled="count('partner') >= 1" value="partner">
+            {% if lingua == "it" %}Partner{% endif %}
+            {% if lingua == "en" %}Partner{% endif %}
+            {% if lingua == "ar" %}شريك{% endif %}
+            {% if lingua == "es" %}Pareja{% endif %}
+            {% if lingua == "zh" %}伴侣{% endif %}
+            {% if lingua == "fr" %}Partenaire{% endif %}
+          </option>
+          <option value="child">
+            {% if lingua == "it" %}Figlio{% endif %}
+            {% if lingua == "en" %}Children{% endif %}
+            {% if lingua == "ar" %}الأولاد{% endif %}
+            {% if lingua == "es" %}Hijo{% endif %}
+            {% if lingua == "zh" %}孩子{% endif %}
+            {% if lingua == "fr" %}Enfant{% endif %}
+          </option>
         </select>
 
-        <label class="d-block d-sm-inline-block mb-0 mt-2 mt-sm-0 mr-sm-2" v-if="categories[i] === 'partner'">con 18 anni o più</label>
+        <label class="d-block d-sm-inline-block mb-0 mt-2 mt-sm-0 mr-sm-2" v-if="categories[i] === 'partner'">
+          {% if lingua == "it" %}con 18 anni o più{% endif %}
+          {% if lingua == "en" %}who is 18 years or older{% endif %}
+          {% if lingua == "ar" %}يبلغ اﻠ 18 سنة أو أكثر{% endif %}
+          {% if lingua == "es" %}de 18 años o más {% endif %}
+          {% if lingua == "zh" %}18岁以上的{% endif %}
+          {% if lingua == "fr" %}âgé(e) de 18 ans et plus{% endif %}
+        </label>
 
         <select class="form-control mt-2 mt-sm-0 mr-sm-2" required v-if="categories[i] === 'child'" v-model="ages[i]">
           <option hidden disabled selected value="">Seleziona età...</option>
-          <option value="14">fino a 14 anni</option>
-          <option value="15">tra 15 e 17 anni</option>
-          <option value="18">con 18 anni o più</option>
+          <option value="14">
+            {% if lingua == "it" %}fino a 14 anni{% endif %}
+            {% if lingua == "en" %}up to 14 years of age{% endif %}
+            {% if lingua == "ar" %}حتى سن 14 عامًا{% endif %}
+            {% if lingua == "es" %}de hasta 14 años{% endif %}
+            {% if lingua == "zh" %}14岁以下的{% endif %}
+            {% if lingua == "fr" %}jusqu'à 14 ans{% endif %}
+          </option>
+          <option value="15">
+            {% if lingua == "it" %}tra 15 e 17 anni{% endif %}
+            {% if lingua == "en" %}between 15 and 17 years old{% endif %}
+            {% if lingua == "ar" %}ما بين سن 15 عاماً الى 17 عاماً{% endif %}
+            {% if lingua == "es" %}entre 15 y 17 años{% endif %}
+            {% if lingua == "zh" %}15至17岁的{% endif %}
+            {% if lingua == "fr" %}âgés entre 15 et 17 ans{% endif %}
+          </option>
+          <option value="18">
+            {% if lingua == "it" %}con 18 anni o più{% endif %}
+            {% if lingua == "en" %}who are 18 years or older{% endif %}
+            {% if lingua == "ar" %}في سن 18 عاماً فما دون{% endif %}
+            {% if lingua == "es" %}de 18 años o más{% endif %}
+            {% if lingua == "zh" %}18岁以上的{% endif %}
+            {% if lingua == "fr" %}âgés de 18 ans et plus{% endif %}
+          </option>
         </select>
 
         <button class="btn btn-outline-danger mt-2 mt-sm-0 text-capitalize" type="button" title="Rimuovi" v-if="categories[i] !== ''" v-on:click="deletePerson(i)">×</button>
