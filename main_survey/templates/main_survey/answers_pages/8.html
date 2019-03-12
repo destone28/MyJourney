@@ -7,7 +7,14 @@
     <div class="col-md-4 offset-md-2 text-center form-group">
       <div class="custom-control custom-radio custom-control-inline">
         <input id="si" name="scadenza_permesso" class="custom-control-input" type="radio" value="illimitato" required v-model="type">
-        <label class="custom-control-label" for="si">Illimitato</label>
+        <label class="custom-control-label" for="si">
+          {% if lingua == "it" %}Illimitato{% endif %}
+          {% if lingua == "en" %}Unlimited{% endif %}
+          {% if lingua == "ar" %}غير ماختار{% endif %}
+          {% if lingua == "es" %}Ilimitado{% endif %}
+          {% if lingua == "zh" %} 无限期{% endif %}
+          {% if lingua == "fr" %}Illimité{% endif %}
+        </label>
       </div>
     </div>
 
@@ -23,7 +30,11 @@
     <div class="col-md-4 offset-md-4">
       <div class="form-group mb-0">
         <input type="text" class="form-control position-absolute w-100 h-100" type="text" tabIndex="-1" required v-model="date">
-        <vuejs-datepicker input-class="form-control text-center bg-white" calendar-class="w-auto" format="dd/MM/yyyy" name="scadenza_permesso" placeholder="Inserisci una data" required inline v-model="date"></vuejs-datepicker>
+        <vuejs-datepicker
+          input-class="form-control text-center bg-white" calendar-class="w-auto" format="dd/MM/yyyy" name="scadenza_permesso"
+          placeholder='{% if lingua == "it" %}Inserisci una data{% endif %}{% if lingua == "en" %}Enter a date{% endif %}{% if lingua == "ar" %}أدخِل التاريخ{% endif %}{% if lingua == "es" %}Introduce una fecha{% endif %}{% if lingua == "zh" %} 输入一个日期{% endif %}{% if lingua == "fr" %}Saisissez une date{% endif %}'
+          required inline v-model="date"
+        ></vuejs-datepicker>
       </div>
     </div>
   </div>
