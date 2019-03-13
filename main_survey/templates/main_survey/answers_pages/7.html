@@ -4,8 +4,9 @@
 <div class="form-group mb-0">
   <input type="text" class="form-control position-absolute w-100 h-100" type="text" tabIndex="-1" required v-model="date">
   <vuejs-datepicker
-    input-class="form-control text-center bg-white" calendar-class="w-auto" format="dd/MM/yyyy" name="rilascio_permesso"
+    input-class="form-control text-center bg-white" calendar-class="w-100" format="dd/MM/yyyy" name="rilascio_permesso"
     placeholder='{% if lingua == "it" %}Inserisci una data{% endif %}{% if lingua == "en" %}Enter a date{% endif %}{% if lingua == "ar" %}أدخِل التاريخ{% endif %}{% if lingua == "es" %}Introduce una fecha{% endif %}{% if lingua == "zh" %} 输入一个日期{% endif %}{% if lingua == "fr" %}Saisissez une date{% endif %}'
+    :language="{{ lingua }}"
     inline required v-model="date"
   ></vuejs-datepicker>
 </div>
@@ -16,7 +17,13 @@
   new Vue({
     el: '#form',
     data: {
-      date: ''
+      date: '',
+      it: it,
+      en: en,
+      ar: language,
+      es: es,
+      zh: language$7,
+      fr: fr
     },
     components: {
       vuejsDatepicker
