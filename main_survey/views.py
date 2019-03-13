@@ -23,30 +23,53 @@ def get_client_ip(request):
         ip = request.META.get('REMOTE_ADDR')
     return ip
 
-
-
-
-
+stepsTranslations = {
+    'Famiglia': {
+        'it': 'Famiglia',
+        'en': 'Family',
+        'ar': 'العائلة',
+        'es': 'Familia',
+        'zh': '家庭',
+        'fr': 'Famille',
+    },
+    'Permesso di Soggiorno': {
+        'it': 'Permesso Di Soggiorno',
+        'en': 'Residence Permit',
+        'ar': 'تصريح الإقامة',
+        'es': 'Permiso De Residencia',
+        'zh': '居留证',
+        'fr': 'Permis De Séjour',
+    },
+    'Casa': {
+        'it': 'Casa',
+        'en': 'Home',
+        'ar': 'البيت',
+        'es': 'Casa',
+        'zh': '住房',
+        'fr': 'Habitation',
+    },
+    'Reddito': {
+        'it': 'Reddito',
+        'en': 'Income',
+        'ar': 'مجموع الدخل',
+        'es': 'Renta',
+        'zh': '收入',
+        'fr': 'Revenu'
+    }
+}
 
 class PageView(DetailView):
 
     def get(request):
 
-        # https://www.tutorialspoint.com/What-are-Ordered-dictionaries-in-Python
-        trackSteps = OrderedDict([
-            ('img/track_family.png', 'Famiglia'),
-            ('img/track_documents.png', 'Permesso di Soggiorno'),
-            ('img/track_house.png', 'Casa'),
-            ('img/track_work.png', 'Reddito'),
-            ('img/fine.png', '&#9873;')
-        ])
+        linguaDefault = 'it'
 
         if request.method=='GET':
 
             for key in request.session.keys():
                 if key!='page_id':         #svuota le variabili, se già presenti, con la GET della prima pagina
                     request.session[key]=''
-                    lingua = 'it'
+                    lingua = linguaDefault
 
             current_timestamp_session = time.time()     #inizializza un timestamp per identificare la sessione
             request.session['session_id'] = current_timestamp_session
@@ -73,6 +96,15 @@ class PageView(DetailView):
                 page_id = request.session.get('page_id')+124
             if (lingua == "fr"):
                 page_id = request.session.get('page_id')+155
+
+        lingua = lingua or linguaDefault # fallback if not lingua in request session
+        trackSteps = OrderedDict([
+            ('img/track_family.png', stepsTranslations['Famiglia'][lingua]),
+            ('img/track_documents.png', stepsTranslations['Permesso di Soggiorno'][lingua]),
+            ('img/track_house.png', stepsTranslations['Casa'][lingua]),
+            ('img/track_work.png', stepsTranslations['Reddito'][lingua]),
+            ('img/fine.png', '&#9873;')
+        ])
 
         #A seguire, conversioni per stampa a video dei valori ricavati dalle variabili raccolte dinamicamente:
 
