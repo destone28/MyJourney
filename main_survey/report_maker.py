@@ -2,17 +2,51 @@
 from datetime import datetime
 from . import geodecoder, geo_db_locator
 
+translations = {
+    'a': {
+        'it': 'Ecco la tua guida!',
+        'en': "Here's your guide!",
+        'ar': 'هذا هو دليلك',
+        'es': '¡Aquí está tu guía!',
+        'zh': '这是你的引导！',
+        'fr': 'Voici votre guide',
+    },
+    'b': {
+        'it': 'Per i tuoi dati anagrafici ti serve: passaporto, carta o permesso di soggiorno in corso di validità  o, se scaduto,  copia del  permesso scaduto con ricevuta di presentazione  del rinnovo,  codice fiscale,  certificato di stato famiglia  rilasciato dal comune di residenza con la dicitura “uso immigrazione”.',
+        'en': 'For your personal data you need: a passport, residence card or valid residence permit or, if expired, a copy of the expired permit with receipt of the application for renewal, tax code, family status certificate (‘certificato di stato famiglia’) issued by your municipality of residence clearly marked for "immigration use" (“uso immigrazione”).',
+        'ar': 'ما يتعلق في بياناتك الشخصية تحتاج إلى: جواز سفر أو بطاقة الهوية أو تصريح إقامة سارية المفعول أو إذا انتهت صلاحيتها ، نسخة من تصريح الإقامة منتهي الصلاحية مع إيصال استلام التجديد ، رقم كود الضريبة الشخصي ، شهادة الحالة العائلية صادرة من البلدية لمكان الإقامة تحت عبارة "استخدام الهجرة  (uso immigrazione)".',
+        'es': 'Para tus datos personales necesitas: pasaporte, tarjeta o permiso de residencia válido o, si está vencido, copia del permiso vencido con recibo de presentación de la renovación, código fiscal, certificado de estado de familia expedido por el municipio de residencia con la frase “uso immigazione”',
+        'zh': '为了填写你的个人信息你需要：护照，有效的居留或长期居留，或者如果已经过期，已过期的居留连同续签申请收据，税号，户口所在的市政府开的填有“移民用途”字样的家庭状况证明。',
+        'fr': "Pour vos données personnelles, vous aurez besoin de: votre passeport, titre ou permis de séjour en cours de validité ou, si celui-ci a expiré, une photocopie du permis expiré avec accusé de réception du renouvellement, votre code fiscal, certificat de composition de famille délivré par la municipalité de résidence avec le libellé «usage relevant des services d'immigration» (‘uso immigrazione’).",
+    },
+    'b7': {
+        'it': 'Dichiarazione di impegno a sottoscrivere una polizza assicurativa sanitaria o altro titolo idoneo a garantire la copertura di tutti i rischi nel territorio nazionale, in favore dei genitori ultrasessantacinquenni.',
+        'en': 'Declaration of commitment to take out a health insurance policy, or other appropriate cover, for parents over sixty-five years of age to ensure coverage of all risks while in Italy',
+        'ar': 'تصريح الالتزام بالتأمين من خلال التوقيع على بوليصة التأمين الصحي أو أي سند مناسب آخر لضمان تغطية جميع المخاطر على الأراضي الوطنية ، لصالح الوالدين البالغون اكثر من خمسة وستين عاماً.',
+        'es': 'Declaración de compromiso de suscripción de una póliza de seguro sanitaria o de otro título que sirva para garantizar la cobertura de todos los riesgos en el territorio nacional, a favor de los padres de más de 75 años',
+        'zh': '为自己超过六十五岁的双亲签下健康保险或其他在国家境内可覆盖所有风险的保险的承诺声明。',
+        'fr': "Déclaration d'engagement à souscrire à une police d'assurance couvrant les soins de santé ou toute autre document valable en mesure de garantir la couverture de tous les risques sur le territoire national, pour les parents âgés de plus de 65 ans et plus.",
+    },
+    'c': {
+        'it': "Le informazioni e la documentazione da procurarti per l'alloggio sono le seguenti: Originale del contratto di locazione/comodato/compravendita, ricevuta di registrazione e/o rinnovo contratto di locazione, certificato di idoneità abitativa e igienico-sanitaria rilasciato dal Comune per finalità di ricongiungimento familiare.",
+        'en': 'The information and documentation you need to present regarding your accommodation is as follows: Original rental contract/free use agreement/purchase agreement, receipt of registration and/or renewal of the rental contract, certificate of suitability for housing and sanitation issued by the Municipality for the purpose of family reunification.',
+        'ar': 'فيما يلي المعلومات والوثائق المتعلقة بالسكن التي يجب تقديمها: النسخة الأصلية لعقد الإيجار / أو عقد الأتفاق / سند البيع والشراء أو إيصال التسجيل و/ أو تجديد عقد الإيجار ، وشهادة صلاحية السكنى والصرف الصحي الصادرة عن البلدية لأغراض تتعلق في لم شمل العائلة.',
+        'es': 'Las informaciones y documentación que necesitas para el alojamiento son las siguientes: original del contrato de alquiler/comodato/compraventa, recibo de registro y/o renovación contrato de locación, certificado de idoneidad de alojamiento e higiénico-sanitaria expedido por el Municipio a los efectos de reagrupación familiar',
+        'zh': '居所所需要的信息和证件为以下：租赁/无偿租赁/购买合同原件，租赁合同的登记和/或更新凭据，由市政府为了家庭团聚而开的住房合格证明和卫生-健康证明。',
+        'fr': "Les informations et la documentation à obtenir pour l'hébergement sont les suivantes: Original du bail/de l’accord de prêt/du contrat d’achat, accusé de réception de l’enregistrement et/ou du renouvellement du bail, certificat de disponibilité de logement conforme aux conditions hygiéniques et sanitaires requises délivré par la municipalité aux fins du regroupement familial.",
+    }
+}
+
 def produci_guida(request):
         ### INFO GENERICHE
         guida = {}
+        lingua = 'it'
+
+        guida['a'] = "<h1><u>" + translations['a'][lingua] + "</u></h1>"
 
 
 
-        guida['a'] = "<h1><u>Ecco la tua guida</u></h1>"
-
-
-
-        guida['b'] = "<h2><u>Per quanto riguarda i tuoi dati anagrafici e quelli relativi ai tuoi familiari dovrai produrre la seguente documentazione:</u></h2>"
+        guida['b'] = "<h2><u>" + translations['b'][lingua] + "</u></h2>"
 
         guida['b1'] = "<li>Il tuo passaporto</li>"
         guida['b2'] = "<li>Il tuo codice fiscale</li>"
@@ -40,7 +74,7 @@ def produci_guida(request):
             if ('genitori' in familiari_temp):
                 parente = parente+" genitore"
                 ##Se ci sono genitori_mag_ug_65
-                guida['b7'] = "<li>Dichiarazione di impegno a sottoscrivere una polizza assicurativa sanitaria o altro titolo idoneo a garantire la copertura di tutti i rischi nel territorio nazionale, in favore dei genitori ultrasessantacinquenni.<br>I tuoi genitori potranno ricevere il visto per entrare in Italia solo se hanno più di 65 anni e se i tuoi fratelli hanno gravi problemi di salute.</li>"
+                guida['b7'] = "<li>" + translations['b7'][lingua] + "/li>"
 
             guida['b5'] = "<li>Fotocopie delle pagine con dati anagrafici e numero di Passaporto per "+ parente + "</li>"
 
@@ -51,7 +85,7 @@ def produci_guida(request):
             if (int(request.session.get('n_tot_coinquilini'))!=0):
                 guida['b6'] = "<li>Certificato dello stato di famiglia delle persone che abitano nel tuo alloggio, rilasciato dal loro Comune di residenza con la dicitura 'uso immigrazione'</li>"
 
-            guida['c'] = "<h2><u>Le informazioni e la documentazione da procurarti per l'alloggio sono le seguenti:</u></h2>"
+            guida['c'] = "<h2><u>" + translations['c'][lingua] + "</u></h2>"
 
         #Se contratto di locazione
         if (('contratto_locazione_registrato' in request.session) or ('atto_compravendita' in request.session) or (request.session.get('posso_ospitare_in_alloggio')=='ospite')):
