@@ -12,12 +12,52 @@ translations = {
         'fr': 'Voici votre guide',
     },
     'b': {
-        'it': 'Per i tuoi dati anagrafici ti serve: passaporto, carta o permesso di soggiorno in corso di validità  o, se scaduto,  copia del  permesso scaduto con ricevuta di presentazione  del rinnovo,  codice fiscale,  certificato di stato famiglia  rilasciato dal comune di residenza con la dicitura “uso immigrazione”.',
-        'en': 'For your personal data you need: a passport, residence card or valid residence permit or, if expired, a copy of the expired permit with receipt of the application for renewal, tax code, family status certificate (‘certificato di stato famiglia’) issued by your municipality of residence clearly marked for "immigration use" (“uso immigrazione”).',
-        'ar': 'ما يتعلق في بياناتك الشخصية تحتاج إلى: جواز سفر أو بطاقة الهوية أو تصريح إقامة سارية المفعول أو إذا انتهت صلاحيتها ، نسخة من تصريح الإقامة منتهي الصلاحية مع إيصال استلام التجديد ، رقم كود الضريبة الشخصي ، شهادة الحالة العائلية صادرة من البلدية لمكان الإقامة تحت عبارة "استخدام الهجرة  (uso immigrazione)".',
-        'es': 'Para tus datos personales necesitas: pasaporte, tarjeta o permiso de residencia válido o, si está vencido, copia del permiso vencido con recibo de presentación de la renovación, código fiscal, certificado de estado de familia expedido por el municipio de residencia con la frase “uso immigazione”',
-        'zh': '为了填写你的个人信息你需要：护照，有效的居留或长期居留，或者如果已经过期，已过期的居留连同续签申请收据，税号，户口所在的市政府开的填有“移民用途”字样的家庭状况证明。',
-        'fr': "Pour vos données personnelles, vous aurez besoin de: votre passeport, titre ou permis de séjour en cours de validité ou, si celui-ci a expiré, une photocopie du permis expiré avec accusé de réception du renouvellement, votre code fiscal, certificat de composition de famille délivré par la municipalité de résidence avec le libellé «usage relevant des services d'immigration» (‘uso immigrazione’).",
+        'it': 'Per i tuoi dati anagrafici ti serve:',
+        'en': 'For your personal data you need:',
+        'ar': 'ما يتعلق في بياناتك الشخصية تحتاج إلى:',
+        'es': 'Para tus datos personales necesitas:',
+        'zh': '为了填写你的个人信息你需要：',
+        'fr': 'Pour vos données personnelles, vous aurez besoin de:',
+    },
+    'b1': {
+        'it': 'passaporto',
+        'en': 'a passport',
+        'ar': 'جواز',
+        'es': 'pasaporte',
+        'zh': '护照',
+        'fr': 'votre passeport',
+    },
+    'b2': {
+        'it': 'codice fiscale',
+        'en': 'tax code',
+        'ar': 'رقم كود الضريبة الشخصي',
+        'es': 'código fiscal',
+        'zh': '税号',
+        'fr': 'votre code fiscal',
+    },
+    'b3_1': {
+        'it': 'carta o permesso di soggiorno in corso di validità',
+        'en': 'residence card or valid residence permit',
+        'ar': 'بطاقة الهوية أو تصريح إقامة سارية المفعول',
+        'es': 'tarjeta o permiso de residencia válido',
+        'zh': '有效的居留或长期居留',
+        'fr': 'titre ou permis de séjour en cours de validité',
+    },
+    'b3_2': {
+        'it': 'copia del  permesso scaduto con ricevuta di presentazione  del rinnovo',
+        'en': 'a copy of the expired permit with receipt of the application for renewal',
+        'ar': 'نسخة من تصريح الإقامة منتهي الصلاحية مع إيصال استلام التجديد',
+        'es': 'copia del permiso vencido con recibo de presentación de la renovación',
+        'zh': '已过期的居留连同续签申请收据',
+        'fr': 'une photocopie du permis expiré avec accusé de réception du renouvellement',
+    },
+    'b4': {
+        'it': 'certificato di stato famiglia  rilasciato dal comune di residenza con la dicitura “uso immigrazione”.',
+        'en': 'family status certificate (‘certificato di stato famiglia’) issued by your municipality of residence clearly marked for "immigration use" (“uso immigrazione”).',
+        'ar': 'شهادة الحالة العائلية صادرة من البلدية لمكان الإقامة تحت عبارة "استخدام الهجرة  (uso immigrazione)".',
+        'es': 'certificado de estado de familia expedido por el municipio de residencia con la frase “uso immigazione”',
+        'zh': '户口所在的市政府开的填有“移民用途”字样的家庭状况证明。',
+        'fr': "certificat de composition de famille délivré par la municipalité de résidence avec le libellé «usage relevant des services d'immigration» (‘uso immigrazione’).",
     },
     'b7': {
         'it': 'Dichiarazione di impegno a sottoscrivere una polizza assicurativa sanitaria o altro titolo idoneo a garantire la copertura di tutti i rischi nel territorio nazionale, in favore dei genitori ultrasessantacinquenni.',
@@ -48,19 +88,18 @@ def produci_guida(request):
 
         guida['b'] = "<h2><u>" + translations['b'][lingua] + "</u></h2>"
 
-        guida['b1'] = "<li>Il tuo passaporto</li>"
-        guida['b2'] = "<li>Il tuo codice fiscale</li>"
+        guida['b1'] = "<li>" + translations['b1'][lingua] + "</li>"
+        guida['b2'] = "<li>" + translations['b2'][lingua] + "</li>"
 
         #Se permesso valido
         if ('ricevuta_rinnovo_permesso' not in request.session):
-            guida['b3_1'] = "<li>La tua carta di soggiorno o del permesso di soggiorno</li>"
+            guida['b3_1'] = "<li>" + translations['b3_1'][lingua] + "</li>"
 
         #Se permesso scaduto
         if (str(request.session.get('ricevuta_rinnovo_permesso'))=='si'):
-            guida['b3_2'] = "<li>Il tuo permesso scaduto, accompagnato da ricevuta di presentazione dell'istanza di rinnovo</li>"
-
+            guida['b3_2'] = "<li>" + translations['b3_2'][lingua] + "</li>"
         #città = str(request.session.get('città'))
-        guida['b4'] = "<li>Certificato dello stato di famiglia rilasciato dal Comune di Milano con la dicitura 'uso immigrazione'</li>"
+        guida['b4'] = "<li>" + translations['b4'][lingua] + "</li>"
 
         ##Per ogni parente presente
         if ('lista_familiari' in request.session):
