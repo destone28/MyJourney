@@ -35,7 +35,14 @@
     {% if lingua == "zh" %}独立工作者{% endif %}
     {% if lingua == "fr" %}Travailleur(euse) non salarié(e){% endif %}
   </option>
-  <option value="partecipazione_società">Partecipazione in società</option>
+  <option value="partecipazione_società">
+    {% if lingua == "it" %}Partecipazione in società{% endif %}
+    {% if lingua == "en" %}Participation in companies{% endif %}
+    {% if lingua == "ar" %}المشاركة في الشركات{% endif %}
+    {% if lingua == "es" %}Participación en empresas{% endif %}
+    {% if lingua == "zh" %}参与公司{% endif %}
+    {% if lingua == "fr" %}Participation à des entreprises{% endif %}
+  </option>
   <option value="socio_lavoratore">
     {% if lingua == "it" %}Socio lavoratore{% endif %}
     {% if lingua == "en" %}A partner in a cooperative{% endif %}
