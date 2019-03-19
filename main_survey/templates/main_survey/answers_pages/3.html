@@ -7,7 +7,14 @@
     <div class="col-md-8 offset-md-2 text-left" {% if lingua == "ar" %}style="direction: rtl"{% endif %}>
       <div class="form-group form-inline d-block d-sm-flex" v-for="(d, i) in people" v-if="i < 1 || categories[i - 1] !== ''">
         <select class="form-control mt-4 mt-sm-0 mr-sm-2" v-bind:required="categories[i] !== ''" v-model="categories[i]">
-          <option hidden disabled selected value="">Aggiungi...</option>
+          <option hidden disabled selected value="">
+            {% if lingua == "it" %}Aggiungi...{% endif %}
+            {% if lingua == "en" %}Add...{% endif %}
+            {% if lingua == "ar" %}...إضافة{% endif %}
+            {% if lingua == "es" %}Añadir...{% endif %}
+            {% if lingua == "zh" %}加...{% endif %}
+            {% if lingua == "fr" %}Ajouter...{% endif %}
+          </option>
           <option v-bind:disabled="count('parent') >= 2" value="parent">
             {% if lingua == "it" %}Genitore{% endif %}
             {% if lingua == "en" %}Parent{% endif %}
@@ -44,7 +51,14 @@
         </label>
 
         <select class="form-control mt-2 mt-sm-0 mr-sm-2" required v-if="categories[i] === 'child'" v-model="ages[i]">
-          <option hidden disabled selected value="">Seleziona età...</option>
+          <option hidden disabled selected value="">
+            {% if lingua == "it" %}Seleziona età...{% endif %}
+            {% if lingua == "en" %}Select age...{% endif %}
+            {% if lingua == "ar" %}...اختر العمر{% endif %}
+            {% if lingua == "es" %}Seleccionar edad...{% endif %}
+            {% if lingua == "zh" %}选择年龄...{% endif %}
+            {% if lingua == "fr" %}Sélectionnez l'âge...{% endif %}
+          </option>
           <option value="14">
             {% if lingua == "it" %}fino a 14 anni{% endif %}
             {% if lingua == "en" %}up to 14 years of age{% endif %}
