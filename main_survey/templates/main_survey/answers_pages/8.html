@@ -12,7 +12,7 @@
           {% if lingua == "en" %}Unlimited{% endif %}
           {% if lingua == "ar" %}غير ماختار{% endif %}
           {% if lingua == "es" %}Ilimitado{% endif %}
-          {% if lingua == "zh" %} 无限期{% endif %}
+          {% if lingua == "zh" %}无限期{% endif %}
           {% if lingua == "fr" %}Illimité{% endif %}
         </label>
       </div>
@@ -21,7 +21,14 @@
     <div class="col-md-4 text-center form-group">
       <div class="custom-control custom-radio custom-control-inline">
         <input id="no" name="scadenza_permesso" class="custom-control-input" type="radio" value="" required v-model="type">
-        <label class="custom-control-label" for="no">A scadenza</label>
+        <label class="custom-control-label" for="no">
+          {% if lingua == "it" %}A scadenza{% endif %}
+          {% if lingua == "en" %}Expiring{% endif %}
+          {% if lingua == "ar" %}محدود{% endif %}
+          {% if lingua == "es" %}Limitado{% endif %}
+          {% if lingua == "zh" %}有限{% endif %}
+          {% if lingua == "fr" %}Llimité{% endif %}
+        </label>
       </div>
     </div>
   </div>
