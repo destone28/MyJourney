@@ -5,14 +5,28 @@
   <div class="mr-2">
     <input class="form-control" type="number" id="n_tot_coinquilini" name="n_tot_coinquilini" step="1" min="0" placeholder="0" max="10" required v-model="people">
   </div>
-  <label for="n_tot_coinquilini">persone, delle quali</label>
+  <label for="n_tot_coinquilini">
+    {% if lingua == "it" %}persone, delle quali{% endif %}
+    {% if lingua == "en" %}people, of whom{% endif %}
+    {% if lingua == "ar" %}الناس ، منهم{% endif %}
+    {% if lingua == "es" %}personas, de las cuales{% endif %}
+    {% if lingua == "zh" %}人，其中{% endif %}
+    {% if lingua == "fr" %}personnes, dont{% endif %}
+  </label>
 </div>
 
 <div class="form-group form-inline justify-content-center ml-sm-2">
   <div class="mr-2">
     <input class="form-control" type="number" id="n_tot_coinquilini_min_14" name="n_tot_coinquilini_min_14" step="1" min="0" v-bind:max="people || 5" for="0" placeholder="0" required>
   </div>
-  <label for="n_tot_coinquilini_min_14">con meno di 14 anni</label>
+  <label for="n_tot_coinquilini_min_14">
+    {% if lingua == "it" %}con meno di 14 anni{% endif %}
+    {% if lingua == "en" %}are less than 14 years old{% endif %}
+    {% if lingua == "ar" %}هم أقل من 14 سنة{% endif %}
+    {% if lingua == "es" %}tienen menos de 14 años{% endif %}
+    {% if lingua == "zh" %}人不到14岁{% endif %}
+    {% if lingua == "fr" %}ont moins de 14 ans{% endif %}
+  </label>
 </div>
 {% endblock %}
 
