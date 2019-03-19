@@ -7,10 +7,18 @@
 
   <div v-if="address == ''">
     <div class="form-group">
-      <input type="text" class="form-control" placeholder="Cerca indirizzo" required v-model="queryAddress">
+      <input
+        type="text" class="form-control"
+        placeholder='{% if lingua == "it" %}Cerca indirizzo{% endif %}{% if lingua == "en" %}Search address{% endif %}{% if lingua == "ar" %}عنوان البحث{% endif %}{% if lingua == "es" %}Buscar dirección{% endif %}{% if lingua == "zh" %}搜索地址{% endif %}{% if lingua == "fr" %}Rechercher une adresse{% endif %}'
+        required v-model="queryAddress"
+      >
     </div>
     <div class="form-group">
-      <input type="text" class="form-control" placeholder="Cerca città" required v-model="queryCity">
+      <input
+        type="text" class="form-control"
+        placeholder='{% if lingua == "it" %}Cerca città{% endif %}{% if lingua == "en" %}Search city{% endif %}{% if lingua == "ar" %}بحث المدينة{% endif %}{% if lingua == "es" %}Buscar ciudad{% endif %}{% if lingua == "zh" %}搜索城市{% endif %}{% if lingua == "fr" %}Rechercher une ville{% endif %}'
+        required v-model="queryCity"
+      >
     </div>
     <button class="btn btn-block btn-primary" v-bind:type="queryAddress == '' || queryCity == '' ? 'button': 'submit'" v-bind:disabled="queryAddress == '' || queryCity == ''" v-on:click="search">Cerca</button>
   </div>
