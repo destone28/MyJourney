@@ -7,9 +7,23 @@
   </button>
 </div>
 <div class="col-sm-8 col-md-5 mt-2 mt-md-0 text-center">
-  <button class="btn btn-primary btn-block" name="fratelli_possono_mantenere_genitore" type="submit" value="no salute">No, per motivi di salute</button>
+  <button class="btn btn-primary btn-block" name="fratelli_possono_mantenere_genitore" type="submit" value="no salute">
+    {% if lingua == "it" %}No, per motivi di salute{% endif %}
+    {% if lingua == "en" %}No, for health reasons{% endif %}
+    {% if lingua == "ar" %}لا ، لأسباب صحية{% endif %}
+    {% if lingua == "es" %}No, por razones de salud{% endif %}
+    {% if lingua == "zh" %}不，出于健康原因{% endif %}
+    {% if lingua == "fr" %}Non, pour des raisons de santé{% endif %}
+  </button>
 </div>
 <div class="col-sm-8 col-md-5 mt-2 mt-md-0 text-center">
-  <button class="btn btn-primary btn-block" name="fratelli_possono_mantenere_genitore" type="submit" value="no altro">No, per altri motivi</button>
+  <button class="btn btn-primary btn-block" name="fratelli_possono_mantenere_genitore" type="submit" value="no altro">
+    {% if lingua == "it" %}No, per altri motivi{% endif %}
+    {% if lingua == "en" %}No, for other reasons{% endif %}
+    {% if lingua == "ar" %}لا ، لأسباب أخرى{% endif %}
+    {% if lingua == "es" %}No, por otras razones{% endif %}
+    {% if lingua == "zh" %}不，由于其他原因{% endif %}
+    {% if lingua == "fr" %}Non, pour d'autres raisons{% endif %}
+  </button>
 </div>
 {% endblock %}
