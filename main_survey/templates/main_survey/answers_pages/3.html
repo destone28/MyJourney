@@ -150,7 +150,7 @@
         var count = this.ages.reduce(function (r, c, i) { return c === value && cats[i] === category ? ++r : r }, 0);
         return count
       },
-      deletePerson(index) {
+      deletePerson: function(index) {
         fillAtIndex(this.people, index, null);
         fillAtIndex(this.categories, index, '');
         fillAtIndex(this.ages, index, '');
