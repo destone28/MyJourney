@@ -20,7 +20,7 @@ def anagrafe_milano_piu_vicina(address):
 
 
 
-            stringa = "Il municipio più vicino è il Municipio {}, in {}, telefono: {}\n".format(municipio, indirizzo_municipio, tel_municipio)
+            stringa = "il municipio {}, in {}, telefono: {}\n".format(municipio, indirizzo_municipio, tel_municipio)
 
             print(stringa)
 

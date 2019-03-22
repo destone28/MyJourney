@@ -199,7 +199,7 @@ def produci_guida(request):
         if ('indirizzo_alloggio' in request.session):
             guida['e'] = "<h2><u>Infine, eccoti qualche informazione aggiuntiva:</u></h2>"
             guida['f'] = "Puoi richiedere aiuto presso:<br>"+str(geo_db_locator.sindacati_e_patronati(request.session.get('indirizzo_alloggio')))
-            guida['g'] = "Il municipio di riferimento per i servizi anagrafici è:<br>"+str(geo_db_locator.anagrafe_milano_piu_vicina(request.session.get('indirizzo_alloggio')))
+            guida['g'] = "Il riferimento per i servizi anagrafici è<br>"+str(geo_db_locator.anagrafe_milano_piu_vicina(request.session.get('indirizzo_alloggio')))
             guida['h'] = "Per l'idoneità abitativa della tua casa:<br>"+str(geo_db_locator.idoneita_abitativa_vicina_milano(request.session.get('indirizzo_alloggio')))
             guida['i'] = "Ti occorrerà una marca da bollo per te, più una marca da bollo per ogni familiare che vuoi ricongiungere. Ogni marca da bollo ha il costo di 16€."
 

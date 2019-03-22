@@ -292,6 +292,7 @@ class Survey_manager():
 
 
 
+
         if page==0:
             pagina_indietro=page
             request.session['page_id'] = 2
@@ -393,6 +394,7 @@ class Survey_manager():
                             request.session['page_id'] = 9
                         elif (request.session.get('validita_permesso')=="meno_di_un_anno"):
                             request.session['page_id'] = non_idoneo;
+                            request.session['alert'] = "Scopri perché qui:<br>https://ondata.gitbooks.io/guida-per-il-ricongiungimento-extra-ue/content/06.html"
                         elif (request.session.get('validita_permesso')=="date_non_valide"):
                             request.session['page_id'] = 7
                             request.session['alert'] = "Date inserite non valide, riprova"
@@ -408,6 +410,7 @@ class Survey_manager():
                 request.session['page_id'] = 12
             elif str(request.session.get('ricevuta_rinnovo_permesso'))=='no':
                 request.session['page_id'] = non_idoneo
+                request.session['alert'] = "Scopri perché qui:<br>https://ondata.gitbooks.io/guida-per-il-ricongiungimento-extra-ue/content/06.html"
 
         elif page==10:
             pagina_indietro=page
@@ -416,6 +419,7 @@ class Survey_manager():
                 request.session['page_id'] = 14
             elif str(request.session.get('contratto_locazione'))=='no':
                 request.session['page_id'] = non_idoneo
+                request.session['alert'] = "Scopri perché qui:<br>https://ondata.gitbooks.io/guida-per-il-ricongiungimento-extra-ue/content/06.html"
 
         elif page==11:
             pagina_indietro=page
@@ -437,6 +441,7 @@ class Survey_manager():
                 request.session['alert'] = "Non hai selezionato nulla dall'elenco, riprova"
             elif ((str(request.session.get('posso_ospitare_in_alloggio'))=="no") and not (request.session.get('tipologia_permesso')=='asilo politico')):
                 request.session['page_id'] = non_idoneo
+                request.session['alert'] = "Scopri perché qui:<br>https://ondata.gitbooks.io/guida-per-il-ricongiungimento-extra-ue/content/06.html"
             elif (str(request.POST.get('città'))!='' and str(request.POST.get('via'))!='' and not (request.session.get('tipologia_permesso')=='asilo politico')):
                 request.session['città'] = str(request.POST.get('città'))
                 request.session['indirizzo_alloggio'] = str(str(request.POST.get('città'))+', '+str(request.POST.get('via')))
@@ -457,6 +462,7 @@ class Survey_manager():
                 request.session['page_id'] = page+1
             elif str(request.session.get('contratto_locazione'))=='no':
                 request.session['page_id'] = non_idoneo
+                request.session['alert'] = "Scopri perché qui:<br>https://ondata.gitbooks.io/guida-per-il-ricongiungimento-extra-ue/content/06.html"
 
         elif page==14:
             pagina_indietro=page
@@ -465,6 +471,7 @@ class Survey_manager():
                 request.session['page_id'] = 16
             elif str(request.session.get('contratto_locazione_registrato'))=='no':
                 request.session['page_id'] = non_idoneo
+                request.session['alert'] = "Scopri perché qui:<br>https://ondata.gitbooks.io/guida-per-il-ricongiungimento-extra-ue/content/06.html"
 
         elif page==15:
             pagina_indietro=page
@@ -473,6 +480,7 @@ class Survey_manager():
                 request.session['page_id'] = page+1
             elif str(request.session.get('atto_compravendita'))=='no':
                 request.session['page_id'] = non_idoneo
+                request.session['alert'] = "Scopri perché qui:<br>https://ondata.gitbooks.io/guida-per-il-ricongiungimento-extra-ue/content/06.html"
 
         elif page==16:
             pagina_indietro=page
@@ -527,6 +535,7 @@ class Survey_manager():
                 request.session['page_id'] = page+1
             elif str(request.session.get('casa_sufficiente'))=='no':
                 request.session['page_id'] = non_idoneo
+                request.session['alert'] = "<a href=”https://ondata.gitbooks.io/guida-per-il-ricongiungimento-extra-ue/content/07.html”>Scopri perché</a>"
 
         elif page==25:
             pagina_indietro=page
@@ -536,6 +545,7 @@ class Survey_manager():
                 request.session['alert'] = 'Non hai inserito una tipologia per il lavoro, riprova'
             elif str(request.session.get('tipologia_lavoro'))=='no':
                 request.session['page_id'] = non_idoneo
+                request.session['alert'] = "Scopri perché qui:<br>https://ondata.gitbooks.io/guida-per-il-ricongiungimento-extra-ue/content/06.html"
             else:
                 request.session['page_id'] = 27
 
@@ -547,6 +557,7 @@ class Survey_manager():
                 request.session['page_id'] = idoneo
             elif str(request.session.get('reddito_sufficiente'))=='no':
                 request.session['page_id'] = non_idoneo
+                request.session['alert'] = "<a href=”https://ondata.gitbooks.io/guida-per-il-ricongiungimento-extra-ue/content/08.html”>Scopri perché</a>"
 
         elif page==27:
             pagina_indietro=page
@@ -565,23 +576,9 @@ class Survey_manager():
 
         elif page==non_idoneo:
             request.session['guida'] = request.POST.get('guida')
-            request.session['flag_continua_comunque'] = request.POST.get('flag_continua_comunque')
             if request.session['guida'] == 'no':
                 request.session['page_id'] = 1
-            #caso in cui si voglia continuare comunque:
-            if ( request.session.get('flag_continua_comunque') == "True" ):
-                if (request.session.get('pagina_indietro')==8):
-                    request.session['page_id'] = 12
-                if (request.session.get('pagina_indietro')==12):
-                    if (Family_manager.c_e_partner(request)):
-                        request.session['page_id'] = 18
-                    else:
-                        request.session['page_id'] = 25
-                if (request.session.get('pagina_indietro')==27):
-                    if ((request.session.get('posso_ospitare_in_alloggio')=='no') or (request.session.get('pagina_indietro')==25) or (request.session.get('pagina_indietro')==26) or (request.session.get('pagina_indietro')==27)):
-                        request.session['page_id'] = 30
-
-                request.session['flag_continua_comunque']="False"
+            request.session['alert'] = ""
 
         elif page==30:
             request.session['guida'] = request.POST.get('guida')
