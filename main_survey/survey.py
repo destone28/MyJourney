@@ -5,12 +5,40 @@ from . import geodecoder, geo_db_locator, report_maker
 non_idoneo = 29
 idoneo = 28
 
-
-
-
-
-
-
+text = {
+    'dati_errati' : {
+        'it': 'Hai inserito dati errati. Riprova',
+        'en': "You have entered incorrect data. Try again",
+        'ar': 'لقد أدخلت بيانات غير صحيحة. يرجى المحاولة مرة أخرى',
+        'es': 'Has introducido datos incorrectos. Por favor, inténtelo de nuevo',
+        'zh': '您输入的数据不正确。请再试一次',
+        'fr': "Vous avez entré des données incorrectes. S'il vous plaît essayer de nouveau",
+    },
+    'limite_valori' : {
+        'it': 'Immettere un valore compreso tra 1 e 6',
+        'en': "Enter a value between 1 and 6",
+        'ar': 'أدخِل قيمة ما بين 1 و 6',
+        'es': 'Introducir un valor entre 1 y 6',
+        'zh': ' 输入1至6之间的数字',
+        'fr': "Saisissez une valeur comprise entre 1 et 6",
+    },
+    'scelte_non_valide' : {
+        'it': 'Non hai effettuato scelte valide',
+        'en': "You have not made a valid selection",
+        'ar': 'لم تقم باختيارات صحيحة',
+        'es': 'No has realizado una elección válida',
+        'zh': ' 你未做出有效选择',
+        'fr': "Vous n'avez pas effectué de choix valables",
+    },
+    'scopri_perché_qui' : {
+        'it': 'Scopri perché qui',
+        'en': "Find out why here",
+        'ar': 'اكتشف لماذا هنا',
+        'es': 'Descubre por qué aquí',
+        'zh': '在这里找出原因',
+        'fr': "Découvrez pourquoi ici",
+    }
+}
 
 
 class Family_manager():
@@ -126,7 +154,7 @@ class Family_manager():
         request.session['n_tot_coinquilini_min_14'] = request.POST.get('n_tot_coinquilini_min_14')
         request.session['n_coinquilini_da_contare_per_metratura'] = int(request.session.get('n_tot_coinquilini'))-int(request.session.get('n_tot_coinquilini_min_14'))
         if (request.session.get('n_tot_coinquilini_min_14')>request.session.get('n_tot_coinquilini')):
-            request.session['alert'] = 'Hai inserito dati errati. Riprova'
+            request.session['alert'] = text['dati_errati'][lingua]
         #if (request.session.get(''))
         else:
             if (not Family_manager.ci_sono_partner_o_genitori(request)):
@@ -141,11 +169,11 @@ class Family_manager():
         print("Familiari in totale a carico: "+familiari)
         if (familiari>6):
             #request.session['page_id'] = non_idoneo
-            request.session['alert'] = "Troppi familiari a carico!"
+            request.session['alert'] = text['limite_valori'][lingua]
             print("TROPPI FAMILIARI A CARICO!")
         if (int(request.session.get('coinquilini_a_carico'))>int(request.session.get('n_tot_coinquilini'))):
-            request.session['alert'] = "Hai troppi coinquilini a carico, ricontrolla!"
-            #####################################################TO-DO COLLEGARE A DOMANDA SUCCESSIVA COINQUILINI
+            request.session['alert'] = text['dati_errati'][lingua]
+
 
     def rimuovi_parente_corrente(request):
         parente = "n_"+str(request.session.get('parente_specifico'))
@@ -157,7 +185,6 @@ class Family_manager():
         lista_familiari = request.session.get('lista_familiari')
         familiari_temp = [item[0] for item in lista_familiari]
         if 'partner_mag' in familiari_temp:
-            '''request.session['page_id'] = 18'''
             return True
         return False
 
@@ -300,7 +327,7 @@ class Survey_manager():
         if page==1:
             pagina_indietro=page
             lingua = request.POST.get('lingua')
-            request.session['alert'] = 'Non hai effettuato scelte valide'
+            request.session['alert'] = text['scelte_non_valide'][lingua]
             if ((str(request.session.get('lingua'))!='None') or ('lingua' not in request.session)):
                 request.session.clear()
                 request.session['lingua'] = lingua
@@ -309,7 +336,7 @@ class Survey_manager():
         elif page==2:
             pagina_indietro=page
             request.session['nazionalità_user'] = request.POST.get('nazionalità_user')
-            request.session['alert'] = 'Non hai effettuato scelte valide'
+            request.session['alert'] = text['scelte_non_valide'][lingua]
             if str(request.session.get('nazionalità_user'))!='':
                 request.session['page_id'] = page+1
                 request.session['alert'] = ''
@@ -334,7 +361,7 @@ class Survey_manager():
         elif page==5:
             pagina_indietro=page
             request.session['residenza_parente'] = request.POST.get('residenza_parente')
-            request.session['alert'] = 'Non hai effettuato scelte valide'
+            request.session['alert'] = text['scelte_non_valide'][lingua]
             if str(request.session.get('residenza_parente'))!='':
                 request.session['alert'] = ''
                 if not ('lista_familiari' in request.session):
@@ -373,17 +400,17 @@ class Survey_manager():
             pagina_indietro=page
             print(str(request.POST.get('rilascio_permesso')))
             request.session['rilascio_permesso'] = request.POST.get('rilascio_permesso')
-            request.session['alert'] = 'Non hai inserito una data valida'
-            if str(request.session.get('rilascio_permesso'))!='Inserisci una data':              #######CHECK DATE ENTRY TO-DO
+            request.session['alert'] = text['scelte_non_valide'][lingua]
+            if str(request.session.get('rilascio_permesso'))!='Inserisci una data':
                 print(str(request.session.get('rilascio_permesso')))
                 request.session['page_id'] = page+1
                 request.session['alert'] = ''
 
         elif page==8:
             pagina_indietro=page
-            print(str(request.POST.get('scadenza_permesso'))) ############################################################## CHECKS TO DO
+            print(str(request.POST.get('scadenza_permesso')))
             request.session['scadenza_permesso'] = request.POST.get('scadenza_permesso')
-            request.session['alert'] = 'Non hai inserito una data valida'
+            request.session['alert'] = text['scelte_non_valide'][lingua]
             if not (request.session.get('scadenza_permesso')=='illimitato'):
                 if str(request.session.get('rilascio_permesso'))!='Inserisci una data':
                     request.session['alert'] = ''
@@ -394,10 +421,10 @@ class Survey_manager():
                             request.session['page_id'] = 9
                         elif (request.session.get('validita_permesso')=="meno_di_un_anno"):
                             request.session['page_id'] = non_idoneo;
-                            request.session['alert'] = "Scopri perché qui:<br>https://ondata.gitbooks.io/guida-per-il-ricongiungimento-extra-ue/content/06.html"
+                            request.session['alert'] = text['scopri_perché_qui'][lingua] + ":<br> https://ondata.gitbooks.io/guida-per-il-ricongiungimento-extra-ue/content/06.html"
                         elif (request.session.get('validita_permesso')=="date_non_valide"):
                             request.session['page_id'] = 7
-                            request.session['alert'] = "Date inserite non valide, riprova"
+                            request.session['alert'] = text['dati_errati'][lingua]
             elif request.session.get('scadenza_permesso')=='illimitato':
                 request.session['alert'] = ''
                 request.session['page_id'] = 6
@@ -410,7 +437,7 @@ class Survey_manager():
                 request.session['page_id'] = 12
             elif str(request.session.get('ricevuta_rinnovo_permesso'))=='no':
                 request.session['page_id'] = non_idoneo
-                request.session['alert'] = "Scopri perché qui:<br>https://ondata.gitbooks.io/guida-per-il-ricongiungimento-extra-ue/content/06.html"
+                request.session['alert'] = text['scopri_perché_qui'][lingua] + ":<br> https://ondata.gitbooks.io/guida-per-il-ricongiungimento-extra-ue/content/06.html"
 
         elif page==10:
             pagina_indietro=page
@@ -419,7 +446,7 @@ class Survey_manager():
                 request.session['page_id'] = 14
             elif str(request.session.get('contratto_locazione'))=='no':
                 request.session['page_id'] = non_idoneo
-                request.session['alert'] = "Scopri perché qui:<br>https://ondata.gitbooks.io/guida-per-il-ricongiungimento-extra-ue/content/06.html"
+                request.session['alert'] = text['scopri_perché_qui'][lingua] + ":<br> https://ondata.gitbooks.io/guida-per-il-ricongiungimento-extra-ue/content/06.html"
 
         elif page==11:
             pagina_indietro=page
@@ -427,7 +454,7 @@ class Survey_manager():
                 request.session['città'] = str(request.POST.get('città'))
                 request.session['indirizzo_alloggio'] = str(str(request.POST.get('città'))+', '+str(request.POST.get('via')))
                 if geodecoder.from_address_to_coords(str(request.session.get('indirizzo_alloggio')))=="None":
-                    request.session['alert'] = 'Non hai inserito un indirizzo corretto, riprova'
+                    request.session['alert'] = text['dati_errati'][lingua]
                 else:
                     request.session['page_id'] = idoneo
 
@@ -438,15 +465,15 @@ class Survey_manager():
             if (request.session.get('tipologia_permesso')=='asilo politico'):
                 request.session['page_id'] = idoneo
             if str(request.session.get('posso_ospitare_in_alloggio'))=="None":
-                request.session['alert'] = "Non hai selezionato nulla dall'elenco, riprova"
+                request.session['alert'] = text['dati_errati'][lingua]
             elif ((str(request.session.get('posso_ospitare_in_alloggio'))=="no") and not (request.session.get('tipologia_permesso')=='asilo politico')):
                 request.session['page_id'] = non_idoneo
-                request.session['alert'] = "Scopri perché qui:<br>https://ondata.gitbooks.io/guida-per-il-ricongiungimento-extra-ue/content/06.html"
+                request.session['alert'] = text['scopri_perché_qui'][lingua] + ":<br> https://ondata.gitbooks.io/guida-per-il-ricongiungimento-extra-ue/content/06.html"
             elif (str(request.POST.get('città'))!='' and str(request.POST.get('via'))!='' and not (request.session.get('tipologia_permesso')=='asilo politico')):
                 request.session['città'] = str(request.POST.get('città'))
                 request.session['indirizzo_alloggio'] = str(str(request.POST.get('città'))+', '+str(request.POST.get('via')))
                 if geodecoder.from_address_to_coords(str(request.session.get('indirizzo_alloggio')))=="None":
-                    request.session['alert'] = 'Non hai inserito un indirizzo corretto, riprova'
+                    request.session['alert'] = text['dati_errati'][lingua]
                 elif str(request.session.get('posso_ospitare_in_alloggio'))=="si":
                     request.session['page_id'] = page+1
                     request.session['alert'] = ''
@@ -462,7 +489,7 @@ class Survey_manager():
                 request.session['page_id'] = page+1
             elif str(request.session.get('contratto_locazione'))=='no':
                 request.session['page_id'] = non_idoneo
-                request.session['alert'] = "Scopri perché qui:<br>https://ondata.gitbooks.io/guida-per-il-ricongiungimento-extra-ue/content/06.html"
+                request.session['alert'] = text['scopri_perché_qui'][lingua] + ":<br> https://ondata.gitbooks.io/guida-per-il-ricongiungimento-extra-ue/content/06.html"
 
         elif page==14:
             pagina_indietro=page
@@ -471,7 +498,7 @@ class Survey_manager():
                 request.session['page_id'] = 16
             elif str(request.session.get('contratto_locazione_registrato'))=='no':
                 request.session['page_id'] = non_idoneo
-                request.session['alert'] = "Scopri perché qui:<br>https://ondata.gitbooks.io/guida-per-il-ricongiungimento-extra-ue/content/06.html"
+                request.session['alert'] = text['scopri_perché_qui'][lingua] + ":<br> https://ondata.gitbooks.io/guida-per-il-ricongiungimento-extra-ue/content/06.html"
 
         elif page==15:
             pagina_indietro=page
@@ -480,7 +507,7 @@ class Survey_manager():
                 request.session['page_id'] = page+1
             elif str(request.session.get('atto_compravendita'))=='no':
                 request.session['page_id'] = non_idoneo
-                request.session['alert'] = "Scopri perché qui:<br>https://ondata.gitbooks.io/guida-per-il-ricongiungimento-extra-ue/content/06.html"
+                request.session['alert'] = text['scopri_perché_qui'][lingua] + ":<br> https://ondata.gitbooks.io/guida-per-il-ricongiungimento-extra-ue/content/06.html"
 
         elif page==16:
             pagina_indietro=page
@@ -500,7 +527,7 @@ class Survey_manager():
             if (request.session.get("coinquilini_a_carico")=="None"):
                 request.session["coinquilini_a_carico"] = 0
             if ( int(request.session.get('coinquilini_a_carico')) > int(request.session.get('n_tot_coinquilini')) ): #check per valori coinquilini
-                request.session['alert'] = 'Inserisci numero corretto di coinquilini'
+                request.session['alert'] = text['dati_errati'][lingua]
                 request.session['page_id'] = 16
             else:
                 request.session['metratura_casa'] = Survey_manager.calcola_metratura_casa(request)
@@ -535,7 +562,7 @@ class Survey_manager():
                 request.session['page_id'] = page+1
             elif str(request.session.get('casa_sufficiente'))=='no':
                 request.session['page_id'] = non_idoneo
-                request.session['alert'] = "<a href=”https://ondata.gitbooks.io/guida-per-il-ricongiungimento-extra-ue/content/07.html”>Scopri perché</a>"
+                request.session['alert'] = text['scopri_perché_qui'][lingua] + ":<br> https://ondata.gitbooks.io/guida-per-il-ricongiungimento-extra-ue/content/07.html"
 
         elif page==25:
             pagina_indietro=page
@@ -545,7 +572,7 @@ class Survey_manager():
                 request.session['alert'] = 'Non hai inserito una tipologia per il lavoro, riprova'
             elif str(request.session.get('tipologia_lavoro'))=='no':
                 request.session['page_id'] = non_idoneo
-                request.session['alert'] = "Scopri perché qui:<br>https://ondata.gitbooks.io/guida-per-il-ricongiungimento-extra-ue/content/06.html"
+                request.session['alert'] = text['scopri_perché_qui'][lingua] + ":<br> https://ondata.gitbooks.io/guida-per-il-ricongiungimento-extra-ue/content/06.html"
             else:
                 request.session['page_id'] = 27
 
@@ -557,7 +584,7 @@ class Survey_manager():
                 request.session['page_id'] = idoneo
             elif str(request.session.get('reddito_sufficiente'))=='no':
                 request.session['page_id'] = non_idoneo
-                request.session['alert'] = "<a href=”https://ondata.gitbooks.io/guida-per-il-ricongiungimento-extra-ue/content/08.html”>Scopri perché</a>"
+                request.session['alert'] = text['scopri_perché_qui'][lingua] + ":<br> https://ondata.gitbooks.io/guida-per-il-ricongiungimento-extra-ue/content/08.html”
 
         elif page==27:
             pagina_indietro=page

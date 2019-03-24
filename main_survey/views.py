@@ -58,6 +58,33 @@ stepsTranslations = {
     }
 }
 
+testo_parente = {
+    'partner' : {
+        'it': "Il partner',
+        'en': 'My partner',
+        'ar': 'الشريك',
+        'es': 'Mi pareja',
+        'zh': '伴侣',
+        'fr': 'Le partenaire'
+    },
+    'figlio' : {
+        'it': "Il "+str(numero_temporaneo_parente)+"° figlio",
+        'en': "My "+str(numero_temporaneo_parente)+"° son/daughter",
+        'ar': "الإبن "+str(numero_temporaneo_parente),
+        'es': "Mi "+str(numero_temporaneo_parente)+"° hijo",
+        'zh': "孩子 "+str(numero_temporaneo_parente),
+        'fr': "Le "+str(numero_temporaneo_parente)+"° enfant"
+    },
+    'genitore' : {
+        'it': "Il "+str(numero_temporaneo_parente)+"° genitore",
+        'en': "My "+str(numero_temporaneo_parente)+"° parent",
+        'ar': "الوالد"+str(numero_temporaneo_parente),
+        'es': "Mi "+str(numero_temporaneo_parente)+"° padre",
+        'zh': "双亲"+str(numero_temporaneo_parente),
+        'fr': "Le "+str(numero_temporaneo_parente)+"° parent"
+    }
+}
+
 class PageView(DetailView):
 
     def get(request):
@@ -112,15 +139,15 @@ class PageView(DetailView):
             parente = ""
 
         elif str(request.session.get('temp_parente'))=="partner_mag":
-            parente = "Il partner"
+            parente = testo_parente['partner'][lingua]
 
         elif ((str(request.session.get('temp_parente'))=='figli_min_ug_14') or (str(request.session.get('temp_parente'))=='figli_15_17') or (str(request.session.get('temp_parente'))=='figli_magg')):
             numero_temporaneo_parente = request.session.get('numero_temporaneo_figlio')
-            parente = "Il "+str(numero_temporaneo_parente)+"° figlio"
+            parente = testo_parente['figlio'][lingua]
 
         elif (str(request.session.get('temp_parente'))=='genitore'):
             numero_temporaneo_parente = request.session.get('numero_temporaneo_genitore')
-            parente = "Il "+str(numero_temporaneo_parente)+"° genitore"
+            parente = testo_parente['genitore'][lingua]
 
         else:
             parente = request.session.get('temp_parente')
