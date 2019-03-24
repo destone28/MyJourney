@@ -12,6 +12,8 @@ from . import report_maker
 
 ANSWERS_TEMPLATE_PAGE_FOLDER = 'main_survey/answers_pages/'
 
+linguaDefault = 'it'
+lingua = linguaDefault
 
 #funzione per raccogliere l'indirizzo ip dell'utente, al momento non utilizzata:
 
@@ -59,8 +61,16 @@ stepsTranslations = {
 }
 
 testo_parente = {
+    'articolo' : {
+        'it': "Il ",
+        'en': "My ",
+        'ar': "",
+        'es': "Mi ",
+        'zh': "",
+        'fr': "Le "
+    },
     'partner' : {
-        'it': "Il partner',
+        'it': "Il partner",
         'en': 'My partner',
         'ar': 'الشريك',
         'es': 'Mi pareja',
@@ -68,20 +78,20 @@ testo_parente = {
         'fr': 'Le partenaire'
     },
     'figlio' : {
-        'it': "Il "+str(numero_temporaneo_parente)+"° figlio",
-        'en': "My "+str(numero_temporaneo_parente)+"° son/daughter",
-        'ar': "الإبن "+str(numero_temporaneo_parente),
-        'es': "Mi "+str(numero_temporaneo_parente)+"° hijo",
-        'zh': "孩子 "+str(numero_temporaneo_parente),
-        'fr': "Le "+str(numero_temporaneo_parente)+"° enfant"
+        'it': '° figlio',
+        'en': "° son/daughter",
+        'ar': "الإبن ",
+        'es': "° hijo",
+        'zh': "孩子 ",
+        'fr': "° enfant"
     },
     'genitore' : {
-        'it': "Il "+str(numero_temporaneo_parente)+"° genitore",
-        'en': "My "+str(numero_temporaneo_parente)+"° parent",
-        'ar': "الوالد"+str(numero_temporaneo_parente),
-        'es': "Mi "+str(numero_temporaneo_parente)+"° padre",
-        'zh': "双亲"+str(numero_temporaneo_parente),
-        'fr': "Le "+str(numero_temporaneo_parente)+"° parent"
+        'it': "° genitore",
+        'en': "° parent",
+        'ar': "الوالد",
+        'es': "° padre",
+        'zh': "双亲",
+        'fr': "° parent"
     }
 }
 
@@ -143,11 +153,11 @@ class PageView(DetailView):
 
         elif ((str(request.session.get('temp_parente'))=='figli_min_ug_14') or (str(request.session.get('temp_parente'))=='figli_15_17') or (str(request.session.get('temp_parente'))=='figli_magg')):
             numero_temporaneo_parente = request.session.get('numero_temporaneo_figlio')
-            parente = testo_parente['figlio'][lingua]
+            parente = testo_parente['articolo'][lingua]+str(numero_temporaneo_parente)+testo_parente['figlio'][lingua]
 
         elif (str(request.session.get('temp_parente'))=='genitore'):
             numero_temporaneo_parente = request.session.get('numero_temporaneo_genitore')
-            parente = testo_parente['genitore'][lingua]
+            parente = testo_parente['articolo'][lingua]+str(numero_temporaneo_parente)+testo_parente['genitore'][lingua]
 
         else:
             parente = request.session.get('temp_parente')

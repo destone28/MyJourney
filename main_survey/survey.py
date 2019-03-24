@@ -5,6 +5,8 @@ from . import geodecoder, geo_db_locator, report_maker
 non_idoneo = 29
 idoneo = 28
 
+lingua = 'it'
+
 text = {
     'dati_errati' : {
         'it': 'Hai inserito dati errati. Riprova',
@@ -317,6 +319,9 @@ class Survey_manager():
             page_before=request.session.get('pagina_indietro')
 
 
+        lingua = request.session.get('lingua')
+        if (request.session.get('lingua') == "None"):
+            lingua = "it"
 
 
 
@@ -335,6 +340,7 @@ class Survey_manager():
 
         elif page==2:
             pagina_indietro=page
+            lingua = request.session.get('lingua')
             request.session['nazionalità_user'] = request.POST.get('nazionalità_user')
             request.session['alert'] = text['scelte_non_valide'][lingua]
             if str(request.session.get('nazionalità_user'))!='':
@@ -584,7 +590,7 @@ class Survey_manager():
                 request.session['page_id'] = idoneo
             elif str(request.session.get('reddito_sufficiente'))=='no':
                 request.session['page_id'] = non_idoneo
-                request.session['alert'] = text['scopri_perché_qui'][lingua] + ":<br> https://ondata.gitbooks.io/guida-per-il-ricongiungimento-extra-ue/content/08.html”
+                request.session['alert'] = text['scopri_perché_qui'][lingua] + ':<br>https://ondata.gitbooks.io/guida-per-il-ricongiungimento-extra-ue/content/08.html'
 
         elif page==27:
             pagina_indietro=page
