@@ -104,9 +104,8 @@ class PageView(DetailView):
 
         if request.method=='GET':
 
-            for key in request.session.keys():
-                if key!='page_id':         #svuota le variabili, se già presenti, con la GET della prima pagina
-                    request.session[key]=''
+            if ('page_id' not in request.session):         #svuota le variabili, se già presenti, con la GET della prima pagina
+                request.session['page_id']=1
 
             current_timestamp_session = time.time()     #inizializza un timestamp per identificare la sessione
             request.session['session_id'] = current_timestamp_session
