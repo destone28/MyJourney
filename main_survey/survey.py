@@ -154,14 +154,10 @@ class Family_manager():
 
     def check_coinquilini(request):
         request.session['n_coinquilini_da_contare_per_metratura'] = int(request.session.get('n_tot_coinquilini'))-int(request.session.get('n_tot_coinquilini_min_14'))
-        if (int(request.session.get('n_tot_coinquilini_min_14'))>request.session.get('n_tot_coinquilini')):
-            request.session['alert'] = text['dati_errati'][lingua]
-        #if (request.session.get(''))
-        else:
-            if (not Family_manager.ci_sono_partner_o_genitori(request)):
-                request.session['metratura_casa'] = Survey_manager.calcola_metratura_casa(request)
-                request.session['importo_reddito'] = Survey_manager.calcola_importo_reddito(request)
-                request.session['page_id'] = 24     ##se non ci sono partner o genitori si procede con la pagina per la misura della casa
+        if (not Family_manager.ci_sono_partner_o_genitori(request)):
+            request.session['metratura_casa'] = Survey_manager.calcola_metratura_casa(request)
+            request.session['importo_reddito'] = Survey_manager.calcola_importo_reddito(request)
+            request.session['page_id'] = 24     ##se non ci sono partner o genitori si procede con la pagina per la misura della casa
 
     def aggiungi_coinquilini_a_carico(request):
         request.session['coinquilini_a_carico']=int(request.session.get('coinquilini_a_carico'))
