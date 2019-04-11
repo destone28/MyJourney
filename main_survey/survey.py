@@ -153,13 +153,14 @@ class Family_manager():
             return request
 
     def check_coinquilini(request):
-        request.session['n_tot_coinquilini_min_14'] = request.POST.get('n_tot_coinquilini_min_14')
         request.session['n_coinquilini_da_contare_per_metratura'] = int(request.session.get('n_tot_coinquilini'))-int(request.session.get('n_tot_coinquilini_min_14'))
-        if (request.session.get('n_tot_coinquilini_min_14')>request.session.get('n_tot_coinquilini')):
+        if (int(request.session.get('n_tot_coinquilini_min_14'))>request.session.get('n_tot_coinquilini')):
             request.session['alert'] = text['dati_errati'][lingua]
         #if (request.session.get(''))
         else:
             if (not Family_manager.ci_sono_partner_o_genitori(request)):
+                request.session['metratura_casa'] = Survey_manager.calcola_metratura_casa(request)
+                request.session['importo_reddito'] = Survey_manager.calcola_importo_reddito(request)
                 request.session['page_id'] = 24     ##se non ci sono partner o genitori si procede con la pagina per la misura della casa
 
     def aggiungi_coinquilini_a_carico(request):
@@ -236,7 +237,10 @@ class Survey_manager():
 
         numero_familiari_da_contare_per_metratura = len(familiari_temp)
 
-        n_coinquilini_da_contare_per_metratura = int(request.session.get('n_tot_coinquilini'))
+        if ('n_coinquilini_da_contare_per_metratura' in request.session):
+            n_coinquilini_da_contare_per_metratura = int(request.session['n_coinquilini_da_contare_per_metratura'])
+        else:
+            n_coinquilini_da_contare_per_metratura = 0
 
         #n_coinquilini_da_contare_per_metratura = int(request.session.get('n_tot_coinquilini'))-int(request.session.get('n_tot_coinquilini_min_14'))
 
@@ -253,7 +257,7 @@ class Survey_manager():
         return request.session['metratura_casa']
 
 
-    def permesso_valido(request):##########################################CHECK SU DATE###########################################################################
+    def permesso_valido(request):
         rilascio = request.session.get('rilascio_permesso')
         scadenza = request.session.get('scadenza_permesso')
         try:
@@ -281,7 +285,10 @@ class Survey_manager():
 
         lista_familiari = request.session.get('lista_familiari')
         familiari_temp = [item[0] for item in lista_familiari]
-        familiari = len(familiari_temp)+int(request.session.get('coinquilini_a_carico'))
+        if ('coinquilini_a_carico' in request.session):
+            familiari = len(familiari_temp)+int(request.session.get('coinquilini_a_carico'))
+        else:
+            familiari = len(familiari_temp)
 
         if (familiari==1):
             request.session['importo_reddito'] = float(744.23)
@@ -458,8 +465,9 @@ class Survey_manager():
             pagina_indietro=page
             if (str(request.POST.get('città'))!='' and str(request.POST.get('via'))!='' and (request.session.get('tipologia_permesso')=='asilo politico')):
                 request.session['città'] = str(request.POST.get('città'))
-                request.session['indirizzo_alloggio'] = str(str(request.POST.get('città'))+', '+str(request.POST.get('via')))
-                if geodecoder.from_address_to_coords(str(request.session.get('indirizzo_alloggio')))=="None":
+                request.session['via'] = str(request.session.POST.get('via'))
+                request.session['indirizzo_alloggio'] = str(request.POST.get('via'))+', '+str(str(request.POST.get('città')))
+                if (geodecoder.from_address_to_coords(str(request.session.get('indirizzo_alloggio')))=="None"):
                     request.session['alert'] = text['dati_errati'][lingua]
                 else:
                     request.session['page_id'] = idoneo
@@ -477,7 +485,7 @@ class Survey_manager():
                 request.session['alert'] = text['scopri_perché_qui'][lingua] + ":<br> https://ondata.gitbooks.io/guida-per-il-ricongiungimento-extra-ue/content/06.html"
             elif (str(request.POST.get('città'))!='' and str(request.POST.get('via'))!='' and not (request.session.get('tipologia_permesso')=='asilo politico')):
                 request.session['città'] = str(request.POST.get('città'))
-                request.session['indirizzo_alloggio'] = str(str(request.POST.get('città'))+', '+str(request.POST.get('via')))
+                request.session['indirizzo_alloggio'] = (str(request.POST.get('via'))+', '+str(str(request.POST.get('città'))))
                 if geodecoder.from_address_to_coords(str(request.session.get('indirizzo_alloggio')))=="None":
                     request.session['alert'] = text['dati_errati'][lingua]
                 elif str(request.session.get('posso_ospitare_in_alloggio'))=="si":
@@ -518,19 +526,26 @@ class Survey_manager():
         elif page==16:
             pagina_indietro=page
             request.session['n_tot_coinquilini'] = request.POST.get('n_tot_coinquilini')
-            if (request.session.get('n_tot_coinquilini')!='None'):
-                if (int(request.session.get('n_tot_coinquilini'))==0):
-                    if (not Family_manager.c_e_partner(request)):   #se non c'è partner controlla coinquilini, e vai a pag24, altrimenti
-                        Family_manager.check_coinquilini(request)
-                else:
-                    request.session['page_id'] = 17
+            request.session['n_tot_coinquilini_min_14'] = request.POST.get('n_tot_coinquilini_min_14')
+            if (request.session.get('n_tot_coinquilini')==''):
+                request.session['n_tot_coinquilini']=0
+            if (request.session.get('n_tot_coinquilini_min_14')==''):
+                request.session['n_tot_coinquilini_min_14']=0
+            if (Family_manager.c_e_partner(request)): #controlla che ci sia partner e vai a pag18
+                request.session['page_id'] = 18
+            if (not Family_manager.c_e_partner(request)):   #se non c'è partner controlla coinquilini, e vai a pag24
+                Family_manager.check_coinquilini(request)
+                request.session['metratura_casa'] = Survey_manager.calcola_metratura_casa(request)
+                request.session['importo_reddito'] = Survey_manager.calcola_importo_reddito(request)
+            if (not request.session.get('n_tot_coinquilini')==0):
+                request.session['page_id'] = 17
 
 
         elif page==17:
             pagina_indietro=page
 
             request.session['coinquilini_a_carico'] = request.POST.get('coinquilini_a_carico')
-            if (request.session.get("coinquilini_a_carico")=="None"):
+            if (request.session.get("coinquilini_a_carico")=='' or request.session.get("coinquilini_a_carico")=='None'):
                 request.session["coinquilini_a_carico"] = 0
             if ( int(request.session.get('coinquilini_a_carico')) > int(request.session.get('n_tot_coinquilini')) ): #check per valori coinquilini
                 request.session['alert'] = text['dati_errati'][lingua]
@@ -558,6 +573,8 @@ class Survey_manager():
                 if (request.session.get('posso_ospitare_in_alloggio') == 'no'):
                     request.session['page_id'] = 25
                 else:
+                    request.session['metratura_casa'] = Survey_manager.calcola_metratura_casa(request)
+                    request.session['importo_reddito'] = Survey_manager.calcola_importo_reddito(request)
                     request.session['page_id'] = 24
 
         elif page==24:

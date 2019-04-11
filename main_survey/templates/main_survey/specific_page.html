@@ -20,7 +20,7 @@
 
       {% if alert %}
         <div class="alert alert-danger">
-          {{ alert }}
+          {{ alert | urlize }}
         </div>
       {% endif %}
 

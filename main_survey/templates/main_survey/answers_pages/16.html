@@ -3,7 +3,7 @@
 {% block center %}
 <div class="form-group form-inline justify-content-center">
   <div class="mr-2">
-    <input class="form-control" type="number" id="n_tot_coinquilini" name="n_tot_coinquilini" step="1" min="0" for="0" placeholder="0" max="10" required v-model="people">
+    <input class="form-control" type="number" id="n_tot_coinquilini" name="n_tot_coinquilini" step="1" min="0" placeholder="0" max="10" v-model="people" value="0">
   </div>
   <label for="n_tot_coinquilini">
     {% if lingua == "it" %}persone, delle quali{% endif %}
@@ -17,7 +17,7 @@
 
 <div class="form-group form-inline justify-content-center ml-sm-2">
   <div class="mr-2">
-    <input class="form-control" type="number" id="n_tot_coinquilini_min_14" name="n_tot_coinquilini_min_14" step="1" min="0" v-bind:max="people || 5" for="0" placeholder="0" required>
+    <input class="form-control" type="number" id="n_tot_coinquilini_min_14" name="n_tot_coinquilini_min_14" step="1" min="0" v-bind:max="people || 5" for="0" placeholder="0" value="0">
   </div>
   <label for="n_tot_coinquilini_min_14">
     {% if lingua == "it" %}con meno di 14 anni{% endif %}
