@@ -84,7 +84,7 @@ def idoneita_abitativa_vicina_milano(address):
                 aperture_ufficio = ufficio[3]
                 tel_ufficio = ufficio[4]
 
-    stringa = "puoi recarti presso {}, Municipio {}, {}, aperto {}, telefono: {}\n".format(servizio_ufficio, num_ufficio, indirizzo_ufficio, aperture_ufficio, tel_ufficio)
+    stringa = "{}, Municipio {}, {}, aperto {}, telefono: {}\n".format(servizio_ufficio, num_ufficio, indirizzo_ufficio, aperture_ufficio, tel_ufficio)
 
     db_connection.close()
 
