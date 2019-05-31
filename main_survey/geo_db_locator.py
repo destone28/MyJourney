@@ -10,6 +10,9 @@ def anagrafe_milano_piu_vicina(address):
 
     db_connection = sqlite3.connect(db_path)
     lista = db_connection.execute("SELECT titolo, lat, long, indirizzo, tel FROM anagrafe_milano")
+    municipio = "1"
+    indirizzo_municipio = "Via Larga, 12 - 20122 - Milano"
+    tel_municipio = "0288458124"
 
     ricerca = geodecoder.municipio_from_indirizzo(address)
     for anagrafe in lista:
@@ -21,7 +24,7 @@ def anagrafe_milano_piu_vicina(address):
 
 
 
-            stringa = "Municipio {}, {}, telefono: {}\n".format(municipio, indirizzo_municipio, tel_municipio)
+            stringa = "Ufficio anagrafe del Municipio {}, {}, telefono: {}\n".format(municipio, indirizzo_municipio, tel_municipio)
 
             print(stringa)
 
@@ -66,14 +69,14 @@ def idoneita_abitativa_vicina_milano(address):
 
     db_connection = sqlite3.connect(db_path)
     lista = db_connection.execute("SELECT municipio, indirizzo, servizio, giorni_e_ore, tel FROM idoneitaabitativa_milano")
-    servizio_ufficio = ""
-    num_ufficio = ""
-    indirizzo_ufficio = ""
-    aperture_ufficio = ""
-    tel_ufficio = ""
-
+    servizio_ufficio = "Unità Servizi - Ufficio Idoneità Abitativa"
+    num_ufficio = "1"
+    indirizzo_ufficio = "via Marconi, 2	- 20123 - Milano"
+    aperture_ufficio = "da lunedì al venerdì dalle 9:30 alle 12:00, il martedì anche dalle 14:30 alle 15:30"
+    tel_ufficio = "0288458124"
+    
     if (lista is None):
-        print("Errore db per valoribollati_milano")
+        print("Errore db per idoneita_abitativa_vicina_milano")
     else:
         ricerca = geodecoder.municipio_from_indirizzo(address)
         for ufficio in lista:
@@ -119,9 +122,9 @@ def sindacati_e_patronati(address):
     lista = db_connection.execute("SELECT ufficio, indirizzo, telefono, cap FROM sindacatipatronati")
 
     distanza_min = None
-    nome_ufficio = ""
-    indirizzo_ufficio = ""
-    tel_ufficio = ""
+    nome_ufficio = "INCA"
+    indirizzo_ufficio = "Corso di Porta Vittoria, 43 - 20122 - Milano"
+    tel_ufficio = "0255025309"
 
     if (lista is None):
         print("Errore db per idoneitaabitativa_milano")
@@ -131,7 +134,7 @@ def sindacati_e_patronati(address):
         for sindacato_temp in lista:
             if ( sindacato_temp[3] == cap_da_indirizzo ):
                 temp_addr = sindacato_temp[1]
-                stringa_ind_ufficio = "milano, {}".format(temp_addr)
+                stringa_ind_ufficio = "Milan, {}".format(temp_addr)
                 coord_sindacato = geodecoder.from_address_to_coords(stringa_ind_ufficio)
                 try:
                     distanza = geodecoder.meters_from_two_addresses((coord_indirizzo),(coord_sindacato))

@@ -27,11 +27,11 @@ def cap_from_address(indirizzo):
 	        a = (location.raw['address']['postcode'])
 	        return a
 	except:
-	    return ("None")
+	    return ("20121")   #caso di default in cui non venga trovato il cap (esatto)
 
 def municipio_from_cap(cap):
-    municipio = ""
-    
+    municipio = "1"
+
     if (cap=="20123" or cap=="20121" or cap=="20145" or cap=="20122" ):
         municipio = "1"
     elif (cap=="20124" or cap=="20125" or cap=="20128" or cap=="20127" ):

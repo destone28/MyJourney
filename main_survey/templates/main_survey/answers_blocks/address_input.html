@@ -20,7 +20,12 @@
         required v-model="queryCity"
       >
     </div>
-    <button class="btn btn-block btn-primary" v-bind:type="queryAddress == '' || queryCity == '' ? 'button': 'submit'" v-bind:disabled="queryAddress == '' || queryCity == ''" v-on:click="search">Cerca</button>
+    <button class="btn btn-block btn-primary" v-bind:type="queryAddress == '' || queryCity == '' ? 'button': 'submit'" v-bind:disabled="queryAddress == '' || queryCity == ''" v-on:click="search">{% if lingua == "it" %}Cerca{% endif %}
+      {% if lingua == "en" %}Search{% endif %}
+      {% if lingua == "es" %}Buscar{% endif %}
+      {% if lingua == "ar" %}تقص{% endif %}
+      {% if lingua == "zh" %}搜索{% endif %}
+      {% if lingua == "fr" %}Chercher{% endif %}</button>
   </div>
 
   <div v-bind:class="{ 'd-none': address == '' }">

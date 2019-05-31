@@ -28,7 +28,7 @@
             if (found != null) {
               var bbox = [found.boundingbox[2], found.boundingbox[0], found.boundingbox[3], found.boundingbox[1]];
               that.address = found.address.road;
-              that.city = found.display_name.replace('' + ', ', found.address.road);
+              that.city = found.display_name.replace(found.address.road + ', ', '');
               that.src = 'https://www.openstreetmap.org/export/embed.html?bbox=' + encodeURIComponent(bbox) + '&layer=mapnik&marker=' + encodeURIComponent([found.lat, found.lon]);
             } else {
               that.alertText = 'Nessun indirizzo trovato. Cerca ancora';

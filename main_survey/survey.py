@@ -233,14 +233,14 @@ class Survey_manager():
 
         numero_familiari_da_contare_per_metratura = len(familiari_temp)
 
-        if ('n_coinquilini_da_contare_per_metratura' in request.session):
-            n_coinquilini_da_contare_per_metratura = int(request.session['n_coinquilini_da_contare_per_metratura'])
+        if ('n_tot_coinquilini' in request.session):
+            n_tot_coinquilini = int(request.session['n_tot_coinquilini'])
         else:
-            n_coinquilini_da_contare_per_metratura = 0
+            n_tot_coinquilini = 0
 
         #n_coinquilini_da_contare_per_metratura = int(request.session.get('n_tot_coinquilini'))-int(request.session.get('n_tot_coinquilini_min_14'))
 
-        n_tot_persone_in_casa = numero_familiari_da_contare_per_metratura + n_coinquilini_da_contare_per_metratura +1 #+1 è l'utente!
+        n_tot_persone_in_casa = numero_familiari_da_contare_per_metratura + n_tot_coinquilini +1 #+1 è l'utente!
         if n_tot_persone_in_casa<=4:
             request.session['metratura_casa'] = 14*n_tot_persone_in_casa
             ###  minimo 14mq per i primi 4 abitanti
@@ -248,7 +248,7 @@ class Survey_manager():
             request.session['metratura_casa'] = 14*4 + ((n_tot_persone_in_casa-4)*10)
             ### dopo i primi 4 abitanti, minimo 10mq per i successivi
 
-        print("Persone da contare per metratura casa: "+str(n_tot_persone_in_casa)+"\n"+str(numero_familiari_da_contare_per_metratura)+" familiari e "+str(n_coinquilini_da_contare_per_metratura)+" coinquilini già in casa")
+        print("Persone da contare per metratura casa: "+str(n_tot_persone_in_casa)+"\n"+str(numero_familiari_da_contare_per_metratura)+" familiari e "+str(n_tot_coinquilini)+" coinquilini già in casa")
 
         return request.session['metratura_casa']
 
@@ -357,6 +357,8 @@ class Survey_manager():
             request.session['n_figli_magg'] = request.POST.get('n_figli_magg')
             request.session['n_genitori'] = request.POST.get('n_genitori')
             request.session['n_partner_mag'] = request.POST.get('n_partner_mag')
+            if(int(request.session.get('n_figli_min_ug_14'))>0 or int(request.session.get('n_figli_15_17'))>0):
+                request.session['ha_figli_minorenni'] = "si"
 
             if (Family_manager.dati_validi(request)):
                 request.session['alert'] = ''
@@ -430,7 +432,7 @@ class Survey_manager():
                             request.session['page_id'] = 9
                         elif (request.session.get('validita_permesso')=="meno_di_un_anno"):
                             request.session['page_id'] = non_idoneo;
-                            request.session['alert'] = text['scopri_perché_qui'][lingua] + ":<br> https://ondata.gitbooks.io/guida-per-il-ricongiungimento-extra-ue/content/06.html"
+                            request.session['alert'] = text['scopri_perché_qui'][lingua] + ":<br> https://ondata.gitbooks.io/guida-per-il-ricongiungimento-extra-ue/content/01.html"
                         elif (request.session.get('validita_permesso')=="date_non_valide"):
                             request.session['page_id'] = 7
                             request.session['alert'] = text['dati_errati'][lingua]
@@ -446,7 +448,7 @@ class Survey_manager():
                 request.session['page_id'] = 12
             elif str(request.session.get('ricevuta_rinnovo_permesso'))=='no':
                 request.session['page_id'] = non_idoneo
-                request.session['alert'] = text['scopri_perché_qui'][lingua] + ":<br> https://ondata.gitbooks.io/guida-per-il-ricongiungimento-extra-ue/content/06.html"
+                request.session['alert'] = text['scopri_perché_qui'][lingua] + ":<br> https://ondata.gitbooks.io/guida-per-il-ricongiungimento-extra-ue/content/01.html"
 
         elif page==10:
             pagina_indietro=page
@@ -461,7 +463,7 @@ class Survey_manager():
             pagina_indietro=page
             if (str(request.POST.get('città'))!='' and str(request.POST.get('via'))!='' and (request.session.get('tipologia_permesso')=='asilo politico')):
                 request.session['città'] = str(request.POST.get('città'))
-                request.session['via'] = str(request.session.POST.get('via'))
+                request.session['via'] = str(request.POST.get('via'))
                 request.session['indirizzo_alloggio'] = str(request.POST.get('via'))+', '+str(str(request.POST.get('città')))
                 if (geodecoder.from_address_to_coords(str(request.session.get('indirizzo_alloggio')))=="None"):
                     request.session['alert'] = text['dati_errati'][lingua]
@@ -481,6 +483,7 @@ class Survey_manager():
                 request.session['alert'] = text['scopri_perché_qui'][lingua] + ":<br> https://ondata.gitbooks.io/guida-per-il-ricongiungimento-extra-ue/content/06.html"
             elif (str(request.POST.get('città'))!='' and str(request.POST.get('via'))!='' and not (request.session.get('tipologia_permesso')=='asilo politico')):
                 request.session['città'] = str(request.POST.get('città'))
+                request.session['via'] = str(request.POST.get('via'))
                 request.session['indirizzo_alloggio'] = (str(request.POST.get('via'))+', '+str(str(request.POST.get('città'))))
                 if geodecoder.from_address_to_coords(str(request.session.get('indirizzo_alloggio')))=="None":
                     request.session['alert'] = text['dati_errati'][lingua]
