@@ -60,12 +60,12 @@ translations = {
         'fr': "certificat de composition de famille délivré par la municipalité de résidence avec le libellé «usage relevant des services d'immigration» (‘uso immigrazione’).",
     },
     'b5': {
-        'it':"Fotocopia delle pagine del passaporto relative al numero del documento e alle generalità anagrafiche",
-        'en':"Photocopy of the pages of the passport with the document number and personal data",
-        'ar':"صورة عن صفحات جواز السفر التي تشمل رقم جواز السفر و البيانات الشخصية",
-        'es':"Para los datos personales de tus familiares deberás aportar la siguiente documentación: fotocopia de las páginas del pasaporte referentes al número de documento y a los datos personales",
-        'zh':"填有证件号和个人信息的护照页面的复印件",
-        'fr':"Photocopie des pages du passeport sur lesquelles figurent le numéro du document et autres détails pertinents",
+        'it':"Fotocopia delle pagine del passaporto relative al numero del documento e alle generalità anagrafiche ",
+        'en':"Photocopy of the pages of the passport with the document number and personal data ",
+        'ar':"صورة عن صفحات جواز السفر التي تشمل رقم جواز السفر و البيانات الشخصية ",
+        'es':"Para los datos personales de tus familiares deberás aportar la siguiente documentación: fotocopia de las páginas del pasaporte referentes al número de documento y a los datos personales ",
+        'zh':"填有证件号和个人信息的护照页面的复印件 ",
+        'fr':"Photocopie des pages du passeport sur lesquelles figurent le numéro du document et autres détails pertinents ",
     },
     'b6': {
         'it': "Certificato dello stato di famiglia delle persone che abitano nel tuo alloggio, rilasciato dal loro Comune di residenza con la dicitura 'uso immigrazione'",
@@ -140,7 +140,7 @@ translations = {
         'fr': "Déclaration rédigée par le(s) propriétaire(s) du logement conformément au modèle « S2 », attestant le consentement à également accueillir les membres de la famille qui font l'objet d'un regroupement",
     },
     'c2_3': {
-        'it': "",
+        'it': "Contratto di acquisto per l'alloggio, di durata non inferiore a sei mesi a decorrere dalla data di presentazione della domanda",
         'en': "Contract for your appartment/house with a duration longer than 6 months from the date of Family Reunion request",
         'ar': "عقد الإيجار للشقة أو المنزل لفترة لا تتخطى الستة أشهر ابتداءا من تاريخ طلب لم شمل الأسرة.",
         'es': "Contrato del apartamento / casa con una duración superior a 6 meses a partir de la fecha de la solicitud de reagrupación familiar",
@@ -382,133 +382,136 @@ translations = {
 }
 
 def produci_guida(request):
-        ### INFO GENERICHE
-        guida = {}
-        lingua = request.session.get('lingua')
+    ### INFO GENERICHE
+    guida = {}
+    lingua = request.session.get('lingua')
 
-        guida['a'] = "<h1><u>" + translations['a'][lingua] + "</u></h1>"
-
-
-
-        guida['b'] = "<h2><u>" + translations['b'][lingua] + "</u></h2>"
-
-        guida['b1'] = "<li>" + translations['b1'][lingua] + "</li>"
-        guida['b2'] = "<li>" + translations['b2'][lingua] + "</li>"
-
-        #Se permesso valido
-        if ('ricevuta_rinnovo_permesso' not in request.session):
-            guida['b3_1'] = "<li>" + translations['b3_1'][lingua] + "</li>"
-
-        #Se permesso scaduto
-        if (str(request.session.get('ricevuta_rinnovo_permesso'))=='si'):
-            guida['b3_2'] = "<li>" + translations['b3_2'][lingua] + "</li>"
-        #città = str(request.session.get('città'))
-        guida['b4'] = "<li>" + translations['b4'][lingua] + "</li>"
-
-        ##Per ogni parente presente
-        if ('lista_familiari' in request.session):
-            lista_familiari = request.session.get('lista_familiari')
-            familiari_temp = [item[0] for item in lista_familiari]
-            parente = ""
-            if ('partner_mag' in familiari_temp):
-                parente = translations['partner'][lingua]
-            if ('figli_min_ug_14' or 'figli_15_17' or 'figli_magg' in familiari_temp):
-                parente = translations['figlio'][lingua]
-            if ('genitori' in familiari_temp):
-                parente = translations['genitore'][lingua]
-                ##Se ci sono genitori_mag_ug_65
-                guida['b7'] = "<li>" + translations['b7'][lingua] + "/li>"
-
-            guida['b5'] = "<li>" + translations['b5'][lingua] + parente + "</li>"
-
-        ##Per ogni coinquilino
-        if ('n_tot_coinquilini' in request.session):
-            if (str(request.session.get('n_tot_coinquilini'))=="None"):
-                request.session['n_tot_coinquilini'] = 0
-            if (int(request.session.get('n_tot_coinquilini'))!=0):
-                guida['b6'] = "<li>" + translations['b6'][lingua] + "</li>"
-
-            guida['c0'] = "<h2><u>" + translations['c0'][lingua] + "</u></h2>"
-
-            guida['c'] = translations['c'][lingua]
+    guida['a'] = "<h1><u>" + translations['a'][lingua] + "</u></h1>"
 
 
+
+    guida['b'] = "<h2><u>" + translations['b'][lingua] + "</u></h2>"
+
+    guida['b1'] = "<li>" + translations['b1'][lingua] + "</li>"
+    guida['b2'] = "<li>" + translations['b2'][lingua] + "</li>"
+
+    #Se permesso valido
+    if ('ricevuta_rinnovo_permesso' not in request.session):
+        guida['b3_1'] = "<li>" + translations['b3_1'][lingua] + "</li>"
+
+    #Se permesso scaduto
+    if (str(request.session.get('ricevuta_rinnovo_permesso'))=='si'):
+        guida['b3_2'] = "<li>" + translations['b3_2'][lingua] + "</li>"
+    #città = str(request.session.get('città'))
+    guida['b4'] = "<li>" + translations['b4'][lingua] + "</li>"
+
+    ##Per ogni parente presente
+    if ('lista_familiari' in request.session):
+        lista_familiari = request.session.get('lista_familiari')
+        familiari_temp = [item[0] for item in lista_familiari]
+        parente = ""
+        temp_string_da_accodare = ""
+        if ('partner_mag' in familiari_temp):
+            parente = translations['partner'][lingua]
+            temp_string_da_accodare = temp_string_da_accodare + "<li>" + translations['b5'][lingua] + "(" + parente + ") </li>"
+        if ('figli_min_ug_14' or 'figli_15_17' or 'figli_magg' in familiari_temp):
+            parente = translations['figlio'][lingua]
+            temp_string_da_accodare = temp_string_da_accodare + "<li>" + translations['b5'][lingua] + "(" + parente + ") </li>"
+        if ('genitori' in familiari_temp):
+            parente = translations['genitore'][lingua]
+            temp_string_da_accodare = temp_string_da_accodare + "<li>" + translations['b5'][lingua] + "(" + parente + ") </li>"
+            ##Se ci sono genitori_mag_ug_65
+            guida['b7'] = "<li>" + translations['b7'][lingua] + "</li>"
+
+        guida['b5'] = temp_string_da_accodare
+
+    ##Per ogni coinquilino
+    if ('n_tot_coinquilini' in request.session):
+        if (str(request.session.get('n_tot_coinquilini'))=="None"):
+            request.session['n_tot_coinquilini'] = 0
+        if (int(request.session.get('n_tot_coinquilini'))!=0):
+            guida['b6'] = "<li>" + translations['b6'][lingua] + "</li>"
+
+    guida['c0'] = "<h2><u>" + translations['c0'][lingua] + "</u></h2>"
+    
+    if (str(request.session.get('tipologia_permesso'))=="altro"):
+        guida['c'] = translations['c'][lingua]
+        
         #Se contratto di locazione
         if (('contratto_locazione_registrato' in request.session) or ('atto_compravendita' in request.session) or (request.session.get('posso_ospitare_in_alloggio')=='ospite')):
             if (str(request.session.get('contratto_locazione_registrato'))=="si"):
                 alloggio = translations['locazione'][lingua]
-
                 guida['c2_1'] = "<li>" + translations['c2_1'][lingua] + "</li>"
-                #Se proprietario
-            elif (str(request.session.get("atto_compravendita"))=="si"):#CONTROLLARE
+            #Se proprietario
+            if (str(request.session.get("atto_compravendita"))=="si"):#CONTROLLARE
                 alloggio = translations['compravendita'][lingua]
                 if (str(request.session.get("posso_ospitare_in_alloggio"))=="ospite"):
                     alloggio = alloggio+ translations['comodato'][lingua]
-                    guida['c2_2'] = "<li>"+translations['c2_2'][lingua]+"</li>"
-                    guida['c2_3'] = "<li>"+translations['c2_3'][lingua]+"</li>"
+                    guida['c2_2'] = "<li>" + translations['c2_2'][lingua] + "</li>"
+                    guida['c2_3'] = "<li>" + translations['c2_3'][lingua] + "</li>"
+    
+        guida['c3'] = "<li>" + translations['c3'][lingua] + "</li>"
 
-        guida['c3'] = "<li>"+translations['c2_3'][lingua]+"</li>"
+    guida['d0'] = "<h2><u>" + translations['d0'][lingua]  + " </u></h2>"
+    guida['d'] = translations['d'][lingua]
 
-        guida['d0'] = "<h2><u>"+translations['d0'][lingua]+"</u></h2>"
-        guida['d'] = translations['d'][lingua]
-
-        guida['d1'] = "<li>"+translations['cud'][lingua]+"</li>"
-
-
-        #Se lavoratore dipendente
-        if (str(request.session.get('tipologia_lavoro'))=="dipendente"):
-            guida['d1'] = "<li>"+translations['cud'][lingua]+"</li>"
-            guida['d2'] = "<li>"+translations['unilav'][lingua]+"</li>"
-            guida['d3_1'] = "<li>"+translations['paga'][lingua]+"</li>"
-            guida['d3_2'] = "<li>"+translations['autocertificazione'][lingua]+"</li>"
-            guida['d3_3'] = "<li>"+translations['fcdatlav'][lingua]+"</li>"
-
-        #Se lavoratore domestico
-        if (str(request.session.get('tipologia_lavoro'))=="domestico"):
-            guida['d1'] = "<li>"+translations['redditi'][lingua]+"</li>"
-            guida['d2'] = "<li>"+translations['assinps'][lingua]+"</li>"
-            guida['d3_1'] = "<li>"+translations['bollettino'][lingua]+"</li>"
-            guida['d3_2'] = "<li>"+translations['autocertificazione'][lingua]+"</li>"
-            guida['d3_3'] = "<li>"+translations['fcdatlav'][lingua]+"</li>"
-
-        #Se lavoratore titolare di ditta individuale
-        if (str(request.session.get('tipologia_lavoro'))=="titolare_ditta"):
-            guida['d1'] = "<li>"+translations['vcc'][lingua]+"</li>"
-            guida['d2'] = "<li>"+translations['piva'][lingua]+"</li>"
-            guida['d3_1'] = "<li>"+translations['liccom'][lingua]+"</li>"
-            guida['d3_2'] = "<li>"+translations['att1'][lingua]+"</li>"
-            guida['d3_3'] = "<li>"+translations['att0'][lingua]+"</li>"
-            guida['d3_4'] = "<li>"+translations['fatture'][lingua]+"</li>"
-
-        #Se lavoratore con partecipazione in società
-        if (str(request.session.get('tipologia_lavoro'))=="partecipazione_società"):
-            guida['d1'] = "<li>"+translations['vcs'][lingua]+"</li>"
-            guida['d2'] = "<li>"+translations['piva'][lingua]+"</li>"
-            guida['d3_1'] = "<li>"+translations['att1'][lingua]+"</li>"
-            guida['d3_2'] = "<li>"+translations['att0'][lingua]+"</li>"
-
-        #Se socio lavoratore
-        if (str(request.session.get('tipologia_lavoro'))=="socio_lavoratore"):
-            guida['d1'] = "<li>"+translations['vccoop'][lingua]+"</li>"
-            guida['d2'] = "<li>"+translations['piva'][lingua]+"</li>"
-            guida['d3_1'] = "<li>"+translations['prescoop'][lingua]+"</li>"
-            guida['d3_2'] = "<li>"+translations['redditi'][lingua]+"</li>"
-            guida['d3_3'] = "<li>"+translations['paga'][lingua]+"</li>"
-            guida['d3_4'] = "<li>"+translations['unilav'][lingua]+"</li>"
-
-        #Se libero professionista
-        if (str(request.session.get('tipologia_lavoro'))=="libero_professionista"):
-            guida['d1'] = "<li>"+translations['albo'][lingua]+"</li>"
-            guida['d2'] = "<li>"+translations['att1'][lingua]+"</li>"
-            guida['d3_1'] = "<li>"+translations['att0'][lingua]+"</li>"
+    guida['d1'] = "<li>" + translations['cud'][lingua] + "</li>"
 
 
-        if ('indirizzo_alloggio' in request.session):
-            guida['e'] = "<h2><u>"+translations['fine'][lingua]+"</u></h2>"
-            guida['f'] = translations['f'][lingua]+"<br>"+str(geo_db_locator.sindacati_e_patronati(request.session.get('indirizzo_alloggio')))
-            guida['g'] = translations['g'][lingua]+"<br>"+str(geo_db_locator.anagrafe_milano_piu_vicina(request.session.get('indirizzo_alloggio')))
-            guida['h'] = translations['h'][lingua]+"<br>"+str(geo_db_locator.idoneita_abitativa_vicina_milano(request.session.get('indirizzo_alloggio')))
-            guida['i'] = translations['i'][lingua]
+    #Se lavoratore dipendente
+    if (str(request.session.get('tipologia_lavoro'))=="dipendente"):
+        guida['d1'] = "<li>" + translations['cud'][lingua] + "</li>"
+        guida['d2'] = "<li>" + translations['unilav'][lingua] + "</li>"
+        guida['d3_1'] = "<li>" + translations['paga'][lingua] + "</li>"
+        guida['d3_2'] = "<li>" + translations['autocertificazione'][lingua] + "</li>"
+        guida['d3_3'] = "<li>" + translations['fcdatlav'][lingua] + "</li>"
+
+    #Se lavoratore domestico
+    if (str(request.session.get('tipologia_lavoro'))=="domestico"):
+        guida['d1'] = "<li>" + translations['redditi'][lingua] + "</li>"
+        guida['d2'] = "<li>" + translations['assinps'][lingua] + "</li>"
+        guida['d3_1'] = "<li>" + translations['bollettino'][lingua] + "</li>"
+        guida['d3_2'] = "<li>" + translations['autocertificazione'][lingua] + "</li>"
+        guida['d3_3'] = "<li>" + translations['fcdatlav'][lingua] + "</li>"
+
+    #Se lavoratore titolare di ditta individuale
+    if (str(request.session.get('tipologia_lavoro'))=="titolare_ditta"):
+        guida['d1'] = "<li>" + translations['vcc'][lingua] + "</li>"
+        guida['d2'] = "<li>" + translations['piva'][lingua] + "</li>"
+        guida['d3_1'] = "<li>" + translations['liccom'][lingua] + "</li>"
+        guida['d3_2'] = "<li>" + translations['att1'][lingua] + "</li>"
+        guida['d3_3'] = "<li>" + translations['att0'][lingua] + "</li>"
+        guida['d3_4'] = "<li>" + translations['fatture'][lingua] + "</li>"
+
+    #Se lavoratore con partecipazione in società
+    if (str(request.session.get('tipologia_lavoro'))=="partecipazione_società"):
+        guida['d1'] = "<li>" + translations['vcs'][lingua] + "</li>"
+        guida['d2'] = "<li>" + translations['piva'][lingua] + "</li>"
+        guida['d3_1'] = "<li>" + translations['att1'][lingua] + "</li>"
+        guida['d3_2'] = "<li>" + translations['att0'][lingua] + "</li>"
+
+    #Se socio lavoratore
+    if (str(request.session.get('tipologia_lavoro'))=="socio_lavoratore"):
+        guida['d1'] = "<li>" + translations['vccoop'][lingua] + "</li>"
+        guida['d2'] = "<li>" + translations['piva'][lingua] + "</li>"
+        guida['d3_1'] = "<li>" + translations['prescoop'][lingua] + "</li>"
+        guida['d3_2'] = "<li>" + translations['redditi'][lingua] + "</li>"
+        guida['d3_3'] = "<li>" + translations['paga'][lingua] + "</li>"
+        guida['d3_4'] = "<li>" + translations['unilav'][lingua] + "</li>"
+
+    #Se libero professionista
+    if (str(request.session.get('tipologia_lavoro'))=="libero_professionista"):
+        guida['d1'] = "<li>" + translations['albo'][lingua] + "</li>"
+        guida['d2'] = "<li>" + translations['att1'][lingua] + "</li>"
+        guida['d3_1'] = "<li>" + translations['att0'][lingua] + "</li>"
 
 
-        return guida
+    if ('indirizzo_alloggio' in request.session):
+        guida['e'] = "<h2><u>" + translations['fine'][lingua] + "</u></h2>"
+        guida['f'] = translations['f'][lingua] + "<br>" + str(geo_db_locator.sindacati_e_patronati(request.session.get('indirizzo_alloggio')))
+        guida['g'] = translations['g'][lingua] + "<br>" + str(geo_db_locator.anagrafe_milano_piu_vicina(request.session.get('indirizzo_alloggio')))
+        guida['h'] = translations['h'][lingua] + "<br>" + str(geo_db_locator.idoneita_abitativa_vicina_milano(request.session.get('indirizzo_alloggio')))
+        guida['i'] = translations['i'][lingua]
+
+
+    return guida

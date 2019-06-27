@@ -2,6 +2,7 @@ import sqlite3
 from . import geodecoder
 import time
 import os.path
+from redshift_gtk.defs import BINDIR
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 db_path = os.path.join(BASE_DIR, "dati.sqlite")
@@ -117,6 +118,16 @@ def info_consolato(paese):
 
 
 def sindacati_e_patronati(address):
+    
+    indirizzo_pulito = address
+    indirizzo_pulito.replace('via', '')
+    indirizzo_pulito.replace('piazza', '')
+    indirizzo_pulito.replace('corso', '')
+    indirizzo_pulito.replace('viale', '')
+    indirizzo_pulito.replace('piazzale', '')
+    indirizzo_pulito.replace('p.le', '')
+    indirizzo_pulito.replace('c.so', '')
+    indirizzo_pulito.replace('contrada','')
 
     db_connection = sqlite3.connect(db_path)
     lista = db_connection.execute("SELECT ufficio, indirizzo, telefono, cap FROM sindacatipatronati")
@@ -129,13 +140,25 @@ def sindacati_e_patronati(address):
     if (lista is None):
         print("Errore db per idoneitaabitativa_milano")
     else:
-        cap_da_indirizzo = geodecoder.cap_from_address(address)
-        coord_indirizzo = geodecoder.from_address_to_coords(address)
         for sindacato_temp in lista:
+            temp_addr = None
+            cap_da_indirizzo = geodecoder.cap_from_address(address)
+            coord_indirizzo = geodecoder.from_address_to_coords(address)
             if ( sindacato_temp[3] == cap_da_indirizzo ):
-                temp_addr = sindacato_temp[1]
-                stringa_ind_ufficio = "Milan, {}".format(temp_addr)
-                coord_sindacato = geodecoder.from_address_to_coords(stringa_ind_ufficio)
+                if (indirizzo_pulito in sindacato_temp[1]):
+                    temp_addr = sindacato_temp[1]
+                    stringa_ind_ufficio = "Milan, {}".format(temp_addr)
+                    coord_sindacato = geodecoder.from_address_to_coords(stringa_ind_ufficio)
+                    nome_ufficio = sindacato_temp[0]
+                    indirizzo_ufficio = sindacato_temp[1]
+                    tel_ufficio = sindacato_temp[2]
+                if (temp_addr is None):
+                    temp_addr = sindacato_temp[1]
+                    stringa_ind_ufficio = "Milan, {}".format(temp_addr)
+                    coord_sindacato = geodecoder.from_address_to_coords(stringa_ind_ufficio)
+                    nome_ufficio = sindacato_temp[0]
+                    indirizzo_ufficio = sindacato_temp[1]
+                    tel_ufficio = sindacato_temp[2]
                 try:
                     distanza = geodecoder.meters_from_two_addresses((coord_indirizzo),(coord_sindacato))
                     if distanza_min is None:

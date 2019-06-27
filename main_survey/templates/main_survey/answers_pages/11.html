@@ -31,9 +31,9 @@
               that.city = found.display_name.replace(found.address.road + ', ', '');
               that.src = 'https://www.openstreetmap.org/export/embed.html?bbox=' + encodeURIComponent(bbox) + '&layer=mapnik&marker=' + encodeURIComponent([found.lat, found.lon]);
             } else {
-              that.alertText = 'Nessun indirizzo trovato. Cerca ancora';
+              that.alertText = '';
             }
-          }).catch(function (error) { that.alertText = 'Problema di rete. Cerca ancora' });
+          }).catch(function (error) { that.alertText = '' });
       }
     }
   })

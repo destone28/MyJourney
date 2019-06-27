@@ -201,7 +201,7 @@ class PageView(DetailView):
         if (pagina_template!=30):
             template_name = ANSWERS_TEMPLATE_PAGE_FOLDER+str(pagina_template)+'.html'      #template di default per domanda generica
             response = {'domanda': domanda, 'alert': alert, 'casa': casa, 'reddito': reddito, 'trackSteps': trackSteps, 'lingua': lingua}   #dizionario di risposta
-            if (pagina_template==5):
+            if (pagina_template==5  or pagina_template==34):
                 response = {'domanda': domanda, 'alert': alert, 'parente': parente, 'numero_temporaneo_parente': numero_temporaneo_parente, 'casa': casa, 'reddito': reddito, 'trackSteps': trackSteps, 'lingua': lingua}
         elif (pagina_template==30):
             response = report_maker.produci_guida(request)

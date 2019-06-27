@@ -39,6 +39,14 @@ text = {
         'es': 'Descubre por qué aquí',
         'zh': '在这里找出原因',
         'fr': "Découvrez pourquoi ici",
+    },
+    'no_familiari' : {
+        'it': 'Non hai inserito alcun familiare! Riprova',
+        'en': "You didn't put in any family members. Try again",
+        'ar': 'لم تدخِل أي فرد من أفراد العائلة ! حاول مرة أخرى',
+        'es': '¡No has introducido a ningún familiar! Vuelve a intentarlo',
+        'zh': ' 你未选择任何家人！请重试',
+        'fr': 'Vous n''avez pas saisi de proches! Réessayez',
     }
 }
 
@@ -54,11 +62,11 @@ class Family_manager():
         else:
             if ((int(request.session.get('contatore_familiari'))>5) or int(request.session.get('contatore_familiari'))<1):
                 if int(request.session.get('contatore_familiari'))==0:
-                    request.session['alert'] = 'Non hai inserito alcun familiare! Riprova'
+                    request.session['alert'] = text['no_familiari'][request.session.get('lingua')]
                     return False
-                if int(request.session.get('contatore_familiari'))>5:
-                    request.session['alert'] = 'Puoi ricongiungere al massimo 5 familiari! Riprova'
-                    return False
+                #if int(request.session.get('contatore_familiari'))>5:
+                #    request.session['alert'] = 'Puoi ricongiungere al massimo 5 familiari! Riprova'
+                #    return False
 
     def ci_sono_altri_figli(request):
         if int(request.session.get('n_figli_min_ug_14'))>0 or int(request.session.get('n_figli_15_17'))>0 or int(request.session.get('n_figli_magg'))>0:
@@ -323,7 +331,8 @@ class Survey_manager():
 
 
         lingua = request.session.get('lingua')
-        if (request.session.get('lingua') == "None"):
+        #if (request.session.get('lingua') == "None"):
+        if (page==1):
             lingua = "it"
 
 
