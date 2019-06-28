@@ -58,7 +58,7 @@ def municipio_from_indirizzo(indirizzo):
 
 def main():
 
-    choice = input("Scegli:\n1 per decodificare un indirizzo in coordinate;\n2 per convertire due coordinate in un indirizzo testuale;\n3 per calcolare la distanza tra due punti:\n4 per il cap:\n5 per il municipio:\n")
+    choice = input("Scegli:\n1 per decodificare un indirizzo in coordinate;\n2 per convertire due coordinate in un indirizzo testuale;\n3 per calcolare la distanza tra due punti:\n4 per il cap:\n5 per il municipio:\n6 per il sindacato:\n")
 
     if (choice=='1'):
         indirizzo = input("Inserisci l'indirizzo: ")

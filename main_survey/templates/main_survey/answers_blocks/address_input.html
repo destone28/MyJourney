@@ -9,7 +9,7 @@
     <div class="form-group">
       <input
         type="text" class="form-control"
-        placeholder='{% if lingua == "it" %}Cerca indirizzo{% endif %}{% if lingua == "en" %}Search address{% endif %}{% if lingua == "ar" %}بحث{% endif %}{% if lingua == "es" %}Buscar dirección{% endif %}{% if lingua == "zh" %}搜索地址{% endif %}{% if lingua == "fr" %}Rechercher une adresse{% endif %}'
+        placeholder='{% if lingua == "it" %}Cerca indirizzo{% endif %}{% if lingua == "en" %}Search address{% endif %}{% if lingua == "ar" %}عنوان البحث{% endif %}{% if lingua == "es" %}Buscar dirección{% endif %}{% if lingua == "zh" %}搜索地址{% endif %}{% if lingua == "fr" %}Rechercher une adresse{% endif %}'
         required v-model="queryAddress"
       >
     </div>
@@ -23,7 +23,7 @@
     <button class="btn btn-block btn-primary" v-bind:type="queryAddress == '' || queryCity == '' ? 'button': 'submit'" v-bind:disabled="queryAddress == '' || queryCity == ''" v-on:click="search">{% if lingua == "it" %}Cerca{% endif %}
       {% if lingua == "en" %}Search{% endif %}
       {% if lingua == "es" %}Buscar{% endif %}
-      {% if lingua == "ar" %}بحث{% endif %}
+      {% if lingua == "ar" %}تقص{% endif %}
       {% if lingua == "zh" %}搜索{% endif %}
       {% if lingua == "fr" %}Chercher{% endif %}</button>
   </div>
