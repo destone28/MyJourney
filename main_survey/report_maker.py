@@ -451,11 +451,9 @@ def produci_guida(request):
                     guida['c2_3'] = "<li>" + translations['c2_3'][lingua] + "</li>"
     
         guida['c3'] = "<li>" + translations['c3'][lingua] + "</li>"
+        guida['d'] = translations['d'][lingua]
 
     guida['d0'] = "<h2><u>" + translations['d0'][lingua]  + " </u></h2>"
-    guida['d'] = translations['d'][lingua]
-
-    guida['d1'] = "<li>" + translations['cud'][lingua] + "</li>"
 
 
     #Se lavoratore dipendente

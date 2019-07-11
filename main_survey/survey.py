@@ -322,6 +322,8 @@ class Survey_manager():
             page_before=3
         if ((page==10) or (page==15) or (page==16)):
             page_before=12
+        if ((page==11)):
+            page_before=6
         if (page==12):
             page_before=8
         if (page==27):
