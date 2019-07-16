@@ -524,15 +524,6 @@ class Survey_manager():
                 request.session['page_id'] = non_idoneo
                 request.session['alert'] = text['scopri_perché_qui'][lingua] + ":<br> https://ondata.gitbooks.io/guida-per-il-ricongiungimento-extra-ue/content/06.html"
 
-        elif page==15:
-            pagina_indietro=page
-            request.session['atto_compravendita'] = request.POST.get('atto_compravendita')
-            if str(request.session.get('atto_compravendita'))=='si':
-                request.session['page_id'] = page+1
-            elif str(request.session.get('atto_compravendita'))=='no':
-                request.session['page_id'] = non_idoneo
-                request.session['alert'] = text['scopri_perché_qui'][lingua] + ":<br> https://ondata.gitbooks.io/guida-per-il-ricongiungimento-extra-ue/content/06.html"
-
         elif page==16:
             pagina_indietro=page
             request.session['n_tot_coinquilini'] = request.POST.get('n_tot_coinquilini')

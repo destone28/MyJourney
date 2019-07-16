@@ -52,12 +52,12 @@ translations = {
         'fr': 'une photocopie du permis expiré avec accusé de réception du renouvellement',
     },
     'b4': {
-        'it': 'certificato di stato famiglia  rilasciato dal comune di residenza con la dicitura “uso immigrazione”.',
-        'en': 'family status certificate (‘certificato di stato famiglia’) issued by your municipality of residence clearly marked for "immigration use" (“uso immigrazione”).',
-        'ar': 'شهادة الحالة العائلية صادرة من البلدية لمكان الإقامة تحت عبارة "استخدام الهجرة  (uso immigrazione)".',
-        'es': 'certificado de estado de familia expedido por el municipio de residencia con la frase “uso immigazione”',
-        'zh': '户口所在的市政府开的填有“移民用途”字样的家庭状况证明。',
-        'fr': "certificat de composition de famille délivré par la municipalité de résidence avec le libellé «usage relevant des services d'immigration» (‘uso immigrazione’).",
+        'it': 'certificato di stato famiglia  rilasciato dal comune di residenza con la dicitura “uso immigrazione” ',
+        'en': 'family status certificate (‘certificato di stato famiglia’) issued by your municipality of residence clearly marked for "immigration use" (“uso immigrazione”) ',
+        'ar': 'شهادة الحالة العائلية صادرة من البلدية لمكان الإقامة تحت عبارة "استخدام الهجرة  (uso immigrazione)" ',
+        'es': 'certificado de estado de familia expedido por el municipio de residencia con la frase “uso immigazione” ',
+        'zh': '户口所在的市政府开的填有“移民用途”字样的家庭状况证明。 ',
+        'fr': "certificat de composition de famille délivré par la municipalité de résidence avec le libellé «usage relevant des services d'immigration» (‘uso immigrazione’) ",
     },
     'b5': {
         'it':"Fotocopia delle pagine del passaporto relative al numero del documento e alle generalità anagrafiche ",
@@ -378,6 +378,46 @@ translations = {
         'es': "madre/padre",
         'zh': "父母",
         'fr': "parent",
+    },
+    'oppure': {
+        'it': "oppure",
+        'en': "or",
+        'ar': "أو",
+        'es': "o",
+        'zh': "或",
+        'fr': "ou",
+    },
+    'originale e copia': {
+        'it': "(originale e copia)",
+        'en': "(Original and copy)",
+        'ar': "(الأصل ونسخة)",
+        'es': "(Original y copia)",
+        'zh': "（原件和复印件）",
+        'fr': "(Original et copie)",
+    },
+    'del titolare del contratto': {
+        'it' : "(del titolare del contratto)",
+        'en' : "(of the contract holder)",
+        'ar' : "(صاحب العقد)",
+        'es' : "(del titular del contrato)",
+        'zh' : "（合同持有人）",
+        'fr' : "(du titulaire du contrat)",
+    },
+    'fotocopia documento identità': {
+        'it' : "Fotocopia del documento d'identità",
+        'en' : "Photocopy of the identity document",
+        'ar' : "نسخة من وثيقة الهوية",
+        'es' : "Fotocopia del documento de identidad",
+        'zh' : "身份证复印件",
+        'fr' : "Photocopie de la pièce d'identité",
+    },
+    'and': {
+        'it' : "e",
+        'en' : "and",
+        'ar' : "و",
+        'es' : "y",
+        'zh' : "和",
+        'fr' : "et",
     }
 }
 
@@ -438,17 +478,13 @@ def produci_guida(request):
         guida['c'] = translations['c'][lingua]
         
         #Se contratto di locazione
-        if (('contratto_locazione_registrato' in request.session) or ('atto_compravendita' in request.session) or (request.session.get('posso_ospitare_in_alloggio')=='ospite')):
+        if (('contratto_locazione_registrato' in request.session) or (request.session.get('posso_ospitare_in_alloggio')=='ospite')):
             if (str(request.session.get('contratto_locazione_registrato'))=="si"):
                 alloggio = translations['locazione'][lingua]
-                guida['c2_1'] = "<li>" + translations['c2_1'][lingua] + "</li>"
-            #Se proprietario
-            if (str(request.session.get("atto_compravendita"))=="si"):#CONTROLLARE
-                alloggio = translations['compravendita'][lingua]
+                guida['c2_1'] = "<li>" + translations['c2_1'][lingua] + " " + translations['oppure'][lingua] + " " + translations['c2_3'][lingua] + " " + translations['originale e copia'][lingua] + "</li>"
+                guida['c2_3'] = "<li>" + translations['fotocopia documento identità'][lingua] + " " + translations['oppure'][lingua] + " " + translations['b3_1'][lingua] + " " + translations['and'][lingua] + " " + translations['b4'][lingua] + " " + translations['del titolare del contratto'][lingua] + "</li>"
                 if (str(request.session.get("posso_ospitare_in_alloggio"))=="ospite"):
-                    alloggio = alloggio+ translations['comodato'][lingua]
                     guida['c2_2'] = "<li>" + translations['c2_2'][lingua] + "</li>"
-                    guida['c2_3'] = "<li>" + translations['c2_3'][lingua] + "</li>"
     
         guida['c3'] = "<li>" + translations['c3'][lingua] + "</li>"
         guida['d'] = translations['d'][lingua]
