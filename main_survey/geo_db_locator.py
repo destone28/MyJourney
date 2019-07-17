@@ -116,17 +116,10 @@ def info_consolato(paese):
     return output
 
 
-def sindacati_e_patronati(address):
+def sindacati_e_patronati(address, via):
     
-    indirizzo_pulito = address
-    indirizzo_pulito.replace('via', '')
-    indirizzo_pulito.replace('piazza', '')
-    indirizzo_pulito.replace('corso', '')
-    indirizzo_pulito.replace('viale', '')
-    indirizzo_pulito.replace('piazzale', '')
-    indirizzo_pulito.replace('p.le', '')
-    indirizzo_pulito.replace('c.so', '')
-    indirizzo_pulito.replace('contrada','')
+    singole_parole_di_via = via.split()
+    nome_via = singole_parole_di_via[-1]
 
     db_connection = sqlite3.connect(db_path)
     lista = db_connection.execute("SELECT ufficio, indirizzo, telefono, cap FROM sindacatipatronati")
@@ -135,21 +128,24 @@ def sindacati_e_patronati(address):
     nome_ufficio = "INCA"
     indirizzo_ufficio = "Corso di Porta Vittoria, 43 - 20122 - Milano"
     tel_ufficio = "0255025309"
-
+    stessa_via = False
+    temp_addr = None
+    
     if (lista is None):
         print("Errore db per idoneitaabitativa_milano")
     else:
         cap_da_indirizzo = geodecoder.cap_from_address(address)
         for sindacato_temp in lista:
-            temp_addr = None
-            if (indirizzo_pulito in sindacato_temp[1]):
+            if nome_via in sindacato_temp[1]:
+                stessa_via = True
                 temp_addr = sindacato_temp[1]
                 stringa_ind_ufficio = "Milan, {}".format(temp_addr)
                 nome_ufficio = sindacato_temp[0]
                 indirizzo_ufficio = sindacato_temp[1]
                 tel_ufficio = sindacato_temp[2]
+                break
             else:
-                if ( sindacato_temp[3] == cap_da_indirizzo ):
+                if sindacato_temp[3] == cap_da_indirizzo:
                     if (temp_addr is None):
                         temp_addr = sindacato_temp[1]
                         stringa_ind_ufficio = "Milan, {}".format(temp_addr)

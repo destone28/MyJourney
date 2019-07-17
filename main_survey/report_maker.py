@@ -542,7 +542,7 @@ def produci_guida(request):
 
     if ('indirizzo_alloggio' in request.session):
         guida['e'] = "<h2><u>" + translations['fine'][lingua] + "</u></h2>"
-        guida['f'] = translations['f'][lingua] + "<br>" + str(geo_db_locator.sindacati_e_patronati(str(request.session.get('indirizzo_alloggio'))))
+        guida['f'] = translations['f'][lingua] + "<br>" + str(geo_db_locator.sindacati_e_patronati(str(request.session.get('indirizzo_alloggio')), str(request.session.get('via'))))
         guida['g'] = translations['g'][lingua] + "<br>" + str(geo_db_locator.anagrafe_milano_piu_vicina(str(request.session.get('indirizzo_alloggio'))))
         guida['h'] = translations['h'][lingua] + "<br>" + str(geo_db_locator.idoneita_abitativa_vicina_milano(str(request.session.get('indirizzo_alloggio'))))
         guida['i'] = translations['i'][lingua]
