@@ -12,7 +12,7 @@ def anagrafe_milano_piu_vicina(address):
     lista = db_connection.execute("SELECT titolo, lat, long, indirizzo, tel FROM anagrafe_milano")
     municipio = "1"
     indirizzo_municipio = "Via Larga, 12 - 20122 - Milano"
-    tel_municipio = "0288458124"
+    tel_municipio = "020202"
 
     ricerca = geodecoder.municipio_from_indirizzo(address)
     for anagrafe in lista:
@@ -20,7 +20,6 @@ def anagrafe_milano_piu_vicina(address):
         if ( anagrafe[0] == ricerca ):
             municipio = anagrafe[0]
             indirizzo_municipio = anagrafe[3]
-            tel_municipio = anagrafe[4]
 
 
 
