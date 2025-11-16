@@ -1,17 +1,36 @@
 
 from geopy.geocoders import Nominatim
 from geopy.distance import geodesic, great_circle
+from geopy.exc import GeocoderTimedOut, GeocoderServiceError
+import logging
+
+logger = logging.getLogger(__name__)
 
 geolocator = Nominatim(user_agent="webapp")
 
 def from_address_to_coords(address):
+    """
+    Convert an address to geographic coordinates.
+
+    Args:
+        address (str): The address to geocode
+
+    Returns:
+        tuple: (latitude, longitude) or "None" if geocoding fails
+    """
     try:
         location = geolocator.geocode(address)
-        if (location):
-            a = (location.latitude, location.longitude)
-            return a
-    except:
-        return ("None")
+        if location:
+            return (location.latitude, location.longitude)
+        else:
+            logger.warning(f"Could not geocode address: {address}")
+            return "None"
+    except (GeocoderTimedOut, GeocoderServiceError) as e:
+        logger.error(f"Geocoding error for address '{address}': {e}")
+        return "None"
+    except Exception as e:
+        logger.error(f"Unexpected error geocoding address '{address}': {e}")
+        return "None"
 
 def from_coords_to_address(lat, long):
     location = geolocator.reverse(lat + ", " + long)
@@ -21,13 +40,32 @@ def meters_from_two_addresses(a,b):
     return geodesic(a,b).meters
 
 def cap_from_address(indirizzo):
-	try:
-	    location = geolocator.geocode(indirizzo, addressdetails=True)
-	    if (location):
-	        a = (location.raw['address']['postcode'])
-	        return a
-	except:
-	    return ("20121")   #caso di default in cui non venga trovato il cap (esatto)
+    """
+    Extract postal code (CAP) from an address.
+
+    Args:
+        indirizzo (str): The address to extract CAP from
+
+    Returns:
+        str: Postal code or "20121" (default Milan CAP) if not found
+    """
+    try:
+        location = geolocator.geocode(indirizzo, addressdetails=True)
+        if location and 'address' in location.raw:
+            postcode = location.raw['address'].get('postcode')
+            if postcode:
+                return postcode
+        logger.warning(f"Could not extract CAP from address: {indirizzo}, using default")
+        return "20121"  # Default Milan postal code
+    except (GeocoderTimedOut, GeocoderServiceError) as e:
+        logger.error(f"Geocoding error for CAP extraction '{indirizzo}': {e}")
+        return "20121"
+    except (KeyError, AttributeError) as e:
+        logger.error(f"Invalid geocoding response for '{indirizzo}': {e}")
+        return "20121"
+    except Exception as e:
+        logger.error(f"Unexpected error extracting CAP from '{indirizzo}': {e}")
+        return "20121"
 
 def municipio_from_cap(cap):
     municipio = "1"

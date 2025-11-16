@@ -1,10 +1,22 @@
+# Database and Django
 dj-database-url==0.5.0
-Django==2.1.2
+Django==2.1.2  # TODO: Update to Django 3.2 LTS or 4.2 LTS for security
 django-heroku==0.3.1
+
+# Geographic libraries
 geographiclib==1.49
 geopy==1.17.0
-gunicorn==19.9.0
-pkg-resources==0.0.0
-psycopg2==2.7.5
-pytz==2018.5
-whitenoise==4.1
+
+# Production server
+gunicorn==19.9.0  # TODO: Update to latest version
+
+# Database adapter for PostgreSQL (production)
+psycopg2==2.7.5  # TODO: Update to psycopg2-binary>=2.9
+
+# Timezone support
+pytz==2018.5  # TODO: Update to latest version
+
+# Static files serving
+whitenoise==4.1  # TODO: Update to latest version (6.x)
+
+# NOTE: pkg-resources==0.0.0 removed - this is a common error and should not be in requirements.txt

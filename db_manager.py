@@ -18,10 +18,24 @@ def set_session(timestamp):
     return str(timestamp)
 
 def store_in_db(what, where_):
+    """
+    Store data in the database log table.
+    Uses parameterized queries to prevent SQL injection.
+    """
+    # Whitelist of allowed column names to prevent SQL injection
+    ALLOWED_COLUMNS = ['session', 'lang', 'valid'] + [f'l{i}' for i in range(1, 31)]
+
+    if where_ not in ALLOWED_COLUMNS:
+        raise ValueError(f"Invalid column name: {where_}")
+
     db = connect_db()
-    db.execute("INSERT INTO main_survey_logtable ("+where_+") VALUES (?)",(str(what),));
-    db.commit()
-    db.close()
+    try:
+        # Safe to use string formatting here since where_ is validated against whitelist
+        query = f"INSERT INTO main_survey_logtable ({where_}) VALUES (?)"
+        db.execute(query, (str(what),))
+        db.commit()
+    finally:
+        db.close()
 
 
 

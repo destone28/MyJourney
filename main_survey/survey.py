@@ -262,12 +262,22 @@ class Survey_manager():
 
 
     def permesso_valido(request):
+        """
+        Validate residence permit dates.
+
+        Args:
+            request: Django request object with session data
+
+        Returns:
+            bool: True if permit is valid, False otherwise
+        """
         rilascio = request.session.get('rilascio_permesso')
         scadenza = request.session.get('scadenza_permesso')
         try:
             rilascio = datetime.strptime(rilascio, "%d/%m/%Y")
             scadenza = datetime.strptime(scadenza, "%d/%m/%Y")
-        except:
+        except (ValueError, TypeError) as e:
+            print(f"Invalid date format: rilascio={rilascio}, scadenza={scadenza}, error={e}")
             request.session['validita_permesso'] = "date_non_valide"
             return False
         giorni = ((scadenza - rilascio).days)
