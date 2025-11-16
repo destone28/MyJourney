@@ -5,3 +5,18 @@ main_db.sqlite3
 /static
 .DS_Store
 /webapp/wsgi.py
+
+# Environment variables (sensitive configuration)
+.env
+.env.local
+
+# Logs
+logs/
+*.log
+server_debug.log
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo

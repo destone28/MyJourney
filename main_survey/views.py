@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.views.generic import DetailView
 from collections import OrderedDict
-
+import logging
 import time
 
 from .models import Domande, Risposte
@@ -9,7 +9,9 @@ from main_survey.survey import Survey_manager as questionario
 import main_survey.db_manager
 import main_survey.survey
 from . import report_maker
-from asyncore import file_dispatcher
+
+# Configure logging
+logger = logging.getLogger(__name__)
 
 ANSWERS_TEMPLATE_PAGE_FOLDER = 'main_survey/answers_pages/'
 
@@ -184,19 +186,15 @@ class PageView(DetailView):
 
 
 
-        #Stampa di debug lato server:
-
-        file_di_debug = open("server_debug.log", 'a+')  # open file in append mode
-        file_di_debug.write("\n\nValori di sessione:\n")
-        print("\n\nValori di sessione:\n")
+        # Debug logging - use Python logging instead of file writes
+        # This is more secure and performant
+        logger.debug("Session values:")
         for key, value in request.session.items():
-            file_di_debug.write('{} => {}\n'.format(key, value))
-            print('{} => {}'.format(key, value))
-        print('\n\n')
-        file_di_debug.write("\n\n*****************************************************************\nPagina: "+str(page_id)+"\n\n*****************************************************************\n")
-        print("\n\n*****************************************************************\nPagina: "+str(page_id)+"\n\n*****************************************************************\n")
-        file_di_debug.close()
-        #fine stampa di debug lato server
+            # Don't log sensitive data in production
+            if not key.startswith('_'):
+                logger.debug(f'{key} => {value}')
+        logger.debug(f"Page: {page_id}")
+        # End debug logging
 
 
 
